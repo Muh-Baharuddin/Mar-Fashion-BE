@@ -6,8 +6,8 @@ import { TestService } from './test.service';
 import { TestController } from './test.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Test, TestRepository])],
-  providers: [TestService],
+  imports: [TypeOrmModule.forFeature([Test])],
+  providers: [TestService, TestRepository],
   controllers: [TestController],
   exports: [TestService],
 })
