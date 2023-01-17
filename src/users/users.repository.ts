@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AbstractRepository, DataSource, EntityRepository } from 'typeorm';
-import { Test } from './test.entity';
+import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
 
 // @Injectable()
 // export class TestRepository {
@@ -14,16 +15,24 @@ import { Test } from './test.entity';
 // }
 
 @Injectable()
-export class TestRepository {
+export class UsersRepository {
   private repository;
 
   constructor(private dataSource: DataSource) {
-    this.repository = this.dataSource.getRepository(Test);
+    this.repository = this.dataSource.getRepository(User);
   }
 
-  async getTestById(id: string): Promise<Test> {
+  findAllUser(): Promise<User> {
+    return this.repository.find();
+  }
+
+  async getUserById(id: string): Promise<User> {
     return this.repository.findOne({
       where: { id },
     });
+  }
+
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    return this.repository.save(createUserDto)
   }
 }

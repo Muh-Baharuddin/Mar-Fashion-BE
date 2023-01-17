@@ -10,6 +10,5 @@ export class TestController {
   getById(@Param('id', ParseUUIDPipe) testId: string): Promise<Test> {
     return this.testService.getTestById(testId);
   }
-  
-  
 }
+
