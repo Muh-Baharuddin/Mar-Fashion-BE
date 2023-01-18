@@ -1,18 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AbstractRepository, DataSource, EntityRepository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-
-// @Injectable()
-// export class TestRepository {
-//   constructor(private dataSource: DataSource) { }
-
-//   async getTestById(id: string): Promise<Test> {
-//     return this.dataSource.getRepository(Test).findOne({
-//       where: { id },
-//     });
-//   }
-// }
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersRepository {
@@ -26,6 +16,13 @@ export class UsersRepository {
     return this.repository.find();
   }
 
+  async findByUsername(userName: string): Promise<User | undefined> {
+    const user = await this.repository.find({
+      where: { userName },
+    });
+    return user;
+  }
+
   async getUserById(id: string): Promise<User> {
     return this.repository.findOne({
       where: { id },
@@ -33,6 +30,19 @@ export class UsersRepository {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    return this.repository.save(createUserDto)
+    return await this.repository.save(createUserDto);
   }
+
+  // async hashPassword(password: string) {
+  //   const saltOrRound = 10;
+
+  //   const hashedPassword = await bcrypt.hash(password, saltOrRound);
+
+  //   return hashedPassword
+  // }
 }
+//   const hashedPassword = await this.hashPassword(createUserDto.password)
+
+//     createUserDto.password = hashedPassword;
+//     return this.repository.save(createUserDto);
+

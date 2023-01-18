@@ -9,11 +9,30 @@ export class UsersService {
 
   constructor(
     @Inject(UsersRepository)
-    private readonly usersRepository: UsersRepository
+    private readonly usersRepository: UsersRepository,
   ) {}
 
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findAll(): Promise<User> {
+    const user = await this.usersRepository.findAllUser();
+
+    if (!user) {
+      throw new NotFoundException(`ups user not found`);
+      this.logger.warn(`user tidak ketemu`);
+    }
+
+    return user;
+  }
+
+  async findByUsername(username: string): Promise<User | undefined> {
+    const user = this.usersRepository.findByUsername(username);
+    // console.log(user);
+
+    if (!user) {
+      throw new NotFoundException(`ups user not found`);
+      this.logger.warn(`user tidak ketemu`);
+    }
+
+    return user;
   }
 
   async getUserById(id: string): Promise<User> {
@@ -36,17 +55,6 @@ export class UsersService {
     }
 
     return newUser;
-  }
-
-  async findAll(): Promise<User> {
-    const user = await this.usersRepository.findAllUser();
-
-    if (!user) {
-      throw new NotFoundException(`ups user not found`);
-      this.logger.warn(`user tidak ketemu`);
-    }
-
-    return user;
   }
 
   // update(id: number, updateUserDto: UpdateUserDto) {
