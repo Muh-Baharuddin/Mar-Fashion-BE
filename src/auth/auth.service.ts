@@ -1,11 +1,16 @@
-import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  BadRequestException,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { User } from 'src/users/entities/user.entity';
 import { UsersRepository } from 'src/users/users.repository';
 import { AuthHelper } from './auth.helper';
 import * as bcrypt from 'bcrypt';
-import { BadRequestException, ConflictException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +30,7 @@ export class AuthService {
     let user = await this.usersRepository.findByUsername(userName);
 
     if (user) {
-      throw new ConflictException('username tersebut telah terdaftar')
+      throw new ConflictException('username tersebut telah terdaftar');
     }
 
     if (password !== confirmPass) {
@@ -41,9 +46,6 @@ export class AuthService {
 
   async login({ userName, password }: LoginDto): Promise<string> {
     const user = await this.usersRepository.findByUsername(userName);
-    console.log(user);
-    console.log(password);
-    console.log(user.password);
 
     if (!user) {
       throw new UnauthorizedException('user tidak ditemukan');
@@ -57,9 +59,9 @@ export class AuthService {
     return this.authHelper.generateToken(user);
   }
 
-  public async refresh(token: string, user: User): Promise<string> {
-    await this.authHelper.validate(token);
+  // public async refresh(token: string, user: User): Promise<string> {
+  //   await this.authHelper.validate(token);
 
-    return this.authHelper.generateToken(user);
-  }
+  //   return this.authHelper.generateToken(user);
+  // }
 }

@@ -7,14 +7,14 @@ import {
   ClassSerializerInterceptor,
   UsePipes,
   ValidationPipe,
-  UseGuards,
-  Req,
+  // UseGuards,
+  // Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { User } from 'src/users/entities/user.entity';
-import { JwtAuthGuard } from './auth.guard';
-import { Request } from 'express';
+// import { JwtAuthGuard } from './auth.guard';
+// import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -34,12 +34,12 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Post('refresh')
-  @UseGuards(JwtAuthGuard)
-  private refresh(
-    @Req() token: string,
-    { user }: Request,
-  ): Promise<string | never> {
-    return this.authService.refresh(token, <User>user);
-  }
+  // @Post('refresh')
+  // @UseGuards(JwtAuthGuard)
+  // private refresh(
+  //   @Req() token: string,
+  //   { user }: Request,
+  // ): Promise<string | never> {
+  //   return this.authService.refresh(token, <User>user);
+  // }
 }
