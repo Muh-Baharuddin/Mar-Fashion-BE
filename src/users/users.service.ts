@@ -12,20 +12,19 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  async findAll(): Promise<User> {
-    const user = await this.usersRepository.findAllUser();
+  async findAll(): Promise<User[]> {
+    const users = await this.usersRepository.findAllUser();
 
-    if (!user) {
+    if (!users.length) {
       throw new NotFoundException(`ups user not found`);
       this.logger.warn(`user tidak ketemu`);
     }
 
-    return user;
+    return users;
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
     const user = this.usersRepository.findByUsername(username);
-    // console.log(user);
 
     if (!user) {
       throw new NotFoundException(`ups user not found`);
