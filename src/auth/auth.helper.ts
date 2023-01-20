@@ -31,8 +31,13 @@ export class AuthHelper {
     return validatePass;
   }
 
-  public generateToken({ userName }: User): string {
-    return this.jwtService.sign({ userName });
+  public generateToken({ userName }: User): any {
+    const user = { userName };
+    const accessToken = this.jwtService.sign(user);
+    return {
+      expiresIn: '30s',
+      accessToken,
+    };
   }
 
   // Decoding the JWT Token

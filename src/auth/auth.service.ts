@@ -56,12 +56,18 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('password salah');
     }
-    return this.authHelper.generateToken(user);
+
+    const token = await this.authHelper.generateToken(user);
+
+    return {
+      user: user.userName,
+      ...token,
+    };
   }
-
-  // public async refresh(token: string, user: User): Promise<string> {
-  //   await this.authHelper.validate(token);
-
-  //   return this.authHelper.generateToken(user);
-  // }
 }
+
+// public async refresh(token: string, user: User): Promise<string> {
+//   await this.authHelper.validate(token);
+
+//   return this.authHelper.generateToken(user);
+// }
