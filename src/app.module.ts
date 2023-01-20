@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { KaryawanModule } from './karyawan/karyawan.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { BarangModule } from './barang/barang.module';
+import { NotaPembelianModule } from './nota-pembelian/nota-pembelian.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { BarangModule } from './barang/barang.module';
     KaryawanModule,
     SupplierModule,
     BarangModule,
+    NotaPembelianModule,
   ],
   controllers: [AppController],
   providers: [AppService],
