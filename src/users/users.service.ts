@@ -1,7 +1,8 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -45,22 +46,19 @@ export class UsersService {
     return user;
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const newUser = await this.usersRepository.createUser(createUserDto);
+  async updatePass(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.usersRepository.getUserById(id);
 
-    if (!newUser) {
-      throw new NotFoundException(`ups user tidak berhasil dibuat`);
-      this.logger.warn(`user tidak berhasil dibuat`);
-    }
+    user.password = updateUserDto.password;
 
-    return newUser;
+    const salt: string = bcrypt.genSaltSync(10);
+    user.password = bcrypt.hashSync(user.password, salt);
+
+    return this.usersRepository.updatePass(user);
   }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
 
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
 }
+

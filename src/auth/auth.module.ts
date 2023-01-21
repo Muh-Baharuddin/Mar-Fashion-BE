@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
-import { User } from 'src/users/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthHelper } from './auth.helper';
 import { JwtStrategy } from './auth.strategy';
@@ -23,7 +21,6 @@ import { JwtStrategy } from './auth.strategy';
         expiresIn: '30s',
       },
     }),
-    // TypeOrmModule.forFeature([User]),
   ],
   providers: [AuthService, AuthHelper, JwtStrategy],
   controllers: [AuthController],
