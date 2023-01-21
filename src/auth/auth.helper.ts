@@ -51,8 +51,8 @@ export class AuthHelper {
   }
 
   // Validate JWT Token, throw forbidden error if JWT Token is invalid
-  public async validate(token: string): Promise<boolean | never> {
-    const decoded: unknown = this.jwtService.verify(token);
+  public async validate(token: string): Promise<boolean> {
+    const decoded = this.jwtService.verify(token);
 
     if (!decoded) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
