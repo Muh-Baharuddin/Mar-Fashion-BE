@@ -64,10 +64,8 @@ export class AuthService {
       ...token,
     };
   }
+
+  public async refresh(user: User): Promise<string> {
+    return this.authHelper.generateToken(user);
+  }
 }
-
-// public async refresh(token: string, user: User): Promise<string> {
-//   await this.authHelper.validate(token);
-
-//   return this.authHelper.generateToken(user);
-// }
