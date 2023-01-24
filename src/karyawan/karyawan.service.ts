@@ -1,26 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { CreateKaryawanDto } from './dto/create-karyawan.dto';
-import { UpdateKaryawanDto } from './dto/update-karyawan.dto';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { KaryawanRepository } from './karyawan.repository';
+import { Karyawan } from './entities/karyawan.entity';
+
 
 @Injectable()
 export class KaryawanService {
-  create(createKaryawanDto: CreateKaryawanDto) {
-    return 'This action adds a new karyawan';
-  }
+  private readonly logger = new Logger(KaryawanService.name);
 
-  findAll() {
-    return `This action returns all karyawan`;
-  }
+  constructor(
+    @Inject(KaryawanRepository)
+    private readonly karyawanRepository: KaryawanRepository,
+  ) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} karyawan`;
-  }
+  async findAllKaryawan(): Promise<Karyawan[]> {
+    const employee = await this.karyawanRepository.findAllKaryawan();
 
-  update(id: number, updateKaryawanDto: UpdateKaryawanDto) {
-    return `This action updates a #${id} karyawan`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} karyawan`;
+    if (!employee.length) {
+      throw new NotFoundException(`ups karyawan not found`);
+      this.logger.warn(`karyawan tidak ketemu`);
+    }
+    return employee;
   }
 }
