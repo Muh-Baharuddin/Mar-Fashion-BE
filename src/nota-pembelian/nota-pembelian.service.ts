@@ -22,8 +22,8 @@ export class NotaPembelianService {
       await this.notaPembelianRepository.findAllNotaPembelian();
 
     if (!notaPembelian.length) {
-      throw new NotFoundException(`ups user not found`);
-      this.logger.warn(`user tidak ketemu`);
+      throw new NotFoundException(`ups nota pembelian not found`);
+      this.logger.warn(`nota pembelian tidak ketemu`);
     }
 
     return notaPembelian;
