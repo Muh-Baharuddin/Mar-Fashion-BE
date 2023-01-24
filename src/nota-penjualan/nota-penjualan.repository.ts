@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
+import { CreateNotaPenjualanDto } from './dto/create-nota-penjualan.dto';
 import { NotaPenjualan } from './entities/nota-penjualan.entity';
 
 @Injectable()
@@ -12,5 +13,24 @@ export class NotaPenjualanRepository {
 
   findAllNotaPenjualan(): Promise<NotaPenjualan[]> {
     return this.repository.find();
+  }
+
+  async findById(id: string): Promise<NotaPenjualan> {
+    return this.repository.findOne({
+      where: { id },
+    });
+  }
+
+  createPenjualan(
+    createNotaPenjualanDto: CreateNotaPenjualanDto,
+  ): Promise<NotaPenjualan> {
+    return this.repository.save(createNotaPenjualanDto);
+  }
+
+  async removePenjualan(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'nota penjualan berhasil dihapus'
+    }
   }
 }
