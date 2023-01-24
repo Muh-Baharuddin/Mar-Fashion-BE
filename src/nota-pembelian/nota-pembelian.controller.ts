@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { NotaPembelianService } from './nota-pembelian.service';
 import { CreateNotaPembelianDto } from './dto/create-nota-pembelian.dto';
 import { UpdateNotaPembelianDto } from './dto/update-nota-pembelian.dto';
@@ -23,7 +31,10 @@ export class NotaPembelianController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNotaPembelianDto: UpdateNotaPembelianDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateNotaPembelianDto: UpdateNotaPembelianDto,
+  ) {
     return this.notaPembelianService.update(+id, updateNotaPembelianDto);
   }
 
