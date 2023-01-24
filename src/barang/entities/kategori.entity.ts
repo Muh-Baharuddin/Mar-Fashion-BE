@@ -1,14 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  Generated,
+} from 'typeorm';
 import { Barang } from './barang.entity';
 
 @Entity()
 export class Kategori {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Generated('uuid')
+  id: string;
 
   @Column()
   nama: string;
 
   @ManyToMany(() => Barang, (barang) => barang.kategori)
-  barang: Barang[];
+  barang: Promise<Barang[]>;
 }

@@ -4,13 +4,15 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  Generated,
 } from 'typeorm';
 import { Kategori } from './kategori.entity';
 
 @Entity()
 export class Barang {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Generated('uuid')
+  id: string;
 
   @Column()
   merek: string;
@@ -29,5 +31,5 @@ export class Barang {
 
   @ManyToMany(() => Kategori, (kategori) => kategori.barang)
   @JoinTable()
-  kategori: Kategori[];
+  kategori: Promise<Kategori[]>;
 }
