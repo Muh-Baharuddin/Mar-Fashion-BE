@@ -1,16 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+  Generated,
+} from 'typeorm';
+import { Kategori } from './kategori.entity';
 
 @Entity()
 export class Barang {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
 
   @Column()
   merek: string;
-
-  @Column()
-  jenis_barang: string;
 
   @Column()
   size: string;
@@ -23,4 +28,8 @@ export class Barang {
 
   @Column()
   harga: number;
+
+  @ManyToMany(() => Kategori, (kategori) => kategori.barang)
+  @JoinTable()
+  kategori: Promise<Kategori[]>;
 }
