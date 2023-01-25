@@ -34,4 +34,11 @@ export class SupplierRepository {
       message: 'supplier berhasil diupdate',
     };
   }
+
+  async removeSupplier(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'supplier berhasil dihapus',
+    };
+  }
 }

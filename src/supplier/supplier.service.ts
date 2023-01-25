@@ -20,7 +20,7 @@ export class SupplierService {
       throw new NotFoundException(`ups user not found`);
       this.logger.warn(`user tidak ketemu`);
     }
-  
+
     return supplier;
   }
 
@@ -48,7 +48,13 @@ export class SupplierService {
     return this.supplierRepository.updateSupplier(id, updateSupplierDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} supplier`;
+  async remove(id: string) {
+    const supplier = await this.supplierRepository.findById(id);
+
+    if (!supplier) {
+      throw new NotFoundException(`ups supplier not found`);
+      this.logger.warn(`supplier tidak ketemu`);
+    }
+    return this.supplierRepository.removeSupplier(id);
   }
 }
