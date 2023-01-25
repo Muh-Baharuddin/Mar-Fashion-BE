@@ -13,10 +13,6 @@ export class NotaPenjualanService {
     private readonly notaPenjualanRepository: NotaPenjualanRepository,
   ) {}
 
-  create(createNotaPenjualanDto: CreateNotaPenjualanDto) {
-    return 'This action adds a new notaPenjualan';
-  }
-
   async findAll(): Promise<NotaPenjualan[]> {
     const penjualan = await this.notaPenjualanRepository.findAllNotaPenjualan();
 
@@ -28,15 +24,29 @@ export class NotaPenjualanService {
     return penjualan;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notaPenjualan`;
+  async findById(id: string) {
+    const penjualan = await this.notaPenjualanRepository.findById(id);
+
+    if (!penjualan) {
+      throw new NotFoundException('nota penjualan tidak ditemukan');
+    }
+    return penjualan;
+  }
+
+  createPenjualan(createNotaPenjualanDto: CreateNotaPenjualanDto) {
+    return this.notaPenjualanRepository.createPenjualan(createNotaPenjualanDto);
   }
 
   update(id: number, updateNotaPenjualanDto: UpdateNotaPenjualanDto) {
     return `This action updates a #${id} notaPenjualan`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notaPenjualan`;
+  async removePenjualan(id: string) {
+    const penjualan = await this.notaPenjualanRepository.findById(id);
+
+    if (!penjualan) {
+      throw new NotFoundException('nota penjualan tidak ditemukan');
+    }
+    return this.notaPenjualanRepository.removePenjualan(id);
   }
 }

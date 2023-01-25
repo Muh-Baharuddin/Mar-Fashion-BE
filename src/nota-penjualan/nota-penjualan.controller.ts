@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { NotaPenjualanService } from './nota-penjualan.service';
 import { CreateNotaPenjualanDto } from './dto/create-nota-penjualan.dto';
@@ -16,8 +19,9 @@ export class NotaPenjualanController {
   constructor(private readonly notaPenjualanService: NotaPenjualanService) {}
 
   @Post()
+  @UsePipes(ValidationPipe)
   create(@Body() createNotaPenjualanDto: CreateNotaPenjualanDto) {
-    return this.notaPenjualanService.create(createNotaPenjualanDto);
+    return this.notaPenjualanService.createPenjualan(createNotaPenjualanDto);
   }
 
   @Get()
@@ -26,8 +30,8 @@ export class NotaPenjualanController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notaPenjualanService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.notaPenjualanService.findById(id);
   }
 
   @Patch(':id')
@@ -39,7 +43,7 @@ export class NotaPenjualanController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notaPenjualanService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.notaPenjualanService.removePenjualan(id);
   }
 }
