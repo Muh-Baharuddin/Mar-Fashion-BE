@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
+import { CreateBarangDto } from './dto/create-barang.dto';
 import { Barang } from './entities/barang.entity';
 
 @Injectable()
@@ -18,5 +19,9 @@ export class BarangRepository {
     return this.repository.findOne({
       where: { id },
     });
+  }
+
+  createBarang(createBarangDto: CreateBarangDto): Promise<Barang> {
+    return this.repository.save(createBarangDto);
   }
 }

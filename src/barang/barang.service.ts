@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BarangRepository } from './barang.repository';
+import { CreateBarangDto } from './dto/create-barang.dto';
 import { Barang } from './entities/barang.entity';
 
 @Injectable()
@@ -29,5 +30,9 @@ export class BarangService {
       this.logger.warn(`barang tidak ketemu`);
     }
     return barang;
+  }
+
+  createBarang(createBarangDto: CreateBarangDto): Promise<Barang> {
+    return this.barangRepository.createBarang(createBarangDto);
   }
 }
