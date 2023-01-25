@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { CreateNotaPembelianDto } from './dto/create-nota-pembelian.dto';
+import { UpdateNotaPembelianDto } from './dto/update-nota-pembelian.dto';
 import { NotaPembelian } from './entities/nota-pembelian.entity';
 
 @Injectable()
@@ -25,5 +26,15 @@ export class NotaPembelianRepository {
     createNotaPembelianDto: CreateNotaPembelianDto,
   ): Promise<NotaPembelian> {
     return this.repository.save(createNotaPembelianDto);
+  }
+
+  async updatePembelian(
+    id: string,
+    updateNotaPembelianDto: UpdateNotaPembelianDto,
+  ) {
+    await this.repository.update(id, updateNotaPembelianDto);
+    return {
+      message: 'nota pembelian berhasil diupdate',
+    };
   }
 }

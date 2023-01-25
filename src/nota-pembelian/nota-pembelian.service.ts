@@ -41,8 +41,17 @@ export class NotaPembelianService {
     return this.notaPembelianRepository.createPembelian(createNotaPembelianDto);
   }
 
-  update(id: number, updateNotaPembelianDto: UpdateNotaPembelianDto) {
-    return `This action updates a #${id} notaPembelian`;
+  async update(id: string, updateNotaPembelianDto: UpdateNotaPembelianDto) {
+    const pembelian = await this.notaPembelianRepository.findById(id);
+
+    if (!pembelian) {
+      throw new NotFoundException(`ups pembelian not found`);
+      this.logger.warn(`pembelian tidak ketemu`);
+    }
+    return this.notaPembelianRepository.updatePembelian(
+      id,
+      updateNotaPembelianDto,
+    );
   }
 
   remove(id: number) {

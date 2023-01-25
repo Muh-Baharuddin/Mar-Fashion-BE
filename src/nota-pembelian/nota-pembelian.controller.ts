@@ -36,11 +36,12 @@ export class NotaPembelianController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateNotaPembelianDto: UpdateNotaPembelianDto,
   ) {
-    return this.notaPembelianService.update(+id, updateNotaPembelianDto);
+    return this.notaPembelianService.update(id, updateNotaPembelianDto);
   }
 
   @Delete(':id')
