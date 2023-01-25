@@ -28,8 +28,14 @@ export class SupplierService {
     return supplier;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} supplier`;
+  async findById(id: string): Promise<Supplier> {
+    const supplier = await this.supplierRepository.findById(id);
+
+    if (!supplier) {
+      throw new NotFoundException(`ups supplier not found`);
+      this.logger.warn(`supplier tidak ketemu`);
+    }
+    return supplier;
   }
 
   update(id: number, updateSupplierDto: UpdateSupplierDto) {

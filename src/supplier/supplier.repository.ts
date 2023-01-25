@@ -13,4 +13,10 @@ export class SupplierRepository {
   findAllSupplier(): Promise<Supplier[]> {
     return this.repository.find();
   }
+
+  findById(id: string): Promise<Supplier> {
+    return this.repository.findOne({
+      where: { id },
+    });
+  }
 }
