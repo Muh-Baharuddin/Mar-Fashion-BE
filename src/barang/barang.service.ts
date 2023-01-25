@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BarangRepository } from './barang.repository';
 import { CreateBarangDto } from './dto/create-barang.dto';
+import { UpdateBarangDto } from './dto/update-barang.dto';
 import { Barang } from './entities/barang.entity';
 
 @Injectable()
@@ -34,5 +35,15 @@ export class BarangService {
 
   createBarang(createBarangDto: CreateBarangDto): Promise<Barang> {
     return this.barangRepository.createBarang(createBarangDto);
+  }
+
+  async updateBarang(id: string, updateBarangDto: UpdateBarangDto) {
+    const barang = await this.barangRepository.findById(id);
+
+    if (!barang) {
+      throw new NotFoundException(`ups barang not found`);
+      this.logger.warn(`barang tidak ketemu`);
+    }
+    return this.barangRepository.updateBarang(id, updateBarangDto);
   }
 }
