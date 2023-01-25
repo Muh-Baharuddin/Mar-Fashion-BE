@@ -13,10 +13,6 @@ export class NotaPembelianService {
     private readonly notaPembelianRepository: NotaPembelianRepository,
   ) {}
 
-  create(createNotaPembelianDto: CreateNotaPembelianDto) {
-    return 'This action adds a new notaPembelian';
-  }
-
   async findAll(): Promise<NotaPembelian[]> {
     const notaPembelian =
       await this.notaPembelianRepository.findAllNotaPembelian();
@@ -37,6 +33,12 @@ export class NotaPembelianService {
       this.logger.warn(`pembelian tidak ketemu`);
     }
     return pembelian;
+  }
+
+  create(
+    createNotaPembelianDto: CreateNotaPembelianDto,
+  ): Promise<NotaPembelian> {
+    return this.notaPembelianRepository.createPembelian(createNotaPembelianDto);
   }
 
   update(id: number, updateNotaPembelianDto: UpdateNotaPembelianDto) {

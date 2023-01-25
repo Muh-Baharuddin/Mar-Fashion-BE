@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { NotaPembelianService } from './nota-pembelian.service';
 import { CreateNotaPembelianDto } from './dto/create-nota-pembelian.dto';
@@ -17,11 +19,6 @@ import { NotaPembelian } from './entities/nota-pembelian.entity';
 export class NotaPembelianController {
   constructor(private readonly notaPembelianService: NotaPembelianService) {}
 
-  @Post()
-  create(@Body() createNotaPembelianDto: CreateNotaPembelianDto) {
-    return this.notaPembelianService.create(createNotaPembelianDto);
-  }
-
   @Get()
   findAll() {
     return this.notaPembelianService.findAll();
@@ -30,6 +27,12 @@ export class NotaPembelianController {
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<NotaPembelian> {
     return this.notaPembelianService.findById(id);
+  }
+
+  @Post()
+  @UsePipes(ValidationPipe)
+  create(@Body() createNotaPembelianDto: CreateNotaPembelianDto) {
+    return this.notaPembelianService.create(createNotaPembelianDto);
   }
 
   @Patch(':id')
