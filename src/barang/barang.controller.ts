@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -41,5 +42,10 @@ export class BarangController {
     @Body() updateBarangDto: UpdateBarangDto,
   ) {
     return this.barangService.updateBarang(id, updateBarangDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.barangService.removeBarang(id);
   }
 }

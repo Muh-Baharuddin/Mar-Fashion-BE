@@ -46,4 +46,14 @@ export class BarangService {
     }
     return this.barangRepository.updateBarang(id, updateBarangDto);
   }
+
+  async removeBarang(id: string) {
+    const barang = await this.barangRepository.findById(id);
+
+    if (!barang) {
+      throw new NotFoundException(`ups barang not found`);
+      this.logger.warn(`barang tidak ketemu`);
+    }
+    return this.barangRepository.removeBarang(id);
+  }
 }

@@ -32,4 +32,11 @@ export class BarangRepository {
       message: 'karyawan berhasil diupdate',
     };
   }
+
+  async removeBarang(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'barang berhasil dihapus',
+    };
+  }
 }
