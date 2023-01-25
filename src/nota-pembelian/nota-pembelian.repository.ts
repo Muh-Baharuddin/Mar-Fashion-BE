@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
+import { CreateNotaPembelianDto } from './dto/create-nota-pembelian.dto';
+import { UpdateNotaPembelianDto } from './dto/update-nota-pembelian.dto';
 import { NotaPembelian } from './entities/nota-pembelian.entity';
 
 @Injectable()
@@ -12,5 +14,34 @@ export class NotaPembelianRepository {
 
   findAllNotaPembelian(): Promise<NotaPembelian[]> {
     return this.repository.find();
+  }
+
+  findById(id: string): Promise<NotaPembelian> {
+    return this.repository.findOne({
+      where: { id },
+    });
+  }
+
+  createPembelian(
+    createNotaPembelianDto: CreateNotaPembelianDto,
+  ): Promise<NotaPembelian> {
+    return this.repository.save(createNotaPembelianDto);
+  }
+
+  async updatePembelian(
+    id: string,
+    updateNotaPembelianDto: UpdateNotaPembelianDto,
+  ) {
+    await this.repository.update(id, updateNotaPembelianDto);
+    return {
+      message: 'nota pembelian berhasil diupdate',
+    };
+  }
+
+  async removePembelian(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'pembelian berhasil dihapus',
+    };
   }
 }

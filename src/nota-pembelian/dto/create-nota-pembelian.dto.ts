@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsDate } from 'class-validator';
+import { IsNotEmpty, IsDateString } from 'class-validator';
 
 export class CreateNotaPembelianDto {
   @IsNotEmpty({ message: 'tanggal tidak boleh kosong' })
-  @IsDate()
+  @IsDateString()
   tanggal: Date;
 
   @IsNotEmpty({ message: 'supplier tidak boleh kosong' })

@@ -13,10 +13,6 @@ export class NotaPembelianService {
     private readonly notaPembelianRepository: NotaPembelianRepository,
   ) {}
 
-  create(createNotaPembelianDto: CreateNotaPembelianDto) {
-    return 'This action adds a new notaPembelian';
-  }
-
   async findAll(): Promise<NotaPembelian[]> {
     const notaPembelian =
       await this.notaPembelianRepository.findAllNotaPembelian();
@@ -29,15 +25,42 @@ export class NotaPembelianService {
     return notaPembelian;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notaPembelian`;
+  async findById(id: string): Promise<NotaPembelian> {
+    const pembelian = await this.notaPembelianRepository.findById(id);
+
+    if (!pembelian) {
+      throw new NotFoundException(`ups pembelian not found`);
+      this.logger.warn(`pembelian tidak ketemu`);
+    }
+    return pembelian;
   }
 
-  update(id: number, updateNotaPembelianDto: UpdateNotaPembelianDto) {
-    return `This action updates a #${id} notaPembelian`;
+  create(
+    createNotaPembelianDto: CreateNotaPembelianDto,
+  ): Promise<NotaPembelian> {
+    return this.notaPembelianRepository.createPembelian(createNotaPembelianDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notaPembelian`;
+  async update(id: string, updateNotaPembelianDto: UpdateNotaPembelianDto) {
+    const pembelian = await this.notaPembelianRepository.findById(id);
+
+    if (!pembelian) {
+      throw new NotFoundException(`ups pembelian not found`);
+      this.logger.warn(`pembelian tidak ketemu`);
+    }
+    return this.notaPembelianRepository.updatePembelian(
+      id,
+      updateNotaPembelianDto,
+    );
+  }
+
+  async remove(id: string) {
+    const pembelian = await this.notaPembelianRepository.findById(id);
+
+    if (!pembelian) {
+      throw new NotFoundException(`ups pembelian not found`);
+      this.logger.warn(`pembelian tidak ketemu`);
+    }
+    return this.notaPembelianRepository.removePembelian(id);
   }
 }
