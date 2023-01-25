@@ -38,8 +38,14 @@ export class SupplierService {
     return this.supplierRepository.createSupplier(createSupplierDto);
   }
 
-  update(id: number, updateSupplierDto: UpdateSupplierDto) {
-    return `This action updates a #${id} supplier`;
+  async update(id: string, updateSupplierDto: UpdateSupplierDto) {
+    const supplier = await this.supplierRepository.findById(id);
+
+    if (!supplier) {
+      throw new NotFoundException(`ups supplier not found`);
+      this.logger.warn(`supplier tidak ketemu`);
+    }
+    return this.supplierRepository.updateSupplier(id, updateSupplierDto);
   }
 
   remove(id: number) {

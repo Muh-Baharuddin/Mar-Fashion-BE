@@ -36,11 +36,12 @@ export class SupplierController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(
     @Param('id') id: string,
     @Body() updateSupplierDto: UpdateSupplierDto,
   ) {
-    return this.supplierService.update(+id, updateSupplierDto);
+    return this.supplierService.update(id, updateSupplierDto);
   }
 
   @Delete(':id')
