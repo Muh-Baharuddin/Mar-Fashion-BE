@@ -13,10 +13,6 @@ export class SupplierService {
     private readonly supplierRepository: SupplierRepository,
   ) {}
 
-  create(createSupplierDto: CreateSupplierDto) {
-    return 'This action adds a new supplier';
-  }
-
   async findAllSupplier(): Promise<Supplier[]> {
     const supplier = await this.supplierRepository.findAllSupplier();
 
@@ -24,19 +20,41 @@ export class SupplierService {
       throw new NotFoundException(`ups user not found`);
       this.logger.warn(`user tidak ketemu`);
     }
-  
+
     return supplier;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} supplier`;
+  async findById(id: string): Promise<Supplier> {
+    const supplier = await this.supplierRepository.findById(id);
+
+    if (!supplier) {
+      throw new NotFoundException(`ups supplier not found`);
+      this.logger.warn(`supplier tidak ketemu`);
+    }
+    return supplier;
   }
 
-  update(id: number, updateSupplierDto: UpdateSupplierDto) {
-    return `This action updates a #${id} supplier`;
+  create(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
+    return this.supplierRepository.createSupplier(createSupplierDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} supplier`;
+  async update(id: string, updateSupplierDto: UpdateSupplierDto) {
+    const supplier = await this.supplierRepository.findById(id);
+
+    if (!supplier) {
+      throw new NotFoundException(`ups supplier not found`);
+      this.logger.warn(`supplier tidak ketemu`);
+    }
+    return this.supplierRepository.updateSupplier(id, updateSupplierDto);
+  }
+
+  async remove(id: string) {
+    const supplier = await this.supplierRepository.findById(id);
+
+    if (!supplier) {
+      throw new NotFoundException(`ups supplier not found`);
+      this.logger.warn(`supplier tidak ketemu`);
+    }
+    return this.supplierRepository.removeSupplier(id);
   }
 }
