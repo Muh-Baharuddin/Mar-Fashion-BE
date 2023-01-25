@@ -54,7 +54,13 @@ export class NotaPembelianService {
     );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notaPembelian`;
+  async remove(id: string) {
+    const pembelian = await this.notaPembelianRepository.findById(id);
+
+    if (!pembelian) {
+      throw new NotFoundException(`ups pembelian not found`);
+      this.logger.warn(`pembelian tidak ketemu`);
+    }
+    return this.notaPembelianRepository.removePembelian(id);
   }
 }

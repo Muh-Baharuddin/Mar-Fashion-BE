@@ -46,6 +46,6 @@ export class NotaPembelianController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.notaPembelianService.remove(+id);
+    return this.notaPembelianService.remove(id);
   }
 }

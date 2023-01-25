@@ -37,4 +37,11 @@ export class NotaPembelianRepository {
       message: 'nota pembelian berhasil diupdate',
     };
   }
+
+  async removePembelian(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'pembelian berhasil dihapus',
+    };
+  }
 }
