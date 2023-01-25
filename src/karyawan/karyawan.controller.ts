@@ -36,6 +36,7 @@ export class KaryawanController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateKaryawanDto: UpdateKaryawanDto,
