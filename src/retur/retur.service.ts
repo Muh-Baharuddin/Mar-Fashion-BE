@@ -13,10 +13,6 @@ export class ReturService {
     private readonly returRepository: ReturRepository,
   ) {}
 
-  create(createReturDto: CreateReturDto) {
-    return 'This action adds a new retur';
-  }
-
   async findAll(): Promise<Retur[]> {
     const retur = await this.returRepository.findAllRetur();
 
@@ -36,6 +32,10 @@ export class ReturService {
       this.logger.warn(`retur tidak ketemu`);
     }
     return retur;
+  }
+
+  create(createReturDto: CreateReturDto): Promise<Retur> {
+    return this.returRepository.createRetur(createReturDto);
   }
 
   update(id: number, updateReturDto: UpdateReturDto) {

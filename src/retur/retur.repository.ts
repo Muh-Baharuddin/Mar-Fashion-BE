@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
+import { CreateReturDto } from './dto/create-retur.dto';
 import { Retur } from './entities/retur.entity';
 
 
@@ -19,5 +20,9 @@ export class ReturRepository {
     return this.repository.findOne({
       where: { id },
     });
+  }
+
+  createRetur(createReturDto: CreateReturDto): Promise<Retur> {
+    return this.repository.save(createReturDto);
   }
 }
