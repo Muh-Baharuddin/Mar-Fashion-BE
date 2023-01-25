@@ -13,4 +13,10 @@ export class BarangRepository {
   findAllBarang(): Promise<Barang[]> {
     return this.repository.find();
   }
+
+  findById(id: string): Promise<Barang> {
+    return this.repository.findOne({
+      where: { id },
+    });
+  }
 }

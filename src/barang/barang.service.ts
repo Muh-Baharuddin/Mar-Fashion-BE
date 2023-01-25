@@ -20,4 +20,14 @@ export class BarangService {
     }
     return barang;
   }
+
+  async findById(id: string): Promise<Barang> {
+    const barang = await this.barangRepository.findById(id);
+
+    if (!barang) {
+      throw new NotFoundException(`ups barang not found`);
+      this.logger.warn(`barang tidak ketemu`);
+    }
+    return barang;
+  }
 }
