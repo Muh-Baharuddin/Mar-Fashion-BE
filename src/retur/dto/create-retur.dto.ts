@@ -1,8 +1,8 @@
-import { IsDate, IsNotEmpty } from 'class-validator';
+import { IsDateString, IsNotEmpty } from 'class-validator';
 
 export class CreateReturDto {
   @IsNotEmpty({ message: 'tanggal retur tidak boleh kosong' })
-  @IsDate()
+  @IsDateString()
   tanggal: Date;
 
   @IsNotEmpty({ message: 'barang yang diretur tidak boleh kosong' })
