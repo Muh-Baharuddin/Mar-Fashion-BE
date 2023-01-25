@@ -45,7 +45,7 @@ export class ReturController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.returService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.returService.remove(id);
   }
 }

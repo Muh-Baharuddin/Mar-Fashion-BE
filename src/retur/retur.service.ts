@@ -48,7 +48,13 @@ export class ReturService {
     return this.returRepository.updateRetur(id, updateReturDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} retur`;
+  async remove(id: string) {
+    const retur = await this.returRepository.findById(id);
+
+    if (!retur) {
+      throw new NotFoundException(`ups retur not found`);
+      this.logger.warn(`retur tidak ketemu`);
+    }
+    return this.returRepository.removeRetur(id);
   }
 }

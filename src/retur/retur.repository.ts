@@ -33,4 +33,11 @@ export class ReturRepository {
       message: 'retur berhasil diupdate',
     };
   }
+
+  async removeRetur(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'retur berhasil dihapus',
+    };
+  }
 }
