@@ -28,8 +28,14 @@ export class ReturService {
     return retur;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} retur`;
+  async findById(id: string): Promise<Retur> {
+    const retur = await this.returRepository.findById(id);
+
+    if (!retur) {
+      throw new NotFoundException(`ups retur not found`);
+      this.logger.warn(`retur tidak ketemu`);
+    }
+    return retur;
   }
 
   update(id: number, updateReturDto: UpdateReturDto) {

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { ReturService } from './retur.service';
 import { CreateReturDto } from './dto/create-retur.dto';
 import { UpdateReturDto } from './dto/update-retur.dto';
+import { Retur } from './entities/retur.entity';
 
 @Controller('retur')
 export class ReturController {
@@ -18,8 +19,8 @@ export class ReturController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.returService.findOne(+id);
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Retur> {
+    return this.returService.findById(id);
   }
 
   @Patch(':id')

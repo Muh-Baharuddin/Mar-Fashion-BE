@@ -14,4 +14,10 @@ export class ReturRepository {
   findAllRetur(): Promise<Retur[]> {
     return this.repository.find();
   }
+
+  findById(id: string): Promise<Retur> {
+    return this.repository.findOne({
+      where: { id },
+    });
+  }
 }
