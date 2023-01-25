@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { NotaPembelianService } from './nota-pembelian.service';
 import { CreateNotaPembelianDto } from './dto/create-nota-pembelian.dto';
 import { UpdateNotaPembelianDto } from './dto/update-nota-pembelian.dto';
+import { NotaPembelian } from './entities/nota-pembelian.entity';
 
 @Controller('nota-pembelian')
 export class NotaPembelianController {
@@ -26,8 +28,8 @@ export class NotaPembelianController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notaPembelianService.findOne(+id);
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<NotaPembelian> {
+    return this.notaPembelianService.findById(id);
   }
 
   @Patch(':id')

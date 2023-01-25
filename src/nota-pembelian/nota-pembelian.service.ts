@@ -29,8 +29,14 @@ export class NotaPembelianService {
     return notaPembelian;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notaPembelian`;
+  async findById(id: string): Promise<NotaPembelian> {
+    const pembelian = await this.notaPembelianRepository.findById(id);
+
+    if (!pembelian) {
+      throw new NotFoundException(`ups pembelian not found`);
+      this.logger.warn(`pembelian tidak ketemu`);
+    }
+    return pembelian;
   }
 
   update(id: number, updateNotaPembelianDto: UpdateNotaPembelianDto) {

@@ -13,4 +13,10 @@ export class NotaPembelianRepository {
   findAllNotaPembelian(): Promise<NotaPembelian[]> {
     return this.repository.find();
   }
+
+  findById(id: string): Promise<NotaPembelian> {
+    return this.repository.findOne({
+      where: { id },
+    });
+  }
 }
