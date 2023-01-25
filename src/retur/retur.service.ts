@@ -38,8 +38,14 @@ export class ReturService {
     return this.returRepository.createRetur(createReturDto);
   }
 
-  update(id: number, updateReturDto: UpdateReturDto) {
-    return `This action updates a #${id} retur`;
+  async update(id: string, updateReturDto: UpdateReturDto) {
+    const retur = await this.returRepository.findById(id);
+
+    if (!retur) {
+      throw new NotFoundException(`ups retur not found`);
+      this.logger.warn(`retur tidak ketemu`);
+    }
+    return this.returRepository.updateRetur(id, updateReturDto);
   }
 
   remove(id: number) {
