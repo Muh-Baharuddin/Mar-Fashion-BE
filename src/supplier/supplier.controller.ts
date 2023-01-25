@@ -19,11 +19,6 @@ import { UpdateSupplierDto } from './dto/update-supplier.dto';
 export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
-  @Post()
-  create(@Body() createSupplierDto: CreateSupplierDto) {
-    return this.supplierService.create(createSupplierDto);
-  }
-
   @Get()
   findAllSupplier() {
     return this.supplierService.findAllSupplier();
@@ -32,6 +27,12 @@ export class SupplierController {
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<Supplier> {
     return this.supplierService.findById(id);
+  }
+
+  @Post()
+  @UsePipes(ValidationPipe)
+  create(@Body() createSupplierDto: CreateSupplierDto) {
+    return this.supplierService.create(createSupplierDto);
   }
 
   @Patch(':id')

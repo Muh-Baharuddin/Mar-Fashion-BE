@@ -13,10 +13,6 @@ export class SupplierService {
     private readonly supplierRepository: SupplierRepository,
   ) {}
 
-  create(createSupplierDto: CreateSupplierDto) {
-    return 'This action adds a new supplier';
-  }
-
   async findAllSupplier(): Promise<Supplier[]> {
     const supplier = await this.supplierRepository.findAllSupplier();
 
@@ -36,6 +32,10 @@ export class SupplierService {
       this.logger.warn(`supplier tidak ketemu`);
     }
     return supplier;
+  }
+
+  create(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
+    return this.supplierRepository.createSupplier(createSupplierDto);
   }
 
   update(id: number, updateSupplierDto: UpdateSupplierDto) {

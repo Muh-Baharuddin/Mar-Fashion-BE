@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
+import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 
 @Injectable()
@@ -18,5 +19,11 @@ export class SupplierRepository {
     return this.repository.findOne({
       where: { id },
     });
+  }
+
+  createSupplier(
+    CreateCreateSupplierDto: CreateSupplierDto,
+  ): Promise<Supplier> {
+    return this.repository.save(CreateCreateSupplierDto);
   }
 }
