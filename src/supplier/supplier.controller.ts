@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,28 +15,33 @@ import { Supplier } from './entities/supplier.entity';
 import { SupplierService } from './supplier.service';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('supplier')
 export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAllSupplier() {
     return this.supplierService.findAllSupplier();
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<Supplier> {
     return this.supplierService.findById(id);
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   create(@Body() createSupplierDto: CreateSupplierDto) {
     return this.supplierService.create(createSupplierDto);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   update(
     @Param('id') id: string,
@@ -45,6 +51,7 @@ export class SupplierController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.supplierService.remove(id);
   }
