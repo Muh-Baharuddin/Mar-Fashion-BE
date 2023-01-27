@@ -18,7 +18,7 @@ import { JwtStrategy } from './auth.strategy';
     JwtModule.register({
       secret: 'dev',
       signOptions: {
-        expiresIn: '30s',
+        expiresIn: '60s',
       },
     }),
   ],
