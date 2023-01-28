@@ -37,7 +37,7 @@ export class AuthHelper {
     const accessToken = this.jwtService.sign(user);
     return {
       userName,
-      expiresIn: '60s',
+      expiresIn: '24 hours',
       accessToken,
     };
   }
