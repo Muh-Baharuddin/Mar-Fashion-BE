@@ -57,8 +57,13 @@ export class UsersService {
     return this.usersRepository.updatePass(user);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async removeUser(id: string) {
+    const user = await this.usersRepository.getUserById(id);
+
+    if (!user) {
+      throw new NotFoundException('user tidak ditemukan');
+    }
+    return this.usersRepository.removeUser(id);
   }
 }
 

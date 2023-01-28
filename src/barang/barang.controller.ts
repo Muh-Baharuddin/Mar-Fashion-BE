@@ -7,15 +7,18 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { BarangService } from './barang.service';
 import { CreateBarangDto } from './dto/create-barang.dto';
 import { UpdateBarangDto } from './dto/update-barang.dto';
 import { Barang } from './entities/barang.entity';
 
 @Controller('barang')
+@UseGuards(JwtAuthGuard)
 export class BarangController {
   constructor(private readonly barangService: BarangService) {}
 

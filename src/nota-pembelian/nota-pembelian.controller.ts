@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,8 +15,10 @@ import { NotaPembelianService } from './nota-pembelian.service';
 import { CreateNotaPembelianDto } from './dto/create-nota-pembelian.dto';
 import { UpdateNotaPembelianDto } from './dto/update-nota-pembelian.dto';
 import { NotaPembelian } from './entities/nota-pembelian.entity';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('nota-pembelian')
+@UseGuards(JwtAuthGuard)
 export class NotaPembelianController {
   constructor(private readonly notaPembelianService: NotaPembelianService) {}
 

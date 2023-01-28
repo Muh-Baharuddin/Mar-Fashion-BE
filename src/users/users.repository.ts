@@ -36,4 +36,11 @@ export class UsersRepository {
   async updatePass(updateUserDto: UpdateUserDto): Promise<User> {
     return await this.repository.save(updateUserDto);
   }
+
+  async removeUser(id: string) {
+    await this.repository.delete(id);
+    return {
+      message: 'user berhasil dihapus'
+    }
+  }
 }
