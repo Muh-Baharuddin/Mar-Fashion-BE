@@ -18,30 +18,27 @@ import { UpdateBarangDto } from './dto/update-barang.dto';
 import { Barang } from './entities/barang.entity';
 
 @Controller('barang')
+@UseGuards(JwtAuthGuard)
 export class BarangController {
   constructor(private readonly barangService: BarangService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.barangService.findAllBarang();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<Barang> {
     return this.barangService.findById(id);
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   create(@Body() createBarangDto: CreateBarangDto) {
     return this.barangService.createBarang(createBarangDto);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -51,7 +48,6 @@ export class BarangController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.barangService.removeBarang(id);
   }
