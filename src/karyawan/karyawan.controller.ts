@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,8 +15,10 @@ import { CreateKaryawanDto } from './dto/create-karyawan.dto';
 import { UpdateKaryawanDto } from './dto/update-karyawan.dto';
 import { Karyawan } from './entities/karyawan.entity';
 import { KaryawanService } from './karyawan.service';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('karyawan')
+@UseGuards(JwtAuthGuard)
 export class KaryawanController {
   constructor(private readonly karyawanService: KaryawanService) {}
 
