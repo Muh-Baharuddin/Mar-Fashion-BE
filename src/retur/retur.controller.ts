@@ -18,30 +18,27 @@ import { Retur } from './entities/retur.entity';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('retur')
+@UseGuards(JwtAuthGuard)
 export class ReturController {
   constructor(private readonly returService: ReturService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.returService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<Retur> {
     return this.returService.findById(id);
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   create(@Body() createReturDto: CreateReturDto) {
     return this.returService.create(createReturDto);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -51,7 +48,6 @@ export class ReturController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.returService.remove(id);
   }
