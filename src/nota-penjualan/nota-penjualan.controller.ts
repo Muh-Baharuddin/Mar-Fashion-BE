@@ -17,30 +17,27 @@ import { UpdateNotaPenjualanDto } from './dto/update-nota-penjualan.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('nota-penjualan')
+@UseGuards(JwtAuthGuard)
 export class NotaPenjualanController {
   constructor(private readonly notaPenjualanService: NotaPenjualanService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.notaPenjualanService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   findById(@Param('id') id: string) {
     return this.notaPenjualanService.findById(id);
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   create(@Body() createNotaPenjualanDto: CreateNotaPenjualanDto) {
     return this.notaPenjualanService.createPenjualan(createNotaPenjualanDto);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
   update(
     @Param('id') id: string,
     @Body() updateNotaPenjualanDto: UpdateNotaPenjualanDto,
@@ -49,7 +46,6 @@ export class NotaPenjualanController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.notaPenjualanService.removePenjualan(id);
   }
