@@ -18,17 +18,16 @@ import { KaryawanService } from './karyawan.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('karyawan')
+@UseGuards(JwtAuthGuard)
 export class KaryawanController {
   constructor(private readonly karyawanService: KaryawanService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.karyawanService.findAllKaryawan();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<Karyawan> {
     return this.karyawanService.findById(id);
   }
@@ -40,7 +39,6 @@ export class KaryawanController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -50,7 +48,6 @@ export class KaryawanController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.karyawanService.removeKaryawan(id);
   }
