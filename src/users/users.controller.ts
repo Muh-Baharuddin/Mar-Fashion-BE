@@ -17,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -33,7 +34,6 @@ export class UsersController {
 
   @Put(':id/ubah-password')
   @UsePipes(ValidationPipe)
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   update(
     @Param('id', ParseUUIDPipe) id: string,
