@@ -8,6 +8,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import { UsersRepository } from 'src/users/users.repository';
+import { LoginResponse } from './types/login-response.type';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -31,11 +32,13 @@ export class AuthHelper {
     return validatePass;
   }
 
-  public generateToken({ userName }: User): any {
-    const user = { userName };
+  public generateToken({ id, userName, role }: User): LoginResponse {
+    const user = { id, userName, role };
     const accessToken = this.jwtService.sign(user);
     return {
-      expiresIn: '30s',
+      id,
+      userName,
+      role,
       accessToken,
     };
   }

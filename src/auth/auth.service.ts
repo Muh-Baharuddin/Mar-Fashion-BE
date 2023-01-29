@@ -11,6 +11,7 @@ import { User } from 'src/users/entities/user.entity';
 import { UsersRepository } from 'src/users/users.repository';
 import { AuthHelper } from './auth.helper';
 import * as bcrypt from 'bcrypt';
+import { LoginResponse } from './types/login-response.type';
 
 @Injectable()
 export class AuthService {
@@ -44,7 +45,7 @@ export class AuthService {
     return this.usersRepository.createUser(user);
   }
 
-  async login({ userName, password }: LoginDto): Promise<string> {
+  async login({ userName, password }: LoginDto): Promise<LoginResponse> {
     const user = await this.usersRepository.findByUsername(userName);
 
     if (!user) {
@@ -56,16 +57,10 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('password salah');
     }
-
-    const token = await this.authHelper.generateToken(user);
-
-    return {
-      user: user.userName,
-      ...token,
-    };
+    return this.authHelper.generateToken(user);
   }
 
-  public async refresh(user: User): Promise<string> {
+  public async refresh(user: User): Promise<LoginResponse> {
     return this.authHelper.generateToken(user);
   }
 }

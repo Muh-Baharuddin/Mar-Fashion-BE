@@ -14,7 +14,7 @@ import { ReturModule } from './retur/retur.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({isGlobal: true, envFilePath: '.env'}),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.TYPEORM_HOST,
