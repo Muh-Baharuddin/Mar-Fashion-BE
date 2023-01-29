@@ -2,10 +2,10 @@ import {
   Controller,
   Get,
   Body,
-  Put,
   Param,
   Delete,
   ParseUUIDPipe,
+  Patch,
   UsePipes,
   ValidationPipe,
   UseGuards,
@@ -17,8 +17,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
-@UseGuards(JwtAuthGuard)
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,7 +32,7 @@ export class UsersController {
     return this.usersService.getUserById(id);
   }
 
-  @Put(':id/ubah-password')
+  @Patch(':id/ubah-password')
   @UsePipes(ValidationPipe)
   @UseInterceptors(ClassSerializerInterceptor)
   update(
