@@ -36,9 +36,6 @@ export class AuthHelper {
     const user = { id, userName, role };
     const accessToken = this.jwtService.sign(user);
     return {
-      id,
-      userName,
-      role,
       accessToken,
     };
   }
