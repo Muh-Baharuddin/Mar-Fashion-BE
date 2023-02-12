@@ -37,8 +37,17 @@ export class NotaPenjualanService {
     return this.notaPenjualanRepository.createPenjualan(createNotaPenjualanDto);
   }
 
-  update(id: number, updateNotaPenjualanDto: UpdateNotaPenjualanDto) {
-    return `This action updates a #${id} notaPenjualan`;
+  async update(id: string, updateNotaPenjualanDto: UpdateNotaPenjualanDto) {
+    const penjualan = await this.notaPenjualanRepository.findById(id);
+
+    if (!penjualan) {
+      throw new NotFoundException(`ups penjualan not found`);
+    }
+
+    return this.notaPenjualanRepository.updatePenjualan(
+      id,
+      updateNotaPenjualanDto,
+    );
   }
 
   async removePenjualan(id: string) {

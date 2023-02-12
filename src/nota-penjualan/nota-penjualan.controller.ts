@@ -38,11 +38,12 @@ export class NotaPenjualanController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateNotaPenjualanDto: UpdateNotaPenjualanDto,
   ) {
-    return this.notaPenjualanService.update(+id, updateNotaPenjualanDto);
+    return this.notaPenjualanService.update(id, updateNotaPenjualanDto);
   }
 
   @Delete(':id')
