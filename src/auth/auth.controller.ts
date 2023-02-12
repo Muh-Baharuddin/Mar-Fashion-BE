@@ -26,13 +26,11 @@ export class AuthController {
   @UsePipes(ValidationPipe)
   @UseInterceptors(ClassSerializerInterceptor)
   async register(@Body() registerDto: RegisterDto): Promise<User> {
-  async register(@Body() registerDto: RegisterDto): Promise<User> {
     return this.authService.register(registerDto);
   }
 
   @Post('login')
   @UsePipes(ValidationPipe)
-  async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
   async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
     return this.authService.login(loginDto);
   }

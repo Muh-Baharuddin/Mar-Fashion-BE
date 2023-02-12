@@ -10,7 +10,6 @@ import { User } from 'src/users/entities/user.entity';
 import { UsersRepository } from 'src/users/users.repository';
 import { LoginResponse } from './types/login-response.type';
 import * as bcrypt from 'bcrypt';
-import { LoginResponse } from './types/login-response.type';
 
 @Injectable()
 export class AuthHelper {
