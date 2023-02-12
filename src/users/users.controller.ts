@@ -2,10 +2,10 @@ import {
   Controller,
   Get,
   Body,
-  Put,
   Param,
   Delete,
   ParseUUIDPipe,
+  Patch,
   UsePipes,
   ValidationPipe,
   UseGuards,
@@ -18,6 +18,7 @@ import { User } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -31,9 +32,8 @@ export class UsersController {
     return this.usersService.getUserById(id);
   }
 
-  @Put(':id/ubah-password')
+  @Patch(':id/ubah-password')
   @UsePipes(ValidationPipe)
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -43,7 +43,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.removeUser(id);
   }
 }

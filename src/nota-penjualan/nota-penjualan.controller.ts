@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
   UsePipes,
   ValidationPipe,
   ParseUUIDPipe,
@@ -13,16 +14,12 @@ import {
 import { NotaPenjualanService } from './nota-penjualan.service';
 import { CreateNotaPenjualanDto } from './dto/create-nota-penjualan.dto';
 import { UpdateNotaPenjualanDto } from './dto/update-nota-penjualan.dto';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('nota-penjualan')
+@UseGuards(JwtAuthGuard)
 export class NotaPenjualanController {
   constructor(private readonly notaPenjualanService: NotaPenjualanService) {}
-
-  @Post()
-  @UsePipes(ValidationPipe)
-  create(@Body() createNotaPenjualanDto: CreateNotaPenjualanDto) {
-    return this.notaPenjualanService.createPenjualan(createNotaPenjualanDto);
-  }
 
   @Get()
   findAll() {
@@ -34,12 +31,19 @@ export class NotaPenjualanController {
     return this.notaPenjualanService.findById(id);
   }
 
+  @Post()
+  @UsePipes(ValidationPipe)
+  create(@Body() createNotaPenjualanDto: CreateNotaPenjualanDto) {
+    return this.notaPenjualanService.createPenjualan(createNotaPenjualanDto);
+  }
+
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateNotaPenjualanDto: UpdateNotaPenjualanDto,
   ) {
-    return this.notaPenjualanService.update(+id, updateNotaPenjualanDto);
+    return this.notaPenjualanService.update(id, updateNotaPenjualanDto);
   }
 
   @Delete(':id')

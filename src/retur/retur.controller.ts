@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,8 +15,10 @@ import { ReturService } from './retur.service';
 import { CreateReturDto } from './dto/create-retur.dto';
 import { UpdateReturDto } from './dto/update-retur.dto';
 import { Retur } from './entities/retur.entity';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('retur')
+@UseGuards(JwtAuthGuard)
 export class ReturController {
   constructor(private readonly returService: ReturService) {}
 

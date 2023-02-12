@@ -29,7 +29,7 @@ export class BarangRepository {
   async updateBarang(id: string, updateBarangDto: UpdateBarangDto) {
     await this.repository.update(id, updateBarangDto);
     return {
-      message: 'karyawan berhasil diupdate',
+      message: 'barang berhasil diupdate',
     };
   }
 

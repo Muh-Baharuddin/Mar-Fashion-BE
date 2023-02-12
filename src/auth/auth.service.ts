@@ -60,7 +60,7 @@ export class AuthService {
     return this.authHelper.generateToken(user);
   }
 
-  public async refresh(user: User): Promise<any> {
+  public async refresh(user: User): Promise<LoginResponse> {
     return this.authHelper.generateToken(user);
   }
 }
