@@ -10,7 +10,6 @@ import { SupplierModule } from './supplier/supplier.module';
 import { BarangModule } from './barang/barang.module';
 import { NotaPembelianModule } from './nota-pembelian/nota-pembelian.module';
 import { NotaPenjualanModule } from './nota-penjualan/nota-penjualan.module';
-import { ReturModule } from './retur/retur.module';
 
 @Module({
   imports: [
@@ -33,7 +32,6 @@ import { ReturModule } from './retur/retur.module';
     BarangModule,
     NotaPembelianModule,
     NotaPenjualanModule,
-    ReturModule,
   ],
   controllers: [AppController],
   providers: [AppService],
