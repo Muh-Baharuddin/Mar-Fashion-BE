@@ -35,11 +35,20 @@ export class UsersController {
   @Patch(':id/ubah-password')
   @UsePipes(ValidationPipe)
   @UseInterceptors(ClassSerializerInterceptor)
-  update(
+  updatePassword(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
     return this.usersService.updatePass(id, updateUserDto);
+  }
+
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')

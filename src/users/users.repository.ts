@@ -37,6 +37,13 @@ export class UsersRepository {
     return await this.repository.save(updateUserDto);
   }
 
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    await this.repository.update(id, updateUserDto);
+    return {
+      message: 'user berhasil diupdate',
+    };
+  }
+
   async removeUser(id: string) {
     await this.repository.delete(id);
     return {

@@ -57,6 +57,15 @@ export class UsersService {
     return this.usersRepository.updatePass(user);
   }
 
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository.getUserById(id);
+
+    if (!user) {
+      throw new NotFoundException(`ups user not found`);
+    }
+    return this.usersRepository.updateUser(id, updateUserDto);
+  }
+
   async removeUser(id: string) {
     const user = await this.usersRepository.getUserById(id);
 
