@@ -13,10 +13,18 @@ export class SupplierService {
     private readonly supplierRepository: SupplierRepository,
   ) {}
 
-  async findAllSupplier(): Promise<Supplier[]> {
-    const supplier = await this.supplierRepository.findAllSupplier();
+  async findAllSupplier(
+    page: number,
+    limit: number,
+  ): Promise<{
+    dataSupplier: Supplier[];
+    total: number;
+    currentPage: number;
+    lastPage: number;
+  }> {
+    const supplier = await this.supplierRepository.findAllSupplier(page, limit);
 
-    if (!supplier.length) {
+    if (!supplier.dataSupplier?.length) {
       throw new NotFoundException(`ups user not found`);
       this.logger.warn(`user tidak ketemu`);
     }

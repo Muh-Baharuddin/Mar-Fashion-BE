@@ -12,8 +12,31 @@ export class SupplierRepository {
     this.repository = this.dataSource.getRepository(Supplier);
   }
 
-  findAllSupplier(): Promise<Supplier[]> {
-    return this.repository.find();
+  async findAllSupplier(
+    page: number,
+    limit: number,
+  ): Promise<{
+    dataSupplier: Supplier[];
+    total: number;
+    currentPage: number;
+    lastPage: number;
+  }> {
+    const [data, total] = await this.repository.findAndCount({
+      order: {
+        nama: 'ASC',
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    const lastPage = Math.ceil(total / limit);
+
+    return {
+      dataSupplier: data,
+      total,
+      currentPage: page,
+      lastPage,
+    };
   }
 
   findById(id: string): Promise<Supplier> {

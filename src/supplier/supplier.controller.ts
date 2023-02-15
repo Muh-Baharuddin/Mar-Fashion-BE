@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -23,8 +24,18 @@ export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Get()
-  findAllSupplier() {
-    return this.supplierService.findAllSupplier();
+  findAllSupplier(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ): Promise<{
+    dataSupplier: Supplier[];
+    total: number;
+    currentPage: number;
+    lastPage: number;
+  }> {
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+    return this.supplierService.findAllSupplier(pageNumber, limitNumber);
   }
 
   @Get(':id')
