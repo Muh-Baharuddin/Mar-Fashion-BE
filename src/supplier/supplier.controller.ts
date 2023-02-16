@@ -14,7 +14,10 @@ import {
 } from '@nestjs/common';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierService } from './supplier.service';
-import { CreateSupplierDto } from './dto/create-supplier.dto';
+import {
+  CreateSupplierDto,
+  PaginationSupplierDto,
+} from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
@@ -24,18 +27,16 @@ export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Get()
-  findAllSupplier(
-    @Query('page') page: string,
-    @Query('limit') limit: string,
-  ): Promise<{
+  findAllSupplier(@Query() paginationDto: PaginationSupplierDto): Promise<{
     dataSupplier: Supplier[];
     total: number;
     currentPage: number;
     lastPage: number;
   }> {
-    const pageNumber = parseInt(page, 10);
-    const limitNumber = parseInt(limit, 10);
-    return this.supplierService.findAllSupplier(pageNumber, limitNumber);
+    return this.supplierService.findAllSupplier(
+      paginationDto.page,
+      paginationDto.limit,
+    );
   }
 
   @Get(':id')
