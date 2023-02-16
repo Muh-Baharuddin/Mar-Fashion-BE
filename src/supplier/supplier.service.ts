@@ -1,8 +1,10 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
+import { PaginationSupplierDto } from './dto/pagination-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierRepository } from './supplier.repository';
+import { SupplierResponse } from './types/supplier.response.type';
 
 @Injectable()
 export class SupplierService {
@@ -13,15 +15,10 @@ export class SupplierService {
     private readonly supplierRepository: SupplierRepository,
   ) {}
 
-  async findAllSupplier(): Promise<Supplier[]> {
-    const supplier = await this.supplierRepository.findAllSupplier();
-
-    if (!supplier.length) {
-      throw new NotFoundException(`ups user not found`);
-      this.logger.warn(`user tidak ketemu`);
-    }
-
-    return supplier;
+  async findAllSupplier(
+    paginationDto: PaginationSupplierDto,
+  ): Promise<SupplierResponse> {
+    return await this.supplierRepository.findAllSupplier(paginationDto);
   }
 
   async findById(id: string): Promise<Supplier> {
@@ -29,7 +26,7 @@ export class SupplierService {
 
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ketemu`);
+      this.logger.warn(`supplier tidak ditemukan`);
     }
     return supplier;
   }
@@ -43,7 +40,7 @@ export class SupplierService {
 
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ketemu`);
+      this.logger.warn(`supplier tidak ditemukan`);
     }
     return this.supplierRepository.updateSupplier(id, updateSupplierDto);
   }
@@ -53,7 +50,7 @@ export class SupplierService {
 
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ketemu`);
+      this.logger.warn(`supplier tidak ditemukan`);
     }
     return this.supplierRepository.removeSupplier(id);
   }

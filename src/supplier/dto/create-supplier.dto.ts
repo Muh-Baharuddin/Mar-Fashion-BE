@@ -1,4 +1,4 @@
-import { IsNotEmpty, MinLength } from 'class-validator';
+import { IsNotEmpty, IsInt, Min, MinLength, IsOptional, IsIn, IsString, Matches } from 'class-validator';
 
 export class CreateSupplierDto {
   @IsNotEmpty({ message: 'nama tidak boleh kosong' })

@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
+import { PaginationSupplierDto } from './dto/pagination-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
+import { SupplierResponse } from './types/supplier.response.type';
 
 @Injectable()
 export class SupplierRepository {
@@ -12,8 +14,29 @@ export class SupplierRepository {
     this.repository = this.dataSource.getRepository(Supplier);
   }
 
-  findAllSupplier(): Promise<Supplier[]> {
-    return this.repository.find();
+  async findAllSupplier(
+    paginationDto: PaginationSupplierDto,
+  ): Promise<SupplierResponse> {
+    let where: FindOptionsWhere<Supplier>[];
+    if (paginationDto.keywords) {
+      where = [
+        { nama :  ILike(`%${paginationDto.keywords}%`)},
+        { alamat: ILike(`%${paginationDto.keywords}%`)},
+        { nomor_telepon: ILike(`%${paginationDto.keywords}%`)},
+      ] 
+    }
+    const [data, total] = await this.repository.findAndCount({
+      where,
+      order: {
+        [paginationDto.orderBy]: paginationDto.orderType,
+      },
+      skip: (paginationDto.page - 1) * paginationDto.limit,
+      take: paginationDto.limit,
+    });
+    return {
+      data,
+      total,
+    };
   }
 
   findById(id: string): Promise<Supplier> {
