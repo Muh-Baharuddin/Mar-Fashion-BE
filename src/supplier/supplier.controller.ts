@@ -32,6 +32,7 @@ export class SupplierController {
     return this.supplierService.findAllSupplier(
       paginationDto.page,
       paginationDto.limit,
+      paginationDto.order,
     );
   }
 

@@ -16,10 +16,11 @@ export class SupplierRepository {
   async findAllSupplier(
     page: number,
     limit: number,
+    order: 'ASC' | 'DESC',
   ): Promise<SupplierResponse> {
     const [data, total] = await this.repository.findAndCount({
       order: {
-        nama: 'ASC',
+        nama: order,
       },
       skip: (page - 1) * limit,
       take: limit,

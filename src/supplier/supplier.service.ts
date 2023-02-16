@@ -17,8 +17,9 @@ export class SupplierService {
   async findAllSupplier(
     page: number,
     limit: number,
+    order: 'ASC' | 'DESC',
   ): Promise<SupplierResponse> {
-    return await this.supplierRepository.findAllSupplier(page, limit);
+    return await this.supplierRepository.findAllSupplier(page, limit, order);
   }
 
   async findById(id: string): Promise<Supplier> {

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsInt, Min, MinLength } from 'class-validator';
+import { IsNotEmpty, IsInt, Min, MinLength, IsOptional, IsIn } from 'class-validator';
 
 export class CreateSupplierDto {
   @IsNotEmpty({ message: 'nama tidak boleh kosong' })
@@ -20,4 +20,8 @@ export class PaginationSupplierDto {
   @IsInt()
   @Min(1)
   readonly limit: number;
+
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  readonly order?: 'ASC' | 'DESC';
 }
