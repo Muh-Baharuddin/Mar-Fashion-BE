@@ -25,7 +25,7 @@ export class SupplierRepository {
       take: limit,
     });
     return {
-      dataSupplier: data,
+      data,
       total,
       currentPage: page,
     };

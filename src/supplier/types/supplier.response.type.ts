@@ -1,7 +1,7 @@
 import { Supplier } from "../entities/supplier.entity";
 
 export type SupplierResponse = {
-  dataSupplier: Supplier[];
+  data: Supplier[];
   total: number;
   currentPage: number;
 }
