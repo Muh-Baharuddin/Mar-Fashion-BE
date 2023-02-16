@@ -3,6 +3,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
+import { SupplierResponse } from './types/supplier.response.type';
 
 @Injectable()
 export class SupplierRepository {
@@ -15,12 +16,7 @@ export class SupplierRepository {
   async findAllSupplier(
     page: number,
     limit: number,
-  ): Promise<{
-    dataSupplier: Supplier[];
-    total: number;
-    currentPage: number;
-    lastPage: number;
-  }> {
+  ): Promise<SupplierResponse> {
     const [data, total] = await this.repository.findAndCount({
       order: {
         nama: 'ASC',
@@ -28,14 +24,10 @@ export class SupplierRepository {
       skip: (page - 1) * limit,
       take: limit,
     });
-
-    const lastPage = Math.ceil(total / limit);
-
     return {
       dataSupplier: data,
       total,
       currentPage: page,
-      lastPage,
     };
   }
 

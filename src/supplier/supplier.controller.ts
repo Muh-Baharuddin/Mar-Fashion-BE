@@ -20,6 +20,7 @@ import {
 } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { SupplierResponse } from './types/supplier.response.type';
 
 @Controller('supplier')
 @UseGuards(JwtAuthGuard)
@@ -27,12 +28,7 @@ export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Get()
-  findAllSupplier(@Query() paginationDto: PaginationSupplierDto): Promise<{
-    dataSupplier: Supplier[];
-    total: number;
-    currentPage: number;
-    lastPage: number;
-  }> {
+  findAllSupplier(@Query() paginationDto: PaginationSupplierDto): Promise<SupplierResponse> {
     return this.supplierService.findAllSupplier(
       paginationDto.page,
       paginationDto.limit,

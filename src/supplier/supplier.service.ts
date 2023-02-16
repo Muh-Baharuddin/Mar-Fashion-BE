@@ -3,6 +3,7 @@ import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierRepository } from './supplier.repository';
+import { SupplierResponse } from './types/supplier.response.type';
 
 @Injectable()
 export class SupplierService {
@@ -16,20 +17,8 @@ export class SupplierService {
   async findAllSupplier(
     page: number,
     limit: number,
-  ): Promise<{
-    dataSupplier: Supplier[];
-    total: number;
-    currentPage: number;
-    lastPage: number;
-  }> {
-    const supplier = await this.supplierRepository.findAllSupplier(page, limit);
-
-    if (!supplier.dataSupplier?.length) {
-      throw new NotFoundException(`ups user not found`);
-      this.logger.warn(`user tidak ketemu`);
-    }
-
-    return supplier;
+  ): Promise<SupplierResponse> {
+    return await this.supplierRepository.findAllSupplier(page, limit);
   }
 
   async findById(id: string): Promise<Supplier> {
@@ -37,7 +26,7 @@ export class SupplierService {
 
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ketemu`);
+      this.logger.warn(`supplier tidak ditemukan`);
     }
     return supplier;
   }
@@ -51,7 +40,7 @@ export class SupplierService {
 
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ketemu`);
+      this.logger.warn(`supplier tidak ditemukan`);
     }
     return this.supplierRepository.updateSupplier(id, updateSupplierDto);
   }
@@ -61,7 +50,7 @@ export class SupplierService {
 
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ketemu`);
+      this.logger.warn(`supplier tidak ditemukan`);
     }
     return this.supplierRepository.removeSupplier(id);
   }
