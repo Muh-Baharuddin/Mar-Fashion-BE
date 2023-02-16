@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, ILike, Repository } from 'typeorm';
+import { DataSource, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateSupplierDto,
   PaginationSupplierDto,
@@ -19,9 +19,9 @@ export class SupplierRepository {
   async findAllSupplier(
     paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
-    const where: any = {};
-    if (paginationDto.nama) {
-      where.nama = ILike(`%${paginationDto.nama}%`);
+    const where: FindOptionsWhere<Supplier> = {};
+    if (paginationDto.keywords) {
+      where.nama = ILike(`%${paginationDto.keywords}%`);
     }
     const [data, total] = await this.repository.findAndCount({
       where,
@@ -29,7 +29,9 @@ export class SupplierRepository {
       //   nama: ILike(`%${paginationDto.nama}%`)
       // },
       order: {
-        nama: paginationDto.order,
+        nama: paginationDto.orderNama,
+        alamat: paginationDto.orderAlamat,
+        nomor_telepon: paginationDto.orderNomorTelepon,
       },
       skip: (paginationDto.page - 1) * paginationDto.limit,
       take: paginationDto.limit,

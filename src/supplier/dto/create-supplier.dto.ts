@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsInt, Min, MinLength, IsOptional, IsIn, IsString } from 'class-validator';
+import { IsNotEmpty, IsInt, Min, MinLength, IsOptional, IsIn, IsString, Matches } from 'class-validator';
 
 export class CreateSupplierDto {
   @IsNotEmpty({ message: 'nama tidak boleh kosong' })
@@ -23,9 +23,17 @@ export class PaginationSupplierDto {
 
   @IsOptional()
   @IsIn(['ASC', 'DESC'])
-  readonly order?: 'ASC' | 'DESC';
+  readonly orderNama?: 'ASC' | 'DESC';
 
   @IsOptional()
-  @IsString()
-  readonly nama: string;
+  @IsIn(['ASC', 'DESC'])
+  readonly orderAlamat?: 'ASC' | 'DESC';
+
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  readonly orderNomorTelepon?: 'ASC' | 'DESC';
+
+  @IsOptional()
+  @Matches(/^[A-Za-z0-9\s]*$/)
+  readonly keywords?: RegExp;
 }
