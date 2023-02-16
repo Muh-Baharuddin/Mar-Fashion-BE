@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateSupplierDto,
-  PaginationSupplierDto,
-} from './dto/create-supplier.dto';
+import { CreateSupplierDto } from './dto/create-supplier.dto';
+import { PaginationSupplierDto } from './dto/pagination-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierResponse } from './types/supplier.response.type';
@@ -19,19 +17,18 @@ export class SupplierRepository {
   async findAllSupplier(
     paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
-    const where: FindOptionsWhere<Supplier> = {};
+    let where: FindOptionsWhere<Supplier>[];
     if (paginationDto.keywords) {
-      where.nama = ILike(`%${paginationDto.keywords}%`);
+      where = [
+        { nama :  ILike(`%${paginationDto.keywords}%`)},
+        { alamat: ILike(`%${paginationDto.keywords}%`)},
+        { nomor_telepon: ILike(`%${paginationDto.keywords}%`)},
+      ] 
     }
     const [data, total] = await this.repository.findAndCount({
       where,
-      // where: {
-      //   nama: ILike(`%${paginationDto.nama}%`)
-      // },
       order: {
-        nama: paginationDto.orderNama,
-        alamat: paginationDto.orderAlamat,
-        nomor_telepon: paginationDto.orderNomorTelepon,
+        [paginationDto.orderBy]: paginationDto.orderType,
       },
       skip: (paginationDto.page - 1) * paginationDto.limit,
       take: paginationDto.limit,

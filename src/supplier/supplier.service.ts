@@ -1,8 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import {
-  CreateSupplierDto,
-  PaginationSupplierDto,
-} from './dto/create-supplier.dto';
+import { CreateSupplierDto } from './dto/create-supplier.dto';
+import { PaginationSupplierDto } from './dto/pagination-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierRepository } from './supplier.repository';
