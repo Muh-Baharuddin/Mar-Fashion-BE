@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { CreateSupplierDto } from './dto/create-supplier.dto';
+import {
+  CreateSupplierDto,
+  PaginationSupplierDto,
+} from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierResponse } from './types/supplier.response.type';
@@ -14,21 +17,18 @@ export class SupplierRepository {
   }
 
   async findAllSupplier(
-    page: number,
-    limit: number,
-    order: 'ASC' | 'DESC',
+    paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
     const [data, total] = await this.repository.findAndCount({
       order: {
-        nama: order,
+        nama: paginationDto.order,
       },
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (paginationDto.page - 1) * paginationDto.limit,
+      take: paginationDto.limit,
     });
     return {
       data,
       total,
-      currentPage: page,
     };
   }
 

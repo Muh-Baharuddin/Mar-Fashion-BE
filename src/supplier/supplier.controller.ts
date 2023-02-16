@@ -28,12 +28,10 @@ export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Get()
-  findAllSupplier(@Query() paginationDto: PaginationSupplierDto): Promise<SupplierResponse> {
-    return this.supplierService.findAllSupplier(
-      paginationDto.page,
-      paginationDto.limit,
-      paginationDto.order,
-    );
+  findAllSupplier(
+    @Query() paginationDto: PaginationSupplierDto,
+  ): Promise<SupplierResponse> {
+    return this.supplierService.findAllSupplier(paginationDto);
   }
 
   @Get(':id')

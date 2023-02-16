@@ -1,5 +1,8 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { CreateSupplierDto } from './dto/create-supplier.dto';
+import {
+  CreateSupplierDto,
+  PaginationSupplierDto,
+} from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { Supplier } from './entities/supplier.entity';
 import { SupplierRepository } from './supplier.repository';
@@ -15,11 +18,9 @@ export class SupplierService {
   ) {}
 
   async findAllSupplier(
-    page: number,
-    limit: number,
-    order: 'ASC' | 'DESC',
+    paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
-    return await this.supplierRepository.findAllSupplier(page, limit, order);
+    return await this.supplierRepository.findAllSupplier(paginationDto);
   }
 
   async findById(id: string): Promise<Supplier> {
