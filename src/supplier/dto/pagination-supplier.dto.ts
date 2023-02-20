@@ -1,4 +1,5 @@
-import { IsIn, IsInt, IsOptional, Matches, Min } from "class-validator";
+import { Transform } from "class-transformer";
+import { IsIn, IsInt, IsOptional, IsString, Min } from "class-validator";
 
 export class PaginationSupplierDto {
   @IsInt()
@@ -18,5 +19,7 @@ export class PaginationSupplierDto {
   readonly orderBy?: 'nama' | 'alamat' | 'nomor_telepon';
 
   @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
   readonly keywords?: string;
 }
