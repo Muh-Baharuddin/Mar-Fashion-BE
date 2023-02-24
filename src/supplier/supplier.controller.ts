@@ -26,8 +26,10 @@ export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Get()
-  findAllSupplier(
-    @Query() paginationDto: PaginationSupplierDto,
+  async findAllSupplier(
+    @Query(new ValidationPipe({
+      transformOptions: {enableImplicitConversion: true},
+    })) paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
     return this.supplierService.findAllSupplier(paginationDto);
   }
