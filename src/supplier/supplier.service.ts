@@ -23,7 +23,6 @@ export class SupplierService {
 
   async findById(id: string): Promise<Supplier> {
     const supplier = await this.supplierRepository.findById(id);
-
     if (!supplier) {
       throw new NotFoundException(`ups supplier not found`);
       this.logger.warn(`supplier tidak ditemukan`);

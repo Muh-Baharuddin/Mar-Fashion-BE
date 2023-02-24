@@ -17,8 +17,8 @@ import { LoginResponse } from './types/login-response.type';
 export class AuthService {
   constructor(
     @Inject(AuthHelper)
-    @Inject(UsersRepository)
     private readonly authHelper: AuthHelper,
+    @Inject(UsersRepository)
     private readonly usersRepository: UsersRepository,
     private usersService: UsersService,
   ) {}
