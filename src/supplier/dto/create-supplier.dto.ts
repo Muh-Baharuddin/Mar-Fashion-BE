@@ -8,6 +8,6 @@ export class CreateSupplierDto {
   alamat: string;
 
   @IsNotEmpty({ message: 'nomor telepon tidak boleh kosong' })
-  @MinLength(10)
+  @MinLength(10, { message: 'nomor telepon harus lebih dari 9 digit' })
   nomor_telepon: string;
 }
