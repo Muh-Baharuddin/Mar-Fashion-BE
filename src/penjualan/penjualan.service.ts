@@ -1,8 +1,10 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreatePenjualanDto } from './dto/create-penjualan.dto';
+import { PaginationPenjualanDto } from './dto/pagination-penjualan.dto';
 import { UpdatePenjualanDto } from './dto/update-penjualan.dto';
 import { Penjualan } from './entities/penjualan.entity';
 import { PenjualanRepository } from './penjualan.repository';
+import { PenjualanResponse } from './types/penjualan.response.type';
 
 @Injectable()
 export class PenjualanService {
@@ -13,15 +15,10 @@ export class PenjualanService {
     private readonly penjualanRepository: PenjualanRepository,
   ) {}
 
-  async findAll(): Promise<Penjualan[]> {
-    const penjualan = await this.penjualanRepository.findAllPenjualan();
-
-    if (!penjualan.length) {
-      this.logger.warn(`penjualan tidak ketemu`);
-      throw new NotFoundException(`ups nota penjualan not found`);
-    }
-
-    return penjualan;
+  async findAll(
+    paginationPenjualanDto: PaginationPenjualanDto,
+  ): Promise<PenjualanResponse> {
+    return await this.penjualanRepository.findAllPenjualan(paginationPenjualanDto);
   }
 
   async findById(id: string) {

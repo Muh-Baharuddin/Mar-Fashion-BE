@@ -10,11 +10,14 @@ import {
   UsePipes,
   ValidationPipe,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { PenjualanService } from './penjualan.service';
 import { CreatePenjualanDto } from './dto/create-penjualan.dto';
 import { UpdatePenjualanDto } from './dto/update-penjualan.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { PaginationPenjualanDto } from './dto/pagination-penjualan.dto';
+import { PenjualanResponse } from './types/penjualan.response.type';
 
 @Controller('penjualan')
 @UseGuards(JwtAuthGuard)
@@ -22,8 +25,12 @@ export class PenjualanController {
   constructor(private readonly notaPenjualanService: PenjualanService) {}
 
   @Get()
-  findAll() {
-    return this.notaPenjualanService.findAll();
+  findAll(
+    @Query(new ValidationPipe({
+      transformOptions: {enableImplicitConversion: true},
+    })) paginationPenjualanDto: PaginationPenjualanDto,
+  ): Promise<PenjualanResponse> {
+    return this.notaPenjualanService.findAll(paginationPenjualanDto);
   }
 
   @Get(':id')
