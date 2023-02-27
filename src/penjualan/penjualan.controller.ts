@@ -11,15 +11,15 @@ import {
   ValidationPipe,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { NotaPenjualanService } from './nota-penjualan.service';
-import { CreateNotaPenjualanDto } from './dto/create-nota-penjualan.dto';
-import { UpdateNotaPenjualanDto } from './dto/update-nota-penjualan.dto';
+import { PenjualanService } from './penjualan.service';
+import { CreatePenjualanDto } from './dto/create-penjualan.dto';
+import { UpdatePenjualanDto } from './dto/update-penjualan.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
-@Controller('nota-penjualan')
+@Controller('penjualan')
 @UseGuards(JwtAuthGuard)
-export class NotaPenjualanController {
-  constructor(private readonly notaPenjualanService: NotaPenjualanService) {}
+export class PenjualanController {
+  constructor(private readonly notaPenjualanService: PenjualanService) {}
 
   @Get()
   findAll() {
@@ -33,17 +33,17 @@ export class NotaPenjualanController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createNotaPenjualanDto: CreateNotaPenjualanDto) {
-    return this.notaPenjualanService.createPenjualan(createNotaPenjualanDto);
+  create(@Body() createPenjualanDto: CreatePenjualanDto) {
+    return this.notaPenjualanService.createPenjualan(createPenjualanDto);
   }
 
   @Patch(':id')
   @UsePipes(ValidationPipe)
   update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateNotaPenjualanDto: UpdateNotaPenjualanDto,
+    @Body() updatePenjualanDto: UpdatePenjualanDto,
   ) {
-    return this.notaPenjualanService.update(id, updateNotaPenjualanDto);
+    return this.notaPenjualanService.update(id, updatePenjualanDto);
   }
 
   @Delete(':id')

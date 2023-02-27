@@ -1,4 +1,4 @@
-import { Penjualan } from "../entities/nota-penjualan.entity";
+import { Penjualan } from "../entities/penjualan.entity";
 
 export type PenjualanResponse = {
   data: Penjualan[];
