@@ -13,8 +13,8 @@ export class NotaPenjualan {
   barang: string;
 
   @Column()
-  jumlah: number;
+  jumlah_barang: number;
 
   @Column()
-  harga: number;
+  total_harga: number;
 }
