@@ -5,10 +5,10 @@ import {
   ManyToMany,
   Generated,
 } from 'typeorm';
-import { Barang } from './items.entity';
+import { Items } from './items.entity';
 
 @Entity()
-export class Kategori {
+export class Category {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
@@ -16,6 +16,6 @@ export class Kategori {
   @Column()
   nama: string;
 
-  @ManyToMany(() => Barang, (barang) => barang.kategori)
-  barang: Promise<Barang[]>;
+  @ManyToMany(() => Items, (barang) => barang.kategori)
+  barang: Promise<Items[]>;
 }

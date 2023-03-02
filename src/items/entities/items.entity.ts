@@ -6,10 +6,10 @@ import {
   JoinTable,
   Generated,
 } from 'typeorm';
-import { Kategori } from './category.entity';
+import { Category } from './category.entity';
 
 @Entity()
-export class Barang {
+export class Items {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
@@ -29,7 +29,7 @@ export class Barang {
   @Column()
   harga: number;
 
-  @ManyToMany(() => Kategori, (kategori) => kategori.barang)
+  @ManyToMany(() => Category, (kategori) => kategori.barang)
   @JoinTable()
-  kategori: Promise<Kategori[]>;
+  kategori: Promise<Category[]>;
 }
