@@ -13,27 +13,38 @@ export class PenjualanRepository {
   constructor(private dataSource: DataSource) {
     this.repository = this.dataSource.getRepository(Penjualan);
   }
-
-  async findAllPenjualan(
-    paginationPenjualanDto: PaginationPenjualanDto,
-  ): Promise<PenjualanResponse> {
-    let where: FindOptionsWhere<Penjualan>[];
+  async findAllPenjualan(paginationPenjualanDto: PaginationPenjualanDto): Promise<PenjualanResponse> {
+    const queryBuilder = this.repository.createQueryBuilder('penjualan');
+    console.log(paginationPenjualanDto.page)
+    
     if (paginationPenjualanDto.keywords) {
-      where = [
-        { tanggal: Between(new Date(paginationPenjualanDto.keywords), new Date(paginationPenjualanDto.keywords + ' 23:59:59'))},
-        { barang: ILike(`%${paginationPenjualanDto.keywords}%`)},
-        { jumlah_barang: Equal(Number(paginationPenjualanDto.keywords))},
-        { total_harga: Equal(Number(paginationPenjualanDto.keywords))},
-      ] 
+      queryBuilder.where(`penjualan.barang ILIKE '%${paginationPenjualanDto.keywords}%'`)
+                  .orWhere(`penjualan.total_harga = ${paginationPenjualanDto.keywords}`)
+                  .orWhere(`penjualan.jumlah_barang = ${paginationPenjualanDto.keywords}`)
+                  .orWhere(`penjualan.tanggal BETWEEN '${paginationPenjualanDto.keywords}' AND '${paginationPenjualanDto.keywords} 23:59:59'`);
+
+      // if (typeof paginationPenjualanDto.keywords === 'string') {
+      //   queryBuilder.where(`penjualan.barang ILIKE '%${paginationPenjualanDto.keywords}%'`)
+      //     .orWhere(`penjualan.total_harga = ${paginationPenjualanDto.keywords}`)
+      //     .orWhere(`penjualan.jumlah_barang = ${paginationPenjualanDto.keywords}`)
+      //     .orWhere(`penjualan.tanggal BETWEEN '${paginationPenjualanDto.keywords}' AND '${paginationPenjualanDto.keywords} 23:59:59'`);
+      // } else if (typeof paginationPenjualanDto.keywords === 'number') {
+      //   queryBuilder.where(`penjualan.total_harga = ${paginationPenjualanDto.keywords}`)
+      //     .orWhere(`penjualan.jumlah_barang = ${paginationPenjualanDto.keywords}`);
+      // } else if (paginationPenjualanDto.keywords instanceof Date) {
+      //   const startDate = new Date(paginationPenjualanDto.keywords);
+      //   const endDate = new Date(paginationPenjualanDto.keywords);
+      //   endDate.setHours(23, 59, 59, 999);
+      //   queryBuilder.where(`penjualan.tanggal BETWEEN :startDate AND :endDate`, { startDate, endDate });
+      // }
     }
-    const [data, total] = await this.repository.findAndCount({
-      where,
-      order: {
-        [paginationPenjualanDto.orderBy]: paginationPenjualanDto.orderType,
-      },
-      skip: (paginationPenjualanDto.page - 1) * paginationPenjualanDto.limit,
-      take: paginationPenjualanDto.limit,
-    });
+  
+    const [data, total] = await queryBuilder
+      // .orderBy(`penjualan.${paginationPenjualanDto.orderBy}`, paginationPenjualanDto.orderType)
+      .skip((paginationPenjualanDto.page - 1) * paginationPenjualanDto.limit)
+      .take(paginationPenjualanDto.limit)
+      .getManyAndCount();
+  
     return {
       data,
       total,

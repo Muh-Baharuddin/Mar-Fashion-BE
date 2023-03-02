@@ -1,9 +1,10 @@
 import { OmitType } from '@nestjs/mapped-types';
-import { IsIn, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsIn, IsOptional, IsString } from 'class-validator';
 import { PaginationSupplierDto } from 'src/supplier/dto/pagination-supplier.dto';
 
 export class PaginationPenjualanDto extends OmitType(PaginationSupplierDto, [
-    'orderBy', 'keywords',
+    'orderBy', 'keywords'
   ] as const) {
   @IsOptional()
   @IsIn(['tanggal', 'barang', 'jumlah_barang', 'total_harga'], {
@@ -13,5 +14,5 @@ export class PaginationPenjualanDto extends OmitType(PaginationSupplierDto, [
   readonly orderBy?: 'tanggal' | 'barang' | 'jumlah_barang' | 'total_harga' = 'tanggal';
 
   @IsOptional()
-  readonly keywords?: string | Date | number;
+  readonly keywords?: string | number | Date;
 }

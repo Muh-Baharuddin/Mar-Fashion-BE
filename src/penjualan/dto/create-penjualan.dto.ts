@@ -9,8 +9,8 @@ export class CreatePenjualanDto {
   barang: string;
 
   @IsNotEmpty({ message: 'jumlah barang yang terjual tidak boleh kosong' })
-  jumlah: number;
+  jumlah_barang: number;
 
-  @IsNotEmpty({ message: 'harga barang tidak boleh kosong' })
-  harga: number;
+  @IsNotEmpty({ message: 'total harga barang tidak boleh kosong' })
+  total_harga: number;
 }
