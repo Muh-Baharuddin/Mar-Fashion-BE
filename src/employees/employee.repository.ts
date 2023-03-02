@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { CreateKaryawanDto } from './dto/create-karyawan.dto';
-import { UpdateKaryawanDto } from './dto/update-karyawan.dto';
+import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Karyawan } from './entities/karyawan.entity';
 
 @Injectable()
-export class KaryawanRepository {
+export class EmployeeRepository {
   private repository: Repository<Karyawan>;
 
   constructor(private dataSource: DataSource) {
@@ -22,12 +22,12 @@ export class KaryawanRepository {
     });
   }
 
-  createKaryawan(createKaryawanDto: CreateKaryawanDto): Promise<Karyawan> {
-    return this.repository.save(createKaryawanDto);
+  createKaryawan(createEmployeeDto: CreateEmployeeDto): Promise<Karyawan> {
+    return this.repository.save(createEmployeeDto);
   }
 
-  async updateKaryawan(id: string, updateKaryawanDto: UpdateKaryawanDto) {
-    await this.repository.update(id, updateKaryawanDto);
+  async updateKaryawan(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+    await this.repository.update(id, updateEmployeeDto);
     return {
       message: 'karyawan berhasil diupdate',
     };

@@ -1,6 +1,6 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
-export class CreateKaryawanDto {
+export class CreateEmployeeDto {
   @IsNotEmpty({ message: 'nama tidak boleh kosong' })
   nama: string;
 
