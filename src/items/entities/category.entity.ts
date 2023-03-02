@@ -14,8 +14,8 @@ export class Category {
   id: string;
 
   @Column()
-  nama: string;
+  name: string;
 
-  @ManyToMany(() => Items, (barang) => barang.kategori)
-  barang: Promise<Items[]>;
+  @ManyToMany(() => Items, (item) => item.categories)
+  items: Promise<Items[]>;
 }
