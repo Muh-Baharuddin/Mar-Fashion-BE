@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BarangRepository } from './barang.repository';
 import { CreateBarangDto } from './dto/create-barang.dto';
 import { UpdateBarangDto } from './dto/update-barang.dto';
-import { Barang } from './entities/barang.entity';
+import { Barang } from './entities/items.entity';
 
 @Injectable()
 export class BarangService {

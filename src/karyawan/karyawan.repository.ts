@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { CreateKaryawanDto } from './dto/create-karyawan.dto';
 import { UpdateKaryawanDto } from './dto/update-karyawan.dto';
-import { Karyawan } from './entities/karyawan.entity';
+import { Karyawan } from './entities/employees.entity';
 
 @Injectable()
 export class KaryawanRepository {

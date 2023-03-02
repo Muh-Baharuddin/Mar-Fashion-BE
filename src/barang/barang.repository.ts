@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { CreateBarangDto } from './dto/create-barang.dto';
 import { UpdateBarangDto } from './dto/update-barang.dto';
-import { Barang } from './entities/barang.entity';
+import { Barang } from './entities/items.entity';
 
 @Injectable()
 export class BarangRepository {
