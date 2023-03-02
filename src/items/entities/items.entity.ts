@@ -5,6 +5,8 @@ import {
   ManyToMany,
   JoinTable,
   Generated,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Category } from './category.entity';
 
@@ -15,21 +17,30 @@ export class Items {
   id: string;
 
   @Column()
-  merek: string;
+  brand: string;
 
   @Column()
-  size: string;
+  capital_price: number;
 
   @Column()
-  warna: string;
+  wholescale_price: number;
 
   @Column()
-  stok: number;
+  stock: number;
 
-  @Column()
-  harga: number;
+  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP()" })
+  public created_at: Date;
 
-  @ManyToMany(() => Category, (kategori) => kategori.barang)
+  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP()", onUpdate: "CURRENT_TIMESTAMP()" })
+  public updated_at: Date;
+
+  @Column({nullable: true})
+  create_by: string;
+
+  @Column({nullable: true})
+  update_by: string;
+
+  @ManyToMany(() => Category, (category) => category.items)
   @JoinTable()
-  kategori: Promise<Category[]>;
+  categories: Promise<Category[]>;
 }
