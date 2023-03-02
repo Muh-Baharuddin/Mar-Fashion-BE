@@ -2,13 +2,15 @@ import { Transform } from "class-transformer";
 import { IsIn, IsInt, IsOptional, IsString, Min } from "class-validator";
 
 export class PaginationSupplierDto {
+  @IsOptional()
   @IsInt({ message: 'nilai pada page harus berupa angka' })
   @Min(1, { message: 'nilai pada page harus lebih besar dari 0' })
-  readonly page: number;
+  page: number = 1;
 
+  @IsOptional()
   @IsInt({ message: 'nilai pada limit harus berupa angka' })
   @Min(1, { message: 'nilai pada page harus lebih besar dari 0' })
-  readonly limit: number;
+  limit: number = 1;
 
   @IsOptional()
   @IsIn(['ASC', 'DESC'], { message: 'orderType harus merupakan salah satu dari ASC atau DESC' })

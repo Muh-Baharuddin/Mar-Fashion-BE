@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, Generated } from 'typeorm';
 
 @Entity()
-export class NotaPenjualan {
+export class Penjualan {
   @PrimaryGeneratedColumn()
   @Generated('uuid')
   id: string;
@@ -13,8 +13,8 @@ export class NotaPenjualan {
   barang: string;
 
   @Column()
-  jumlah: number;
+  jumlah_barang: number;
 
   @Column()
-  harga: number;
+  total_harga: number;
 }
