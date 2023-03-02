@@ -5,7 +5,7 @@ import {
   ManyToMany,
   Generated,
 } from 'typeorm';
-import { Items } from './items.entity';
+import { Item } from './items.entity';
 
 @Entity()
 export class Category {
@@ -16,6 +16,6 @@ export class Category {
   @Column()
   name: string;
 
-  @ManyToMany(() => Items, (item) => item.categories)
-  items: Promise<Items[]>;
+  @ManyToMany(() => Item, (item) => item.categories)
+  items: Promise<Item[]>;
 }

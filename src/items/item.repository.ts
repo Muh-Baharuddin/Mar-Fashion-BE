@@ -2,27 +2,27 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
-import { Items } from './entities/items.entity';
+import { Item } from './entities/items.entity';
 
 @Injectable()
 export class ItemRepository {
-  private repository: Repository<Items>;
+  private repository: Repository<Item>;
 
   constructor(private dataSource: DataSource) {
-    this.repository = this.dataSource.getRepository(Items);
+    this.repository = this.dataSource.getRepository(Item);
   }
 
-  findAllItems(): Promise<Items[]> {
+  findAllItems(): Promise<Item[]> {
     return this.repository.find();
   }
 
-  findById(id: string): Promise<Items> {
+  findById(id: string): Promise<Item> {
     return this.repository.findOne({
       where: { id },
     });
   }
 
-  createItems(createItemDto: CreateItemDto): Promise<Items> {
+  createItems(createItemDto: CreateItemDto): Promise<Item> {
     return this.repository.save(createItemDto);
   }
 
