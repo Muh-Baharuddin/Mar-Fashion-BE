@@ -7,11 +7,11 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Employee_Saving } from './employee_saving';
+import { Employee_Saving } from './employee_saving.entity';
 
 @Entity()
 export class Employees {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id_employee: string;
 

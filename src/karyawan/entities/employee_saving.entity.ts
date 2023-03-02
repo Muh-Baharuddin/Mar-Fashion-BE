@@ -16,7 +16,7 @@ enum TypeSaving {
 
 @Entity()
 export class Employee_Saving {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id_saving: string;
 
@@ -37,7 +37,7 @@ export class Employee_Saving {
   description: string;
 
   @ManyToOne(() => Employees, (employee) => employee.savings)
-  employee: Employees[];
+  employee: Employees;
 
   @CreateDateColumn({ 
     type: 'timestamp',
