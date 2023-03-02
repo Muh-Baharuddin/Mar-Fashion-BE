@@ -5,35 +5,39 @@ import {
   Generated,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { TypeSaving } from '../types/type-saving.enum';
+import { Employee } from './employees.entity';
 
-@Entity("employees")
-export class Employee {
+@Entity()
+export class Employee_Saving {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
 
   @Column()
-  name: string;
+  date: Date;
+
+  @Column({
+    type: 'enum',
+    enum: TypeSaving,
+    default: TypeSaving.SIMPANAN,
+  })
+  type: TypeSaving;
 
   @Column()
-  address: string;
+  total: number;
 
-  @Column()
-  phone_number: string;
+  @Column({ type: 'text' })
+  description: string;
 
-  @Column()
-  entry_date: Date;
-
-  @Column()
-  exit_date: Date;
-
-  @Column()
-  total_saving: number;
+  @ManyToOne(() => Employee, (employee) => employee.total_saving, { lazy: true })
+  employee: Promise<Employee>;
 
   @CreateDateColumn({ 
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP()' ,
+    default: () => 'CURRENT_TIMESTAMP()',
   })
   created_at: Date;
 
