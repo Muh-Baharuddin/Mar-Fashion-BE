@@ -5,42 +5,31 @@ import {
   ManyToMany,
   JoinTable,
   Generated,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { Category } from './category.entity';
+import { Kategori } from './category.entity';
 
 @Entity()
-export class Items {
+export class Barang {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
-  id_item: string;
+  id: string;
 
   @Column()
-  brand: string;
+  merek: string;
 
   @Column()
-  capital_price: number;
+  size: string;
 
   @Column()
-  wholescale_price: number;
+  warna: string;
 
   @Column()
-  stock: number;
+  stok: number;
 
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP()" })
-  public created_at: Date;
+  @Column()
+  harga: number;
 
-  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP()", onUpdate: "CURRENT_TIMESTAMP()" })
-  public updated_at: Date;
-
-  @Column({nullable: true})
-  create_by: string;
-
-  @Column({nullable: true})
-  update_by: string;
-
-  @ManyToMany(() => Category, (category) => category.items)
+  @ManyToMany(() => Kategori, (kategori) => kategori.barang)
   @JoinTable()
-  categories: Promise<Category[]>;
+  kategori: Promise<Kategori[]>;
 }
