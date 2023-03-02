@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, Generated } from 'typeorm';
 
 @Entity()
-export class NotaPembelian {
+export class Purchase {
   @PrimaryGeneratedColumn()
   @Generated('uuid')
   id: string;

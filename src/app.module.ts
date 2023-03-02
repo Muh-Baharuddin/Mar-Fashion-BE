@@ -5,11 +5,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { KaryawanModule } from './karyawan/karyawan.module';
+import { EmployeeModule } from './employees/employee.module';
 import { SupplierModule } from './supplier/supplier.module';
-import { BarangModule } from './barang/barang.module';
-import { NotaPembelianModule } from './nota-pembelian/nota-pembelian.module';
-import { PenjualanModule } from './penjualan/penjualan.module';
+import { BarangModule } from './items/barang.module';
+import { PurchaseModule } from './purchases/purchase.module';
+import { PenjualanModule } from './sales/penjualan.module';
 
 @Module({
   imports: [
@@ -27,10 +27,10 @@ import { PenjualanModule } from './penjualan/penjualan.module';
     }),
     UsersModule,
     AuthModule,
-    KaryawanModule,
+    EmployeeModule,
     SupplierModule,
     BarangModule,
-    NotaPembelianModule,
+    PurchaseModule,
     PenjualanModule,
   ],
   controllers: [AppController],
