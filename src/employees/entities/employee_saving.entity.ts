@@ -7,21 +7,17 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { Employees } from './employees.entity';
-
-enum TypeSaving {
-  SIMPANAN = 'SIMPANAN',
-  AMBILAN = 'AMBILAN',
-}
+import { TypeSaving } from '../types/type-saving.enum';
+import { Employee } from './employees.entity';
 
 @Entity()
 export class Employee_Saving {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
-  id_saving: string;
+  id: string;
 
   @Column()
-  tanggal: Date;
+  date: Date;
 
   @Column({
     type: 'enum',
@@ -36,8 +32,8 @@ export class Employee_Saving {
   @Column({ type: 'text' })
   description: string;
 
-  @ManyToOne(() => Employees, (employee) => employee.savings)
-  employee: Employees;
+  @ManyToOne(() => Employee, (employee) => employee.total_saving, { lazy: true })
+  employee: Promise<Employee>;
 
   @CreateDateColumn({ 
     type: 'timestamp',

@@ -9,14 +9,14 @@ import {
 } from 'typeorm';
 import { Employee_Saving } from './employee_saving.entity';
 
-@Entity()
-export class Employees {
+@Entity("employees")
+export class Employee {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
-  id_employee: string;
+  id: string;
 
   @Column()
-  nama: string;
+  name: string;
 
   @Column()
   address: string;
@@ -33,8 +33,8 @@ export class Employees {
   @Column()
   total_saving: number;
 
-  @OneToMany(() => Employee_Saving, saving => saving.employee)
-  savings: Employee_Saving[];
+  @OneToMany(() => Employee_Saving, saving => saving.employee, { lazy: true })
+  savings: Promise<Employee_Saving[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',
