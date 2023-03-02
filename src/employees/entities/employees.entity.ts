@@ -5,9 +5,7 @@ import {
   Generated,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
 } from 'typeorm';
-import { Employee_Saving } from './employee_saving.entity';
 
 @Entity("employees")
 export class Employee {
@@ -32,9 +30,6 @@ export class Employee {
 
   @Column()
   total_saving: number;
-
-  @OneToMany(() => Employee_Saving, saving => saving.employee, { lazy: true })
-  // savings: Promise<Employee_Saving[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',
