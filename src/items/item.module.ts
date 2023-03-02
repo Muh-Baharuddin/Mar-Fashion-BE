@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { BarangService } from './item.service';
-import { BarangController } from './item.controller';
+import { ItemService } from './item.service';
+import { ItemsController } from './item.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Barang } from './entities/items.entity';
-import { Kategori } from './entities/category.entity';
-import { BarangRepository } from './item.repository';
+import { Items } from './entities/items.entity';
+import { Category } from './entities/category.entity';
+import { ItemRepository } from './item.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Barang, Kategori])],
-  controllers: [BarangController],
-  providers: [BarangService, BarangRepository],
+  imports: [TypeOrmModule.forFeature([Items, Category])],
+  controllers: [ItemsController],
+  providers: [ItemService, ItemRepository],
 })
-export class BarangModule {}
+export class ItemsModule {}
