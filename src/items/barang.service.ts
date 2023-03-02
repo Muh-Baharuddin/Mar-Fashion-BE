@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BarangRepository } from './barang.repository';
-import { CreateBarangDto } from './dto/create-barang.dto';
-import { UpdateBarangDto } from './dto/update-barang.dto';
+import { CreateBarangDto } from './dto/create-item.dto';
+import { UpdateBarangDto } from './dto/update-item.dto';
 import { Barang } from './entities/items.entity';
 
 @Injectable()

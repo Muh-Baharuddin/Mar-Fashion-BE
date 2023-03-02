@@ -13,8 +13,8 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { BarangService } from './barang.service';
-import { CreateBarangDto } from './dto/create-barang.dto';
-import { UpdateBarangDto } from './dto/update-barang.dto';
+import { CreateBarangDto } from './dto/create-item.dto';
+import { UpdateBarangDto } from './dto/update-item.dto';
 import { Barang } from './entities/items.entity';
 
 @Controller('barang')
