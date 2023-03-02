@@ -34,7 +34,7 @@ export class Employee {
   total_saving: number;
 
   @OneToMany(() => Employee_Saving, saving => saving.employee, { lazy: true })
-  savings: Promise<Employee_Saving[]>;
+  // savings: Promise<Employee_Saving[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',

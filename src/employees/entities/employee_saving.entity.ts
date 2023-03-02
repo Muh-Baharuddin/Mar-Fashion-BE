@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 import { TypeSaving } from '../types/type-saving.enum';
 import { Employee } from './employees.entity';
