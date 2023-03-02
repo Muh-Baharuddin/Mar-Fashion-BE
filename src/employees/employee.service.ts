@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Karyawan } from './entities/karyawan.entity';
+import { Employees } from './entities/Employees.entity';
 import { EmployeeRepository } from './employee.repository';
 
 @Injectable()
@@ -13,47 +13,47 @@ export class EmployeeService {
     private readonly employeeRepository: EmployeeRepository,
   ) {}
 
-  async findAllKaryawan(): Promise<Karyawan[]> {
-    const employee = await this.employeeRepository.findAllKaryawan();
+  async findAllEmployees(): Promise<Employees[]> {
+    const employee = await this.employeeRepository.findAllEmployees();
 
     if (!employee.length) {
-      throw new NotFoundException(`ups karyawan not found`);
-      this.logger.warn(`karyawan tidak ketemu`);
+      throw new NotFoundException(`ups Employees not found`);
+      this.logger.warn(`employees not found`);
     }
     return employee;
   }
 
-  async findById(id: string): Promise<Karyawan> {
-    const karyawan = await this.employeeRepository.findById(id);
+  async findById(id: string): Promise<Employees> {
+    const Employees = await this.employeeRepository.findById(id);
 
-    if (!karyawan) {
-      throw new NotFoundException(`ups karyawan not found`);
-      this.logger.warn(`karyawan tidak ketemu`);
+    if (!Employees) {
+      throw new NotFoundException(`ups Employees not found`);
+      this.logger.warn(`employees not found`);
     }
-    return karyawan;
+    return Employees;
   }
 
-  createKaryawan(createEmployeeDto: CreateEmployeeDto): Promise<Karyawan> {
-    return this.employeeRepository.createKaryawan(createEmployeeDto);
+  createEmployees(createEmployeeDto: CreateEmployeeDto): Promise<Employees> {
+    return this.employeeRepository.createEmployees(createEmployeeDto);
   }
 
-  async updateKaryawan(id: string, updateEmployeeDto: UpdateEmployeeDto) {
-    const karyawan = await this.employeeRepository.findById(id);
+  async updateEmployees(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+    const Employees = await this.employeeRepository.findById(id);
 
-    if (!karyawan) {
-      throw new NotFoundException(`ups karyawan not found`);
-      this.logger.warn(`karyawan tidak ketemu`);
+    if (!Employees) {
+      throw new NotFoundException(`ups Employees not found`);
+      this.logger.warn(`employees not found`);
     }
-    return this.employeeRepository.updateKaryawan(id, updateEmployeeDto);
+    return this.employeeRepository.updateEmployees(id, updateEmployeeDto);
   }
 
-  async removeKaryawan(id: string) {
-    const karyawan = await this.employeeRepository.findById(id);
+  async removeEmployees(id: string) {
+    const Employees = await this.employeeRepository.findById(id);
 
-    if (!karyawan) {
-      throw new NotFoundException(`ups karyawan not found`);
-      this.logger.warn(`karyawan tidak ketemu`);
+    if (!Employees) {
+      throw new NotFoundException(`ups Employees not found`);
+      this.logger.warn(`employees not found`);
     }
-    return this.employeeRepository.removeKaryawan(id);
+    return this.employeeRepository.removeEmployees(id);
   }
 }

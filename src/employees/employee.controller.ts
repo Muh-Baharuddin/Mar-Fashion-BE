@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Karyawan } from './entities/karyawan.entity';
+import { Employees } from './entities/employees.entity';
 import { EmployeeService } from './employee.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
@@ -24,18 +24,18 @@ export class EmployeeController {
 
   @Get()
   findAll() {
-    return this.employeeService.findAllKaryawan();
+    return this.employeeService.findAllEmployees();
   }
 
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Karyawan> {
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Employees> {
     return this.employeeService.findById(id);
   }
 
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeeService.createKaryawan(createEmployeeDto);
+    return this.employeeService.createEmployees(createEmployeeDto);
   }
 
   @Patch(':id')
@@ -44,11 +44,11 @@ export class EmployeeController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
   ) {
-    return this.employeeService.updateKaryawan(id, updateEmployeeDto);
+    return this.employeeService.updateEmployees(id, updateEmployeeDto);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.employeeService.removeKaryawan(id);
+    return this.employeeService.removeEmployees(id);
   }
 }

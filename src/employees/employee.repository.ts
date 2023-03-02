@@ -2,41 +2,41 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Karyawan } from './entities/karyawan.entity';
+import { Employees } from './entities/Employees.entity';
 
 @Injectable()
 export class EmployeeRepository {
-  private repository: Repository<Karyawan>;
+  private repository: Repository<Employees>;
 
   constructor(private dataSource: DataSource) {
-    this.repository = this.dataSource.getRepository(Karyawan);
+    this.repository = this.dataSource.getRepository(Employees);
   }
 
-  findAllKaryawan(): Promise<Karyawan[]> {
+  findAllEmployees(): Promise<Employees[]> {
     return this.repository.find();
   }
 
-  findById(id: string): Promise<Karyawan> {
+  findById(id_employee: string): Promise<Employees> {
     return this.repository.findOne({
-      where: { id },
+      where: { id_employee },
     });
   }
 
-  createKaryawan(createEmployeeDto: CreateEmployeeDto): Promise<Karyawan> {
+  createEmployees(createEmployeeDto: CreateEmployeeDto): Promise<Employees> {
     return this.repository.save(createEmployeeDto);
   }
 
-  async updateKaryawan(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+  async updateEmployees(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     await this.repository.update(id, updateEmployeeDto);
     return {
-      message: 'karyawan berhasil diupdate',
+      message: 'Update Empolyee Success',
     };
   }
 
-  async removeKaryawan(id: string) {
+  async removeEmployees(id: string) {
     await this.repository.delete(id);
     return {
-      message: 'karyawan berhasil dihapus',
+      message: 'Delete Employee Success',
     };
   }
 }
