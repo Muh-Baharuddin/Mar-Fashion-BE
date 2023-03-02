@@ -16,9 +16,9 @@ export class ItemRepository {
     return this.repository.find();
   }
 
-  findById(id_item: string): Promise<Items> {
+  findById(id: string): Promise<Items> {
     return this.repository.findOne({
-      where: { id_item },
+      where: { id },
     });
   }
 
