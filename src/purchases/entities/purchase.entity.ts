@@ -2,7 +2,7 @@ import { Item } from '../../items/entities/items.entity';
 import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, ManyToMany, ManyToOne } from 'typeorm';
 import { TypeUnit } from '../types/type-unit.enum';
 
-@Entity('Purchases')
+@Entity('purchases')
 export class Purchase {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')

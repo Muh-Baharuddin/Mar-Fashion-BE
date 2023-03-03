@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer';
 import { IsIn, IsOptional, IsString } from 'class-validator';
 import { PaginationSupplierDto } from 'src/supplier/dto/pagination-supplier.dto';
 
-export class PaginationPenjualanDto extends OmitType(PaginationSupplierDto, [
+export class PaginationSaleDto extends OmitType(PaginationSupplierDto, [
     'orderBy', 'keywords'
   ] as const) {
   @IsOptional()

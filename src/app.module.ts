@@ -9,7 +9,7 @@ import { EmployeeModule } from './employees/employee.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { ItemsModule } from './items/item.module';
 import { PurchaseModule } from './purchases/purchase.module';
-import { PenjualanModule } from './sales/penjualan.module';
+import { SaleModule } from './sales/sale.module';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { PenjualanModule } from './sales/penjualan.module';
     SupplierModule,
     ItemsModule,
     PurchaseModule,
-    PenjualanModule,
+    SaleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
