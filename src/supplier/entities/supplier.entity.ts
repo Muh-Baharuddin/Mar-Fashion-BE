@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Purchase } from '../../purchases/entities/purchase.entity';
 
 @Entity('suppliers')
 export class Supplier {
@@ -23,6 +24,9 @@ export class Supplier {
 
   @Column()
   account_owner: string;
+
+  @OneToMany(() => Purchase, purchase => purchase.supplier, { lazy: true })
+  purchases: Promise<Purchase[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',
