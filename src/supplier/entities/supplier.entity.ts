@@ -1,4 +1,4 @@
-import { Item } from 'src/items/entities/items.entity';
+import { Item } from '../../items/entities/items.entity';
 import { Entity, Column, PrimaryGeneratedColumn, Generated, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
 
