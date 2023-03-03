@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Purchase } from '../../purchases/entities/purchase.entity';
 import { Category } from './category.entity';
 
 @Entity('items')
@@ -43,4 +44,8 @@ export class Item {
   @ManyToMany(() => Category, (category) => category.items)
   @JoinTable()
   categories: Promise<Category[]>;
+
+  @ManyToMany(() => Purchase, (purchases) => purchases.items)
+  @JoinTable()
+  purchases: Promise<Purchase[]>;
 }

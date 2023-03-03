@@ -7,7 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { EmployeeModule } from './employees/employee.module';
 import { SupplierModule } from './supplier/supplier.module';
-import { BarangModule } from './items/barang.module';
+import { ItemsModule } from './items/item.module';
 import { PurchaseModule } from './purchases/purchase.module';
 import { PenjualanModule } from './sales/penjualan.module';
 
@@ -29,7 +29,7 @@ import { PenjualanModule } from './sales/penjualan.module';
     AuthModule,
     EmployeeModule,
     SupplierModule,
-    BarangModule,
+    ItemsModule,
     PurchaseModule,
     PenjualanModule,
   ],
