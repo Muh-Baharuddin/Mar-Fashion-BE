@@ -7,8 +7,10 @@ import {
   Generated,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
+import { Supplier } from '../../supplier/entities/supplier.entity';
 import { Category } from './category.entity';
 
 @Entity('items')
@@ -40,6 +42,9 @@ export class Item {
 
   @Column({nullable: true})
   update_by: string;
+
+  @ManyToOne(() => Supplier, (supplier) => supplier.items, { lazy: true })
+  supplier: Promise<Supplier>
 
   @ManyToMany(() => Category, (category) => category.items)
   @JoinTable()

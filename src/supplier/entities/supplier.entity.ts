@@ -1,17 +1,56 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated } from 'typeorm';
+import { Item } from '../../items/entities/items.entity';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Purchase } from '../../purchases/entities/purchase.entity';
 
-@Entity()
+@Entity('suppliers')
 export class Supplier {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
 
   @Column()
-  nama: string;
+  name: string;
 
   @Column()
-  alamat: string;
+  address: string;
 
   @Column()
-  nomor_telepon: string;
+  city: string;
+
+  @Column()
+  phone_number: string;
+
+  @Column()
+  account_number: string;
+
+  @Column()
+  account_owner: string;
+
+  @Column()
+  bank: string;
+
+  @OneToMany(() => Purchase, purchase => purchase.supplier, { lazy: true })
+  purchases: Promise<Purchase[]>;
+
+  @OneToMany(() => Item, item => item.supplier, { lazy: true })
+  items: Promise<Item[]>
+
+  @CreateDateColumn({ 
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP()' ,
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP()',
+    onUpdate: 'CURRENT_TIMESTAMP()',
+  })
+  updated_at: Date;
+
+  @Column({ nullable: true })
+  create_by: string;
+
+  @Column({ nullable: true })
+  update_by: string;
 }

@@ -1,6 +1,7 @@
-import { Item } from '../../items/entities/items.entity';
 import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { Item } from '../../items/entities/items.entity';
 import { TypeUnit } from '../types/type-unit.enum';
+import { Supplier } from '../../supplier/entities/supplier.entity';
 
 @Entity('purchases')
 export class Purchase {
@@ -42,4 +43,7 @@ export class Purchase {
 
   @ManyToMany(() => Item, (items) => items.purchases)
   items: Promise<Item[]>;
+
+  @ManyToOne(() => Supplier, supplier => supplier.purchases, { lazy: true })
+  supplier: Promise<Supplier>;
 }
