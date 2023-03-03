@@ -1,3 +1,4 @@
+import { Item } from 'src/items/entities/items.entity';
 import { Entity, Column, PrimaryGeneratedColumn, Generated, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
 
@@ -27,6 +28,9 @@ export class Supplier {
 
   @OneToMany(() => Purchase, purchase => purchase.supplier, { lazy: true })
   purchases: Promise<Purchase[]>;
+
+  @OneToMany(() => Item, item => item.supplier, { lazy: true })
+  items: Promise<Item[]>
 
   @CreateDateColumn({ 
     type: 'timestamp',
