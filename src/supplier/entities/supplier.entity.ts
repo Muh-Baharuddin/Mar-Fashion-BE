@@ -26,6 +26,9 @@ export class Supplier {
   @Column()
   account_owner: string;
 
+  @Column()
+  bank: string;
+
   @OneToMany(() => Purchase, purchase => purchase.supplier, { lazy: true })
   purchases: Promise<Purchase[]>;
 
