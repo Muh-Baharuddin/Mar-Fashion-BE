@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Employees } from './entities/employees.entity';
+import { Employee } from './entities/employees.entity';
 import { EmployeeService } from './employee.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
@@ -28,7 +28,7 @@ export class EmployeeController {
   }
 
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Employees> {
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Employee> {
     return this.employeeService.findById(id);
   }
 
