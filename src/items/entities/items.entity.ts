@@ -1,3 +1,4 @@
+import { Sale } from 'src/sales/entities/sale.entity';
 import {
   Entity,
   Column,
@@ -44,7 +45,10 @@ export class Item {
   update_by: string;
 
   @ManyToOne(() => Supplier, (supplier) => supplier.items, { lazy: true })
-  supplier: Promise<Supplier>
+  supplier: Promise<Supplier>;
+
+  @ManyToOne(() => Sale, (sale) => sale.items, { lazy: true })
+  sale: Promise<Sale>;
 
   @ManyToMany(() => Category, (category) => category.items)
   @JoinTable()
