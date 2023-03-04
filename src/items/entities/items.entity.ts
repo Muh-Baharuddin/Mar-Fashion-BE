@@ -1,4 +1,3 @@
-import { Sale } from 'src/sales/entities/sale.entity';
 import {
   Entity,
   Column,
@@ -12,6 +11,7 @@ import {
 } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
 import { Supplier } from '../../supplier/entities/supplier.entity';
+import { Sale } from '../../sales/entities/sale.entity';
 import { Category } from './category.entity';
 
 @Entity('items')
