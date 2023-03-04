@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateSaleAndItem1677921365908 implements MigrationInterface {
-    name = 'CreateSaleAndItem1677921365908'
+export class CreateSaleAndItem1677939747100 implements MigrationInterface {
+    name = 'CreateSaleAndItem1677939747100'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "sales" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date" TIMESTAMP NOT NULL, "unit" "public"."sales_unit_enum" NOT NULL DEFAULT 'PCS', "total_sales" integer NOT NULL, "total_price" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "create_by" character varying, "update_by" character varying, "customerId" uuid, CONSTRAINT "REL_3a92cf6add00043cef9833db1c" UNIQUE ("customerId"), CONSTRAINT "PK_4f0bc990ae81dba46da680895ea" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "sales" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date" TIMESTAMP NOT NULL, "unit" "public"."sales_unit_enum" NOT NULL DEFAULT 'PCS', "total_sales" integer NOT NULL, "total_price" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "create_by" character varying, "update_by" character varying, "customerId" uuid, CONSTRAINT "PK_4f0bc990ae81dba46da680895ea" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "items" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "brand" character varying NOT NULL, "capital_price" integer NOT NULL, "wholescale_price" integer NOT NULL, "stock" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "create_by" character varying, "update_by" character varying, "supplierId" uuid, "saleId" uuid, CONSTRAINT "PK_ba5885359424c15ca6b9e79bcf6" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "items_categories_category" ("itemsId" uuid NOT NULL, "categoryId" uuid NOT NULL, CONSTRAINT "PK_11bbdf027d8cd6df6519849d346" PRIMARY KEY ("itemsId", "categoryId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_b0021f79b69796d60bb4ba37a9" ON "items_categories_category" ("itemsId") `);

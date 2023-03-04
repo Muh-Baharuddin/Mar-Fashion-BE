@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { Sale } from './sale.entity';
 
 @Entity('customers')
@@ -16,8 +16,8 @@ export class Customer {
   @Column()
   city: string;
 
-  @OneToOne(() => Sale, (sale) => sale.customer, { lazy: true })
-  sale: Promise<Sale>
+  @OneToMany(() => Sale, (sale) => sale.customer, { lazy: true })
+  sale: Promise<Sale[]>
 
   @CreateDateColumn({ 
     type: 'timestamp',
