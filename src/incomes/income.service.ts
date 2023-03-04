@@ -3,7 +3,7 @@ import { CreateIncomeDto } from './dto/create-income.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
 
 @Injectable()
-export class IncomesService {
+export class IncomeService {
   create(createIncomeDto: CreateIncomeDto) {
     return 'This action adds a new income';
   }
