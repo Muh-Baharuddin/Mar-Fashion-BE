@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Customer } from './customer.entity';
 import { TypeUnit } from '../../purchases/types/type-unit.enum';
 
@@ -25,6 +25,7 @@ export class Sale {
   total_price: number;
 
   @OneToOne(() => Customer, (customer) => customer.sale, { lazy: true })
+  @JoinColumn()
   customer: Promise<Customer>
 
   @CreateDateColumn({ 
