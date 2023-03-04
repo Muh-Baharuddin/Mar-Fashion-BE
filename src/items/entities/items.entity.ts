@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
 import { Supplier } from '../../supplier/entities/supplier.entity';
+import { Sale } from '../../sales/entities/sale.entity';
 import { Category } from './category.entity';
 
 @Entity('items')
@@ -44,7 +45,10 @@ export class Item {
   update_by: string;
 
   @ManyToOne(() => Supplier, (supplier) => supplier.items, { lazy: true })
-  supplier: Promise<Supplier>
+  supplier: Promise<Supplier>;
+
+  @ManyToOne(() => Sale, (sale) => sale.items, { lazy: true })
+  sale: Promise<Sale>;
 
   @ManyToMany(() => Category, (category) => category.items)
   @JoinTable()
