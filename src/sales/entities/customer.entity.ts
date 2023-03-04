@@ -1,19 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 
-@Entity('sales')
-export class Sale {
+@Entity('customers')
+export class Customer {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
 
   @Column()
-  date: Date;
+  name: string;
 
   @Column()
-  total_sales: number;
+  address: string;
 
   @Column()
-  total_price: number;
+  city: string;
 
   @CreateDateColumn({ 
     type: 'timestamp',
