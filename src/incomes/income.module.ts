@@ -6,4 +6,4 @@ import { IncomeController } from './income.controller';
   controllers: [IncomeController],
   providers: [IncomeService]
 })
-export class IncomesModule {}
+export class IncomeModule {}
