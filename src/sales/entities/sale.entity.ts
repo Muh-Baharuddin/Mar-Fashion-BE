@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToOne } from 'typeorm';
 
 @Entity('sales')
 export class Sale {
@@ -7,14 +7,30 @@ export class Sale {
   id: string;
 
   @Column()
-  tanggal: Date;
+  date: Date;
 
   @Column()
-  barang: string;
+  total_sales: number;
 
   @Column()
-  jumlah_barang: number;
+  total_price: number;
 
-  @Column()
-  total_harga: number;
+  @CreateDateColumn({ 
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP()' ,
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP()',
+    onUpdate: 'CURRENT_TIMESTAMP()',
+  })
+  updated_at: Date;
+
+  @Column({ nullable: true })
+  create_by: string;
+
+  @Column({ nullable: true })
+  update_by: string;
 }
