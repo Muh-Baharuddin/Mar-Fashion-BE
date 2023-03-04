@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, Cr
 import { Customer } from './customer.entity';
 import { TypeUnit } from '../../purchases/types/type-unit.enum';
 import { Item } from '../../items/entities/items.entity';
-import { Income } from '../../incomes/entities/income.entity';
 
 @Entity('sales')
 export class Sale {
@@ -28,9 +27,6 @@ export class Sale {
 
   @ManyToOne(() => Customer, (customer) => customer.sale, { lazy: true })
   customer: Promise<Customer>;
-
-  @ManyToOne(() => Income, (income) => income.sales, { lazy: true })
-  income: Promise<Income>
 
   @OneToMany(() => Item, (items) => items.sale, { lazy: true })
   items: Promise<Item[]>;
