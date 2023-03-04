@@ -1,1 +1,6 @@
-export class Income {}
+import { Entity } from "typeorm";
+
+@Entity()
+export class Income {
+  
+}
