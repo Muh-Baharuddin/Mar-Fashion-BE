@@ -15,7 +15,7 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
-import { Items } from './entities/items.entity';
+import { Item } from './entities/items.entity';
 
 @Controller('item')
 @UseGuards(JwtAuthGuard)
@@ -28,7 +28,7 @@ export class ItemsController {
   }
 
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Items> {
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
     return this.itemService.findById(id);
   }
 
