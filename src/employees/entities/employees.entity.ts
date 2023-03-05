@@ -25,7 +25,7 @@ export class Employee {
   @Column()
   entry_date: Date;
 
-  @Column()
+  @Column({ nullable: true })
   exit_date: Date;
 
   @Column()
