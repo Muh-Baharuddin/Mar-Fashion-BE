@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ItemRepository } from './item.repository';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
-import { Items } from './entities/items.entity';
+import { Item } from './entities/items.entity';
 
 @Injectable()
 export class ItemService {
@@ -13,7 +13,7 @@ export class ItemService {
     private readonly itemRepository: ItemRepository,
   ) {}
 
-  async findAllItems(): Promise<Items[]> {
+  async findAllItems(): Promise<Item[]> {
     const items = await this.itemRepository.findAllItems();
 
     if (!items.length) {
@@ -23,7 +23,7 @@ export class ItemService {
     return items;
   }
 
-  async findById(id: string): Promise<Items> {
+  async findById(id: string): Promise<Item> {
     const items = await this.itemRepository.findById(id);
 
     if (!items) {
@@ -33,7 +33,7 @@ export class ItemService {
     return items;
   }
 
-  createItems(createItemDto: CreateItemDto): Promise<Items> {
+  createItems(createItemDto: CreateItemDto): Promise<Item> {
     return this.itemRepository.createItems(createItemDto);
   }
 

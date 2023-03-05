@@ -1,13 +1,23 @@
-import { IsNotEmpty, MinLength } from 'class-validator';
+import { IsDateString, IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateEmployeeDto {
-  @IsNotEmpty({ message: 'nama tidak boleh kosong' })
-  nama: string;
+  @IsNotEmpty()
+  name: string;
 
-  @IsNotEmpty({ message: 'alamat tidak boleh kosong' })
-  alamat: string;
+  @IsNotEmpty()
+  address: string;
 
-  @IsNotEmpty({ message: 'nomor telepon tidak boleh kosong' })
+  @IsNotEmpty()
   @MinLength(10)
-  nomor_telepon: string;
+  phone_number: string;
+
+  @IsNotEmpty()
+  @IsDateString()
+  entry_date: Date;
+
+  @IsDateString()
+  exit_date: Date;
+
+  @IsNotEmpty()
+  total_saving: number;
 }
