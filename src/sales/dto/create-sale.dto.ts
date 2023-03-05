@@ -1,16 +1,17 @@
 import { IsNotEmpty, IsDateString } from 'class-validator';
+import { TypeUnit } from '../../purchases/types/type-unit.enum';
 
 export class CreateSaleDto {
-  @IsNotEmpty({ message: 'tanggal tidak boleh kosong' })
+  @IsNotEmpty()
   @IsDateString()
-  tanggal: Date;
+  date: Date;
 
-  @IsNotEmpty({ message: 'barang tidak boleh kosong' })
-  barang: string;
+  @IsNotEmpty()
+  unit: TypeUnit;
 
-  @IsNotEmpty({ message: 'jumlah barang yang terjual tidak boleh kosong' })
-  jumlah_barang: number;
+  @IsNotEmpty()
+  total_sales: number;
 
-  @IsNotEmpty({ message: 'total harga barang tidak boleh kosong' })
-  total_harga: number;
+  @IsNotEmpty()
+  total_price: number;
 }
