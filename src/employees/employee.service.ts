@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Employees } from './entities/Employees.entity';
+import { Employee } from './entities/Employees.entity';
 import { EmployeeRepository } from './employee.repository';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class EmployeeService {
     private readonly employeeRepository: EmployeeRepository,
   ) {}
 
-  async findAllEmployees(): Promise<Employees[]> {
+  async findAllEmployees(): Promise<Employee[]> {
     const employee = await this.employeeRepository.findAllEmployees();
 
     if (!employee.length) {
@@ -23,7 +23,7 @@ export class EmployeeService {
     return employee;
   }
 
-  async findById(id: string): Promise<Employees> {
+  async findById(id: string): Promise<Employee> {
     const Employees = await this.employeeRepository.findById(id);
 
     if (!Employees) {
@@ -33,7 +33,7 @@ export class EmployeeService {
     return Employees;
   }
 
-  createEmployees(createEmployeeDto: CreateEmployeeDto): Promise<Employees> {
+  createEmployees(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
     return this.employeeRepository.createEmployees(createEmployeeDto);
   }
 
