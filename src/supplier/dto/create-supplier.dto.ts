@@ -1,13 +1,26 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateSupplierDto {
-  @IsNotEmpty({ message: 'nama tidak boleh kosong' })
-  nama: string;
+  @IsNotEmpty()
+  name: string;
 
-  @IsNotEmpty({ message: 'alamat tidak boleh kosong' })
-  alamat: string;
+  @IsNotEmpty()
+  address: string;
 
-  @IsNotEmpty({ message: 'nomor telepon tidak boleh kosong' })
-  @MinLength(10, { message: 'nomor telepon harus lebih dari 9 digit' })
-  nomor_telepon: string;
+  @IsNotEmpty()
+  city: string;
+
+  @IsNotEmpty()
+  @MinLength(10)
+  phone_number: string;
+
+  @IsNotEmpty()
+  @MinLength(10)
+  account_number: string;
+
+  @IsNotEmpty()
+  account_owner: string;
+
+  @IsNotEmpty()
+  bank: string;
 }
