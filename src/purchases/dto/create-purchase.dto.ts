@@ -1,16 +1,14 @@
 import { IsNotEmpty, IsDateString } from 'class-validator';
+import { TypeUnit } from '../types/type-unit.enum';
 
 export class CreatePurchaseDto {
-  @IsNotEmpty({ message: 'date cannot be empty' })
+  @IsNotEmpty()
   @IsDateString()
-  tanggal: Date;
+  date: Date;
 
-  @IsNotEmpty({ message: 'supplier cannot be empty' })
-  supplier: string;
+  @IsNotEmpty()
+  unit: TypeUnit;
 
-  @IsNotEmpty({ message: 'item cannot be empty' })
-  barang: string;
-
-  @IsNotEmpty({ message: 'cost cannot be empty' })
-  biaya: number;
+  @IsNotEmpty()
+  cost: number;
 }
