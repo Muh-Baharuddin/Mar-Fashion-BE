@@ -8,9 +8,9 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { TypeSaving } from '../types/type-saving.enum';
-import { Employee } from './employees.entity';
+import { Employee } from './Employees.entity';
 
-@Entity()
+@Entity('employee_Savings')
 export class Employee_Saving {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
