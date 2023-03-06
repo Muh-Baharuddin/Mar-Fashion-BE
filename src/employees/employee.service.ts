@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Employee } from './entities/Employees.entity';
+import { Employee } from './entities/employee.entity';
 import { EmployeeRepository } from './employee.repository';
 
 @Injectable()

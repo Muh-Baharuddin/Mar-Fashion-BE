@@ -20,9 +20,13 @@ export class SupplierRepository {
     let where: FindOptionsWhere<Supplier>[];
     if (paginationDto.keywords) {
       where = [
-        { nama :  ILike(`%${paginationDto.keywords}%`)},
-        { alamat: ILike(`%${paginationDto.keywords}%`)},
-        { nomor_telepon: ILike(`%${paginationDto.keywords}%`)},
+        { name :  ILike(`%${paginationDto.keywords}%`)},
+        { address: ILike(`%${paginationDto.keywords}%`)},
+        { city: ILike(`%${paginationDto.keywords}%`)},
+        { phone_number: ILike(`%${paginationDto.keywords}%`)},
+        { account_number: ILike(`%${paginationDto.keywords}%`)},
+        { account_owner: ILike(`%${paginationDto.keywords}%`)},
+        { bank: ILike(`%${paginationDto.keywords}%`)},
       ] 
     }
     const [data, total] = await this.repository.findAndCount({
