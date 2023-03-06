@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -16,6 +17,8 @@ import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/items.entity';
+import { PaginationItemDto } from './dto/pagination-item.dto';
+import { ItemResponse } from './types/item.response.type';
 
 @Controller('item')
 @UseGuards(JwtAuthGuard)
@@ -23,8 +26,12 @@ export class ItemsController {
   constructor(private readonly itemService: ItemService) {}
 
   @Get()
-  findAll() {
-    return this.itemService.findAllItems();
+  async findAllItems(
+    @Query(new ValidationPipe({
+      transformOptions: {enableImplicitConversion: true},
+    })) paginationDto: PaginationItemDto,
+  ): Promise<ItemResponse>{
+    return this.itemService.findAllItems(paginationDto);
   }
 
   @Get(':id')
