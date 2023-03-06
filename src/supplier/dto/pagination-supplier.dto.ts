@@ -3,25 +3,28 @@ import { IsIn, IsInt, IsOptional, IsString, Min } from "class-validator";
 
 export class PaginationSupplierDto {
   @IsOptional()
-  @IsInt({ message: 'nilai pada page harus berupa angka' })
-  @Min(1, { message: 'nilai pada page harus lebih besar dari 0' })
+  @IsInt()
+  @Min(1)
   page: number = 1;
 
   @IsOptional()
-  @IsInt({ message: 'nilai pada limit harus berupa angka' })
-  @Min(1, { message: 'nilai pada page harus lebih besar dari 0' })
+  @IsInt()
+  @Min(1)
   limit: number = 1;
 
   @IsOptional()
-  @IsIn(['ASC', 'DESC'], { message: 'orderType harus merupakan salah satu dari ASC atau DESC' })
+  @IsIn(['ASC', 'DESC'])
   readonly orderType?: 'ASC' | 'DESC' = 'ASC';
 
   @IsOptional()
-  @IsIn(['nama', 'alamat', 'nomor_telepon'], { message: 'orderType harus merupakan salah satu dari nama, alamat atau nomor_telepon' })
-  readonly orderBy?: 'nama' | 'alamat' | 'nomor_telepon' = 'nama';
+  @IsIn(['name', 'address', 'city', 'phone_number', 'account_number', 'account_owner', 'bank'])
+  readonly orderBy?:
+    'name' | 'address' | 'city' |
+    'phone_number' | 'account_number' |
+    'account_owner' | 'bank' = 'name';
 
   @IsOptional()
-  @IsString({ message: 'keywords harus berupa string' })
+  @IsString()
   @Transform(({ value }) => value.trim())
   readonly keywords?: string;
 }
