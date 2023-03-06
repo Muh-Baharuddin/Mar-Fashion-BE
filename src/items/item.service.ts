@@ -3,6 +3,8 @@ import { ItemRepository } from './item.repository';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/items.entity';
+import { PaginationItemDto } from './dto/pagination-item.dto';
+import { ItemResponse } from './types/item.response.type';
 
 @Injectable()
 export class ItemService {
@@ -13,14 +15,10 @@ export class ItemService {
     private readonly itemRepository: ItemRepository,
   ) {}
 
-  async findAllItems(): Promise<Item[]> {
-    const items = await this.itemRepository.findAllItems();
-
-    if (!items.length) {
-      throw new NotFoundException(`ups items not found`);
-      this.logger.warn(`items not found`);
-    }
-    return items;
+  async findAllItems(
+    paginationDto: PaginationItemDto,
+  ): Promise<ItemResponse> {
+    return await this.itemRepository.findAllItems(paginationDto);
   }
 
   async findById(id: string): Promise<Item> {

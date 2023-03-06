@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { Brackets, DataSource, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
+import { PaginationItemDto } from './dto/pagination-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/items.entity';
+import { ItemResponse } from './types/item.response.type';
 
 @Injectable()
 export class ItemRepository {
@@ -12,8 +14,27 @@ export class ItemRepository {
     this.repository = this.dataSource.getRepository(Item);
   }
 
-  findAllItems(): Promise<Item[]> {
-    return this.repository.find();
+  async findAllItems(
+    paginationDto: PaginationItemDto,
+  ): Promise<ItemResponse> {
+    const queryBuilder = this.repository.createQueryBuilder('item');
+
+    if (paginationDto.keywords) {
+      queryBuilder.andWhere(new Brackets(qb => {
+        qb.where('item.brand ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
+          .orWhere('item.capital_price::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
+          .orWhere('item.wholescale_price::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
+          .orWhere('item.stock::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` });
+      }));
+    }
+    queryBuilder.orderBy(`item.${paginationDto.orderBy}`, paginationDto.orderType)
+    .skip((paginationDto.page - 1) * paginationDto.limit)
+    .take(paginationDto.limit);
+    const [data, total] = await queryBuilder.getManyAndCount();
+    return {
+      data,
+      total,
+    };
   }
 
   findById(id: string): Promise<Item> {
