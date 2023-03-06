@@ -8,7 +8,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { TypeSaving } from '../types/type-saving.enum';
-import { Employee } from './Employees.entity';
+import { Employee } from './employee.entity';
 
 @Entity('employee_Savings')
 export class Employee_Saving {
