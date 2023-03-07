@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
 import { Supplier } from '../../supplier/entities/supplier.entity';

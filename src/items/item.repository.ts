@@ -18,7 +18,6 @@ export class ItemRepository {
     paginationDto: PaginationItemDto,
   ): Promise<ItemResponse> {
     const queryBuilder = this.repository.createQueryBuilder('item');
-
     if (paginationDto.keywords) {
       queryBuilder.andWhere(new Brackets(qb => {
         qb.where('item.brand ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
@@ -27,9 +26,13 @@ export class ItemRepository {
           .orWhere('item.stock::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` });
       }));
     }
+    // queryBuilder.leftJoinAndSelect('item.supplier', 'supplier.name');
     queryBuilder.orderBy(`item.${paginationDto.orderBy}`, paginationDto.orderType)
     .skip((paginationDto.page - 1) * paginationDto.limit)
-    .take(paginationDto.limit);
+    .take(paginationDto.limit)
+    // .leftJoinAndSelect('item.supplier', 'supplier.name');
+    .leftJoin('item.supplier', 'supplier')
+    .addSelect('supplier.name')
     const [data, total] = await queryBuilder.getManyAndCount();
     return {
       data,
