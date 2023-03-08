@@ -26,11 +26,9 @@ export class ItemRepository {
           .orWhere('item.stock::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` });
       }));
     }
-    // queryBuilder.leftJoinAndSelect('item.supplier', 'supplier.name');
     queryBuilder.orderBy(`item.${paginationDto.orderBy}`, paginationDto.orderType)
     .skip((paginationDto.page - 1) * paginationDto.limit)
     .take(paginationDto.limit)
-    // .leftJoinAndSelect('item.supplier', 'supplier.name');
     .leftJoin('item.supplier', 'supplier')
     .addSelect('supplier.name')
     const [data, total] = await queryBuilder.getManyAndCount();
