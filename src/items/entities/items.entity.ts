@@ -52,10 +52,10 @@ export class Item {
   sale: Promise<Sale>;
 
   @ManyToMany(() => Category, (category) => category.items)
-  @JoinTable()
+  @JoinTable({ name: 'items_categories' })
   categories: Promise<Category[]>;
 
   @ManyToMany(() => Purchase, (purchases) => purchases.items)
-  @JoinTable()
+  @JoinTable({ name: 'purchase_items' })
   purchases: Promise<Purchase[]>;
 }
