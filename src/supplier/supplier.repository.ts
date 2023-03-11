@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { Brackets, DataSource, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { PaginationSupplierDto } from './dto/pagination-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
@@ -17,26 +17,32 @@ export class SupplierRepository {
   async findAllSupplier(
     paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
-    let where: FindOptionsWhere<Supplier>[];
+    const qb = this.repository.createQueryBuilder('supplier');
+  
     if (paginationDto.keywords) {
-      where = [
-        { name :  ILike(`%${paginationDto.keywords}%`)},
-        { address: ILike(`%${paginationDto.keywords}%`)},
-        { city: ILike(`%${paginationDto.keywords}%`)},
-        { phone_number: ILike(`%${paginationDto.keywords}%`)},
-        { account_number: ILike(`%${paginationDto.keywords}%`)},
-        { account_owner: ILike(`%${paginationDto.keywords}%`)},
-        { bank: ILike(`%${paginationDto.keywords}%`)},
-      ] 
+      qb.where(
+        new Brackets((qb) => {
+          qb.where(`CONCAT(
+            supplier.name, ' ', 
+            supplier.address, ' ', 
+            supplier.city, ' ', 
+            supplier.phone_number, ' ', 
+            supplier.account_number, ' ', 
+            supplier.account_owner, ' ', 
+            supplier.bank) ILike :keywords`, 
+            { 
+              keywords: `%${paginationDto.keywords}%` 
+            });
+        })
+      );
     }
-    const [data, total] = await this.repository.findAndCount({
-      where,
-      order: {
-        [paginationDto.orderBy]: paginationDto.orderType,
-      },
-      skip: (paginationDto.page - 1) * paginationDto.limit,
-      take: paginationDto.limit,
-    });
+  
+    const [data, total] = await qb
+      .orderBy(`supplier.${paginationDto.orderBy}`, paginationDto.orderType)
+      .skip((paginationDto.page - 1) * paginationDto.limit)
+      .take(paginationDto.limit)
+      .getManyAndCount();
+  
     return {
       data,
       total,
