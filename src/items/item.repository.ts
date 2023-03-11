@@ -3,15 +3,18 @@ import { Brackets, DataSource, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { PaginationItemDto } from './dto/pagination-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Category } from './entities/category.entity';
 import { Item } from './entities/items.entity';
 import { ItemResponse } from './types/item.response.type';
 
 @Injectable()
 export class ItemRepository {
   private repository: Repository<Item>;
+  private repositoryCategory: Repository<Category>;
 
   constructor(private dataSource: DataSource) {
     this.repository = this.dataSource.getRepository(Item);
+    this.repositoryCategory = this.dataSource.getRepository(Category);
   }
 
   async findAllItems(
@@ -46,10 +49,16 @@ export class ItemRepository {
     });
   }
 
+  findByIdCategory(id: string): Promise<Category> {
+    return this.repositoryCategory.findOne({
+      where: { id },
+    });
+  }
+
   createItems(createItemDto: CreateItemDto): Promise<Item> {
     return this.repository.save(createItemDto);
   }
-
+  
   async updateItems(id: string, updateItemDto: UpdateItemDto) {
     await this.repository.update(id, updateItemDto);
     return {
