@@ -1,6 +1,5 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { Category } from "../entities/category.entity";
-import { CategoryDto } from "./create-category.dto";
 
 export class CreateItemDto {
   @IsNotEmpty()
@@ -15,7 +14,8 @@ export class CreateItemDto {
   @IsNotEmpty()
   stock: number;
 
-  // categories: CategoryDto[];
+  @IsOptional()
+  supplier_id: string;
 
   categories: Category[];
 }

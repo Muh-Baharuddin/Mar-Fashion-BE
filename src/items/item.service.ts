@@ -7,6 +7,7 @@ import { PaginationItemDto } from './dto/pagination-item.dto';
 import { ItemResponse } from './types/item.response.type';
 import { Category } from './entities/category.entity';
 import { CategoryResponse } from './types/category.response.type';
+import { PaginationCategoryDto } from './dto/pagination-category.dto';
 
 @Injectable()
 export class ItemService {
@@ -23,12 +24,14 @@ export class ItemService {
     return await this.itemRepository.findAllItems(paginationDto);
   }
 
-  async findAllCategory(): Promise<CategoryResponse> {
-    return await this.itemRepository.findAllCategory();
+  async findAllCategory(
+    paginationDto: PaginationCategoryDto,
+  ): Promise<CategoryResponse> {
+    return await this.itemRepository.findAllCategory(paginationDto);
   }
 
-  async findById(id: string): Promise<Item> {
-    const items = await this.itemRepository.findById(id);
+  async findItemById(id: string): Promise<Item> {
+    const items = await this.itemRepository.findItemById(id);
 
     if (!items) {
       throw new NotFoundException(`ups items not found`);
@@ -36,10 +39,6 @@ export class ItemService {
     }
     return items;
   }
-
-  // async createItems(createItemDto: CreateItemDto, categories: Category[]): Promise<Item> {
-  //   return this.itemRepository.createItems(createItemDto, categories);
-  // }
 
   createItems(createItemDto: CreateItemDto): Promise<Item> {
     return this.itemRepository.createItems(createItemDto);
@@ -56,7 +55,7 @@ export class ItemService {
   // }
 
   async removeItems(id: string) {
-    const items = await this.itemRepository.findById(id);
+    const items = await this.itemRepository.findItemById(id);
 
     if (!items) {
       throw new NotFoundException(`ups items not found`);
