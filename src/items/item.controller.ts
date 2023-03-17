@@ -19,6 +19,7 @@ import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/items.entity';
 import { PaginationItemDto } from './dto/pagination-item.dto';
 import { ItemResponse } from './types/item.response.type';
+import { CategoryResponse } from './types/category.response.type';
 
 @Controller('item')
 @UseGuards(JwtAuthGuard)
@@ -34,6 +35,11 @@ export class ItemsController {
     return this.itemService.findAllItems(paginationDto);
   }
 
+  @Get('/category')
+  findAllCategory(): Promise<CategoryResponse> {
+    return this.itemService.findAllCategory();
+  }
+
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
     return this.itemService.findById(id);
@@ -45,14 +51,23 @@ export class ItemsController {
     return this.itemService.createItems(createItemDto);
   }
 
-  @Patch(':id')
-  @UsePipes(ValidationPipe)
-  update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateItemDto: UpdateItemDto,
-  ) {
-    return this.itemService.updateItems(id, updateItemDto);
-  }
+  // @Post()
+  // @UsePipes(ValidationPipe)
+  // async create(
+  //   @Body() createItemDto: CreateItemDto,
+  //   @Body('categories', new ParseArrayPipe({ items: Category })) categories: Category[],
+  // ): Promise<Item> {
+  //   return await this.itemService.createItems(createItemDto, categories);
+  // }
+
+  // @Patch(':id')
+  // @UsePipes(ValidationPipe)
+  // update(
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Body() updateItemDto: UpdateItemDto,
+  // ) {
+  //   return this.itemService.updateItems(id, updateItemDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
