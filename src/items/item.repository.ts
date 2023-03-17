@@ -103,33 +103,6 @@ export class ItemRepository {
     }
     return this.itemRepository.save(newItem);
   }
-
-  // async createItems(createItemDto: CreateItemDto): Promise<Item> {
-  //   const { categories, ...itemData } = createItemDto;
-  //   const newItem = this.itemRepository.create(itemData);
-  //   if (categories) {
-  //     const promises = categories.map(async (categoryDto) => {
-  //       let category = await this.findCategoryName(categoryDto.name);
-  //       if (category) {
-  //         category = this.categoryRepository.create(categoryDto);
-  //         await this.categoryRepository.save(category);
-          
-  //       }
-  //       return category;
-  //     });
-  //     newItem.categories = Promise.all(promises);
-  //   }
-  //   return this.itemRepository.save(newItem);
-  // }
-
-  // async createItems(createItemDto: CreateItemDto): Promise<Item> {
-  //   const { categories, ...itemData } = createItemDto;
-  //   const newItem = this.itemRepository.create(itemData);
-  //   if (categories) {
-  //     newItem.categories = Promise.resolve(categories);
-  //   }
-  //   return this.itemRepository.save(newItem);
-  // }
   
   // async updateItems(id: string, updateItemDto: UpdateItemDto) {
   //   await this.repository.update(id, updateItemDto);
