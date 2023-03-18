@@ -80,12 +80,12 @@ export class ItemRepository {
   }
 
   async createItems(createItemDto: CreateItemDto): Promise<Item> {
-    const { categories, supplier_id, ...itemData } = createItemDto;
+    const { categories, supplierId, ...itemData } = createItemDto;
     const newItem = this.itemRepository.create(itemData);
-    if (supplier_id) {
-      const supplier = await this.findSupplierById(supplier_id);
+    if (supplierId) {
+      const supplier = await this.findSupplierById(supplierId);
       if (!supplier) {
-        throw new Error(`Supplier with id ${supplier_id} not found.`);
+        throw new Error(`Supplier with id ${supplierId} not found.`);
       }
       newItem.supplier = Promise.resolve(supplier);
     }
@@ -104,12 +104,17 @@ export class ItemRepository {
     return this.itemRepository.save(newItem);
   }
   
-  // async updateItems(id: string, updateItemDto: UpdateItemDto) {
-  //   await this.repository.update(id, updateItemDto);
-  //   return {
-  //     message: 'Update Item Success',
-  //   };
-  // }
+  async updateItems(id: string, updateItemDto: UpdateItemDto) {
+    const newItem = await this.findItemById(id);
+    if (!newItem) {
+      throw new Error(`Item with id ${id} not found.`);
+    }
+    Object.assign(newItem, updateItemDto);
+    await this.itemRepository.save(newItem);
+    return {
+      message: 'Update Item Success',
+    };
+  }
 
   async removeItems(id: string) {
     await this.itemRepository.delete(id);

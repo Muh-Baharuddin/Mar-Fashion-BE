@@ -44,15 +44,15 @@ export class ItemService {
     return this.itemRepository.createItems(createItemDto);
   }
 
-  // async updateItems(id: string, updateItemDto: UpdateItemDto) {
-  //   const items = await this.itemRepository.findById(id);
+  async updateItems(id: string, updateItemDto: UpdateItemDto) {
+    const items = await this.itemRepository.findItemById(id);
 
-  //   if (!items) {
-  //     throw new NotFoundException(`ups items not found`);
-  //     this.logger.warn(`items not found`);
-  //   }
-  //   return this.itemRepository.updateItems(id, updateItemDto);
-  // }
+    if (!items) {
+      throw new NotFoundException(`ups items not found`);
+      this.logger.warn(`items not found`);
+    }
+    return this.itemRepository.updateItems(id, updateItemDto);
+  }
 
   async removeItems(id: string) {
     const items = await this.itemRepository.findItemById(id);

@@ -15,7 +15,8 @@ export class CreateItemDto {
   stock: number;
 
   @IsOptional()
-  supplier_id: string;
+  supplierId: string;
 
+  @IsOptional()
   categories: Category[];
 }

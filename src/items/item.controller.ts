@@ -56,14 +56,14 @@ export class ItemsController {
     return this.itemService.createItems(createItemDto);
   }
 
-  // @Patch(':id')
-  // @UsePipes(ValidationPipe)
-  // update(
-  //   @Param('id', ParseUUIDPipe) id: string,
-  //   @Body() updateItemDto: UpdateItemDto,
-  // ) {
-  //   return this.itemService.updateItems(id, updateItemDto);
-  // }
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateItemDto: UpdateItemDto,
+  ) {
+    return this.itemService.updateItems(id, updateItemDto);
+  }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
