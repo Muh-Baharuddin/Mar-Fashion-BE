@@ -8,7 +8,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  JoinColumn,
 } from 'typeorm';
 import { Purchase } from '../../purchases/entities/purchase.entity';
 import { Supplier } from '../../supplier/entities/supplier.entity';
@@ -51,11 +50,11 @@ export class Item {
   @ManyToOne(() => Sale, (sale) => sale.items, { lazy: true })
   sale: Promise<Sale>;
 
-  @ManyToMany(() => Category, (category) => category.items)
-  @JoinTable()
+  @ManyToMany(() => Category, (category) => category.items, { cascade: true})
+  @JoinTable({ name: 'items_categories'})
   categories: Promise<Category[]>;
 
   @ManyToMany(() => Purchase, (purchases) => purchases.items)
-  @JoinTable()
+  @JoinTable({ name: 'purchase_items' })
   purchases: Promise<Purchase[]>;
 }
