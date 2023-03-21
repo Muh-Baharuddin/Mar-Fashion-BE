@@ -39,6 +39,8 @@ export class ItemRepository {
     }
     if (paginationDto.orderBy === 'supplier') {
       queryBuilder.orderBy('supplier.name', paginationDto.orderType)
+    } else if (paginationDto.orderBy === 'category') {
+      queryBuilder.orderBy('category.name', paginationDto.orderType)
     } else {
       queryBuilder.orderBy(`item.${paginationDto.orderBy}`, paginationDto.orderType)
     }
