@@ -6,6 +6,6 @@ export class PaginationItemDto extends OmitType(PaginationSupplierDto, [
     'orderBy'
   ] as const) {
   @IsOptional()
-  @IsIn(['brand', 'capital_price', 'wholescale_price', 'stock'])
-  readonly orderBy?: 'brand' | 'capital_price' | 'wholescale_price' | 'stock' = 'brand';
+  @IsIn(['brand', 'capital_price', 'wholescale_price', 'stock', 'supplier'])
+  readonly orderBy?: 'brand' | 'capital_price' | 'wholescale_price' | 'stock' | 'supplier' = 'brand';
 }

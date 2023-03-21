@@ -37,8 +37,12 @@ export class ItemRepository {
           .orWhere('item.stock::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` });
       }));
     }
-    queryBuilder.orderBy(`item.${paginationDto.orderBy}`, paginationDto.orderType)
-    .skip((paginationDto.page - 1) * paginationDto.limit)
+    if (paginationDto.orderBy === 'supplier') {
+      queryBuilder.orderBy('supplier.name', paginationDto.orderType)
+    } else {
+      queryBuilder.orderBy(`item.${paginationDto.orderBy}`, paginationDto.orderType)
+    }
+    queryBuilder.skip((paginationDto.page - 1) * paginationDto.limit)
     .take(paginationDto.limit)
     const [data, total] = await queryBuilder.getManyAndCount();
     return {
