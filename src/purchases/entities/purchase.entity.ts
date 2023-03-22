@@ -25,7 +25,7 @@ export class Purchase {
   @Column()
   cost: number;
 
-  @Column()
+  @Column({ nullable: true })
   debt: number;
 
   @CreateDateColumn({ 

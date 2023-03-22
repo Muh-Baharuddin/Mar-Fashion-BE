@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreatePurchase1679465870491 implements MigrationInterface {
-    name = 'CreatePurchase1679465870491'
+export class CreatePurchase1679467735882 implements MigrationInterface {
+    name = 'CreatePurchase1679467735882'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "purchases" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "invoice" character varying NOT NULL, "date" TIMESTAMP NOT NULL, "unit" "public"."purchases_unit_enum" NOT NULL DEFAULT 'PCS', "cost" integer NOT NULL, "debt" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "create_by" character varying, "update_by" character varying, "supplierId" uuid, CONSTRAINT "PK_1d55032f37a34c6eceacbbca6b8" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "purchases" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "invoice" character varying NOT NULL, "date" TIMESTAMP NOT NULL, "unit" "public"."purchases_unit_enum" NOT NULL DEFAULT 'PCS', "cost" integer NOT NULL, "debt" integer, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "create_by" character varying, "update_by" character varying, "supplierId" uuid, CONSTRAINT "PK_1d55032f37a34c6eceacbbca6b8" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "purchase_items" ("itemsId" uuid NOT NULL, "purchasesId" uuid NOT NULL, CONSTRAINT "PK_7434adfb6d8157a6adbec934423" PRIMARY KEY ("itemsId", "purchasesId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_22f9af619377c0292ee8b9375b" ON "purchase_items" ("itemsId") `);
         await queryRunner.query(`CREATE INDEX "IDX_9b5309aad93b08250cb7e47bc0" ON "purchase_items" ("purchasesId") `);

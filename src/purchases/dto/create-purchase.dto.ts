@@ -17,7 +17,7 @@ export class CreatePurchaseDto {
   cost: number;
 
   @IsOptional()
-  debt: number = 0;
+  debt: number;
 
   @IsOptional()
   Items: Item[];
