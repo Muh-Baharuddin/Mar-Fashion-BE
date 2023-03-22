@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { Brackets, DataSource, Repository } from 'typeorm';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
+import { PaginationPurchaseDto } from './dto/pagination-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { Purchase } from './entities/purchase.entity';
+import { PurchaseResponse } from './types/purchase.response.type';
 
 @Injectable()
 export class PurchaseRepository {
@@ -12,8 +14,30 @@ export class PurchaseRepository {
     this.repository = this.dataSource.getRepository(Purchase);
   }
 
-  findAllPurchase(): Promise<Purchase[]> {
-    return this.repository.find();
+  async findAllPurchase(
+    paginationDto: PaginationPurchaseDto,
+  ): Promise<PurchaseResponse> {
+    const qb = this.repository.createQueryBuilder('purchase')
+      .leftJoinAndSelect('purchase.items', 'item')
+
+    if (paginationDto.keywords) {
+      qb.andWhere(new Brackets(qb => {
+        qb.where('purchase.date::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
+          .orWhere('purchase.unit::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
+          .orWhere('purchase.cost::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` });
+      }));
+    }
+
+    const [data, total] = await qb
+      .orderBy(`purchase.${paginationDto.orderBy}`, paginationDto.orderType)
+      .skip((paginationDto.page - 1) * paginationDto.limit)
+      .take(paginationDto.limit)
+      .getManyAndCount();
+  
+    return {
+      data,
+      total,
+    };
   }
 
   findById(id: string): Promise<Purchase> {

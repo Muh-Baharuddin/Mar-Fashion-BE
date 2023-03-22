@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -16,6 +17,8 @@ import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { Purchase } from './entities/purchase.entity';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { PaginationPurchaseDto } from './dto/pagination-purchase.dto';
+import { PurchaseResponse } from './types/purchase.response.type';
 
 @Controller('purchase')
 @UseGuards(JwtAuthGuard)
@@ -23,8 +26,12 @@ export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 
   @Get()
-  findAll() {
-    return this.purchaseService.findAll();
+  findAll(
+    @Query(new ValidationPipe({
+      transformOptions: {enableImplicitConversion: true},
+    })) paginationDto: PaginationPurchaseDto,
+  ): Promise<PurchaseResponse> {
+    return this.purchaseService.findAll(paginationDto);
   }
 
   @Get(':id')
