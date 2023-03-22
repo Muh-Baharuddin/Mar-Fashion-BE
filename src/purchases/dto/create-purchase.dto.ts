@@ -8,10 +8,16 @@ export class CreatePurchaseDto {
   date: Date;
 
   @IsNotEmpty()
+  invoice: string;
+
+  @IsNotEmpty()
   unit: TypeUnit;
 
   @IsNotEmpty()
   cost: number;
+
+  @IsOptional()
+  debt: number = 0;
 
   @IsOptional()
   Items: Item[];
