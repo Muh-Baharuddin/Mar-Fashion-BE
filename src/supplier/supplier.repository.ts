@@ -36,12 +36,15 @@ export class SupplierRepository {
         })
       );
     }
-  
-    const [data, total] = await qb
-      .orderBy(`supplier.${paginationDto.orderBy}`, paginationDto.orderType)
-      .skip((paginationDto.page - 1) * paginationDto.limit)
-      .take(paginationDto.limit)
-      .getManyAndCount();
+    if (paginationDto.orderBy === 'items') {
+      qb.orderBy('item.brand', paginationDto.orderType)
+    } else {
+      qb.orderBy(`supplier.${paginationDto.orderBy}`, paginationDto.orderType)
+    }
+    qb.skip((paginationDto.page - 1) * paginationDto.limit)
+    .take(paginationDto.limit)
+    
+    const [data, total] = await qb.getManyAndCount();
   
     return {
       data,

@@ -17,11 +17,11 @@ export class PaginationSupplierDto {
   readonly orderType?: 'ASC' | 'DESC' = 'ASC';
 
   @IsOptional()
-  @IsIn(['name', 'address', 'city', 'phone_number', 'account_number', 'account_owner', 'bank'])
+  @IsIn(['name', 'address', 'city', 'phone_number', 'account_number', 'account_owner', 'bank', 'items'])
   readonly orderBy?:
     'name' | 'address' | 'city' |
     'phone_number' | 'account_number' |
-    'account_owner' | 'bank' = 'name';
+    'account_owner' | 'bank' | 'items' = 'name';
 
   @IsOptional()
   @IsString()
