@@ -17,8 +17,8 @@ export class SupplierRepository {
   async findAllSupplier(
     paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
-    const qb = this.repository.createQueryBuilder('supplier');
-  
+    const qb = this.repository.createQueryBuilder('supplier')
+      .leftJoinAndSelect('supplier.items', 'item')
     if (paginationDto.keywords) {
       qb.where(
         new Brackets((qb) => {
@@ -55,18 +55,18 @@ export class SupplierRepository {
     });
   }
 
-  createSupplier(
-    CreateCreateSupplierDto: CreateSupplierDto,
-  ): Promise<Supplier> {
-    return this.repository.save(CreateCreateSupplierDto);
-  }
+  // createSupplier(
+  //   CreateCreateSupplierDto: CreateSupplierDto,
+  // ): Promise<Supplier> {
+  //   return this.repository.save(CreateCreateSupplierDto);
+  // }
 
-  async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
-    await this.repository.update(id, updateSupplierDto);
-    return {
-      message: 'supplier berhasil diupdate',
-    };
-  }
+  // async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
+  //   await this.repository.update(id, updateSupplierDto);
+  //   return {
+  //     message: 'supplier berhasil diupdate',
+  //   };
+  // }
 
   async removeSupplier(id: string) {
     await this.repository.delete(id);
