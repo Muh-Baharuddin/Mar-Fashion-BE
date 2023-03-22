@@ -10,6 +10,9 @@ export class Purchase {
   id: string;
 
   @Column()
+  invoice: string;
+
+  @Column()
   date: Date;
 
   @Column({
@@ -21,6 +24,9 @@ export class Purchase {
 
   @Column()
   cost: number;
+
+  @Column()
+  debt: number;
 
   @CreateDateColumn({ 
     type: 'timestamp',
