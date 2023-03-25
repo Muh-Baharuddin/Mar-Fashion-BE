@@ -1,4 +1,5 @@
-import { IsNotEmpty, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { Item } from '../../items/entities/items.entity';
 
 export class CreateSupplierDto {
   @IsNotEmpty()
@@ -23,4 +24,7 @@ export class CreateSupplierDto {
 
   @IsNotEmpty()
   bank: string;
+
+  @IsOptional()
+  items: Item;
 }
