@@ -17,8 +17,8 @@ export class SupplierRepository {
   async findAllSupplier(
     paginationDto: PaginationSupplierDto,
   ): Promise<SupplierResponse> {
-    const qb = this.repository.createQueryBuilder('supplier');
-  
+    const qb = this.repository.createQueryBuilder('supplier')
+      .leftJoinAndSelect('supplier.items', 'item')
     if (paginationDto.keywords) {
       qb.where(
         new Brackets((qb) => {
@@ -36,12 +36,15 @@ export class SupplierRepository {
         })
       );
     }
-  
-    const [data, total] = await qb
-      .orderBy(`supplier.${paginationDto.orderBy}`, paginationDto.orderType)
-      .skip((paginationDto.page - 1) * paginationDto.limit)
-      .take(paginationDto.limit)
-      .getManyAndCount();
+    if (paginationDto.orderBy === 'items') {
+      qb.orderBy('item.brand', paginationDto.orderType)
+    } else {
+      qb.orderBy(`supplier.${paginationDto.orderBy}`, paginationDto.orderType)
+    }
+    qb.skip((paginationDto.page - 1) * paginationDto.limit)
+    .take(paginationDto.limit)
+    
+    const [data, total] = await qb.getManyAndCount();
   
     return {
       data,
@@ -55,18 +58,18 @@ export class SupplierRepository {
     });
   }
 
-  createSupplier(
-    CreateCreateSupplierDto: CreateSupplierDto,
-  ): Promise<Supplier> {
-    return this.repository.save(CreateCreateSupplierDto);
-  }
+  // createSupplier(
+  //   CreateCreateSupplierDto: CreateSupplierDto,
+  // ): Promise<Supplier> {
+  //   return this.repository.save(CreateCreateSupplierDto);
+  // }
 
-  async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
-    await this.repository.update(id, updateSupplierDto);
-    return {
-      message: 'supplier berhasil diupdate',
-    };
-  }
+  // async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
+  //   await this.repository.update(id, updateSupplierDto);
+  //   return {
+  //     message: 'supplier berhasil diupdate',
+  //   };
+  // }
 
   async removeSupplier(id: string) {
     await this.repository.delete(id);

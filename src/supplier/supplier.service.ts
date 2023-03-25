@@ -30,19 +30,19 @@ export class SupplierService {
     return supplier;
   }
 
-  create(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
-    return this.supplierRepository.createSupplier(createSupplierDto);
-  }
+  // create(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
+  //   return this.supplierRepository.createSupplier(createSupplierDto);
+  // }
 
-  async update(id: string, updateSupplierDto: UpdateSupplierDto) {
-    const supplier = await this.supplierRepository.findById(id);
+  // async update(id: string, updateSupplierDto: UpdateSupplierDto) {
+  //   const supplier = await this.supplierRepository.findById(id);
 
-    if (!supplier) {
-      throw new NotFoundException(`ups supplier not found`);
-      this.logger.warn(`supplier tidak ditemukan`);
-    }
-    return this.supplierRepository.updateSupplier(id, updateSupplierDto);
-  }
+  //   if (!supplier) {
+  //     throw new NotFoundException(`ups supplier not found`);
+  //     this.logger.warn(`supplier tidak ditemukan`);
+  //   }
+  //   return this.supplierRepository.updateSupplier(id, updateSupplierDto);
+  // }
 
   async remove(id: string) {
     const supplier = await this.supplierRepository.findById(id);
