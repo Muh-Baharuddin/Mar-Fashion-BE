@@ -22,7 +22,7 @@ export class PurchaseService {
   }
 
   async findById(id: string): Promise<Purchase> {
-    const purchase = await this.purchaseRepository.findById(id);
+    const purchase = await this.purchaseRepository.findPurchaseById(id);
 
     if (!purchase) {
       throw new NotFoundException(`ups purchase not found`);
@@ -37,21 +37,21 @@ export class PurchaseService {
     return this.purchaseRepository.createPurchase(createPurchaseDto);
   }
 
-  async update(id: string, updatePurchaseDto: UpdatePurchaseDto) {
-    const purchase = await this.purchaseRepository.findById(id);
+  // async update(id: string, updatePurchaseDto: UpdatePurchaseDto) {
+  //   const purchase = await this.purchaseRepository.findById(id);
 
-    if (!purchase) {
-      throw new NotFoundException(`ups purchase not found`);
-      this.logger.warn(`purchase not found`);
-    }
-    return this.purchaseRepository.updatePurchase(
-      id,
-      updatePurchaseDto,
-    );
-  }
+  //   if (!purchase) {
+  //     throw new NotFoundException(`ups purchase not found`);
+  //     this.logger.warn(`purchase not found`);
+  //   }
+  //   return this.purchaseRepository.updatePurchase(
+  //     id,
+  //     updatePurchaseDto,
+  //   );
+  // }
 
   async remove(id: string) {
-    const purchase = await this.purchaseRepository.findById(id);
+    const purchase = await this.purchaseRepository.findPurchaseById(id);
 
     if (!purchase) {
       throw new NotFoundException(`ups purchase not found`);

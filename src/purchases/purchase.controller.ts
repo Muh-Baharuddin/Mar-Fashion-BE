@@ -45,14 +45,14 @@ export class PurchaseController {
     return this.purchaseService.create(createPurchaseDto);
   }
 
-  @Patch(':id')
-  @UsePipes(ValidationPipe)
-  update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updatePurchaseDto: UpdatePurchaseDto,
-  ) {
-    return this.purchaseService.update(id, updatePurchaseDto);
-  }
+  // @Patch(':id')
+  // @UsePipes(ValidationPipe)
+  // update(
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Body() updatePurchaseDto: UpdatePurchaseDto,
+  // ) {
+  //   return this.purchaseService.update(id, updatePurchaseDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

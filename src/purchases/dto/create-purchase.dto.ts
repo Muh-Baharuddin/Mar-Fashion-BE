@@ -11,14 +11,14 @@ export class CreatePurchaseDto {
   invoice: string;
 
   @IsNotEmpty()
-  unit: TypeUnit;
+  unit: TypeUnit[];
 
   @IsNotEmpty()
-  cost: number;
+  cost: number[];
 
   @IsOptional()
   debt: number;
 
   @IsOptional()
-  Items: Item[];
+  items: Item[];
 }
