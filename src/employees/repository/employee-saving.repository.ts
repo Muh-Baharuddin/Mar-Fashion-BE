@@ -8,6 +8,7 @@ import { EmployeeSavingResponse } from '../types/employee-response.type';
 import { CreateEmployeeSavingDto } from '../dto/create-saving.dto';
 import { Employee } from '../entities/employee.entity';
 import { TypeSaving } from '../types/type-saving.enum';
+import { UpdateEmployeeSavingDto } from '../dto/update-saving.dto';
 
 @Injectable()
 export class SavingRepository {
@@ -90,22 +91,22 @@ export class SavingRepository {
     return this.savingRepository.save(newItem);
   }
 
-  // async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
-  //   const newSupplier = await this.findSupplierById(id);
-  //   if (!newSupplier) {
-  //     throw new Error(`Supplier with id ${id} not found.`);
-  //   }
-  //   Object.assign(newSupplier, updateSupplierDto);
-  //   await this.repository.save(newSupplier);
-  //   return {
-  //     message: 'Update Supplier Success',
-  //   };
-  // }
+  async updateEmployeeSaving(id: string, updateSavingDto: UpdateEmployeeSavingDto) {
+    const newSaving = await this.findSavingById(id);
+    if (!newSaving) {
+      throw new Error(`Employee saving with id ${id} not found.`);
+    }
+    Object.assign(newSaving, updateSavingDto);
+    await this.savingRepository.save(newSaving);
+    return {
+      message: 'Update Employee Saving Success',
+    };
+  }
 
-  // async removeSupplier(id: string) {
-  //   await this.repository.delete(id);
-  //   return {
-  //     message: 'supplier berhasil dihapus',
-  //   };
-  // }
+  async removeEmployeeSaving(id: string) {
+    await this.savingRepository.delete(id);
+    return {
+      message: 'Delete Employee Saving Success',
+    };
+  }
 }

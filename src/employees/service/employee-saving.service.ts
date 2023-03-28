@@ -1,11 +1,10 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { CreateEmployeeDto } from '../dto/create-employee.dto';
-import { UpdateEmployeeDto } from '../dto/update-employee.dto';
-import { EmployeeResponse, EmployeeSavingResponse } from '../types/employee-response.type';
+import { EmployeeSavingResponse } from '../types/employee-response.type';
 import { Employee_Saving } from '../entities/employee_saving.entity';
 import { SavingRepository } from '../repository/employee-saving.repository';
 import { PaginationSavingDto } from '../dto/pagination-employee-saving.dto';
 import { CreateEmployeeSavingDto } from '../dto/create-saving.dto';
+import { UpdateEmployeeSavingDto } from '../dto/update-saving.dto';
 
 @Injectable()
 export class EmployeeSavingService {
@@ -22,37 +21,21 @@ export class EmployeeSavingService {
     return await this.savingRepository.findAllSaving(paginationDto);
   }
 
-  // async findSavingById(id: string): Promise<Employee_Saving> {
-  //   const Saving = await this.savingRepository.findSavingById(id);
-
-  //   if (!Saving) {
-  //     throw new NotFoundException(`ups employee saving not found`);
-  //     this.logger.warn(`Employee saving not found`);
-  //   }
-  //   return Saving;
-  // }
-
   createSaving(createEmployeeSavingDto: CreateEmployeeSavingDto): Promise<Employee_Saving> {
     return this.savingRepository.createEmployeeSaving(createEmployeeSavingDto);
   }
 
-  // async updateEmployees(id: string, updateEmployeeDto: UpdateEmployeeDto) {
-  //   const Employees = await this.employeeRepository.findById(id);
+  async updateSaving(id: string, updateSavingDto: UpdateEmployeeSavingDto) {
+    return this.savingRepository.updateEmployeeSaving(id, updateSavingDto);
+  }
 
-  //   if (!Employees) {
-  //     throw new NotFoundException(`ups Employees not found`);
-  //     this.logger.warn(`employees not found`);
-  //   }
-  //   return this.employeeRepository.updateEmployees(id, updateEmployeeDto);
-  // }
+  async removeSaving(id: string) {
+    const saving = await this.savingRepository.findSavingById(id);
 
-  // async removeEmployees(id: string) {
-  //   const Employees = await this.employeeRepository.findById(id);
+    if (!saving) {
+      throw new NotFoundException(`ups employee saving not found`);
+    }
 
-  //   if (!Employees) {
-  //     throw new NotFoundException(`ups Employees not found`);
-  //     this.logger.warn(`employees not found`);
-  //   }
-  //   return this.employeeRepository.removeEmployees(id);
-  // }
+    return this.savingRepository.removeEmployeeSaving(id);
+  }
 }
