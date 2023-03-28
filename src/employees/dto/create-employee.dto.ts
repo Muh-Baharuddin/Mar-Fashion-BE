@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, MinLength } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, MinLength } from 'class-validator';
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
@@ -19,5 +19,6 @@ export class CreateEmployeeDto {
   exit_date: Date;
 
   @IsNotEmpty()
+  @IsNumber()
   total_saving: number;
 }

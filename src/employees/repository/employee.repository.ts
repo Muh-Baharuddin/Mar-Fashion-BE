@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Brackets, DataSource, Repository } from 'typeorm';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { PaginationEmployeeDto } from './dto/pagination-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Employee } from './entities/employee.entity';
-import { EmployeeResponse } from './types/employee-response.type';
+import { CreateEmployeeDto } from '../dto/create-employee.dto';
+import { PaginationEmployeeDto } from '../dto/pagination-employee.dto';
+import { UpdateEmployeeDto } from '../dto/update-employee.dto';
+import { Employee } from '../entities/employee.entity';
+import { EmployeeResponse } from '../types/employee-response.type';
 
 @Injectable()
 export class EmployeeRepository {

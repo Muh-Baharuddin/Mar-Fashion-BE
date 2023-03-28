@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Item } from '../items/entities/items.entity';
 import { Brackets, DataSource, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { PaginationSupplierDto } from './dto/pagination-supplier.dto';
@@ -9,9 +10,11 @@ import { SupplierResponse } from './types/supplier.response.type';
 @Injectable()
 export class SupplierRepository {
   private repository: Repository<Supplier>;
+  private itemRepository: Repository<Item>;
 
   constructor(private dataSource: DataSource) {
     this.repository = this.dataSource.getRepository(Supplier);
+    this.itemRepository = this.dataSource.getRepository(Item);
   }
 
   async findAllSupplier(
@@ -20,6 +23,7 @@ export class SupplierRepository {
     const qb = this.repository.createQueryBuilder('supplier')
       .leftJoinAndSelect('supplier.items', 'item')
     if (paginationDto.keywords) {
+      paginationDto.page = 1;
       qb.where(
         new Brackets((qb) => {
           qb.where(`CONCAT(
@@ -52,24 +56,47 @@ export class SupplierRepository {
     };
   }
 
-  findById(id: string): Promise<Supplier> {
+  findSupplierById(id: string): Promise<Supplier> {
     return this.repository.findOne({
       where: { id },
     });
   }
 
-  // createSupplier(
-  //   CreateCreateSupplierDto: CreateSupplierDto,
-  // ): Promise<Supplier> {
-  //   return this.repository.save(CreateCreateSupplierDto);
-  // }
+  findItemById(id: string): Promise<Item> {
+    return this.itemRepository.findOne({
+      where: { id },
+    });
+  }
 
-  // async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
-  //   await this.repository.update(id, updateSupplierDto);
-  //   return {
-  //     message: 'supplier berhasil diupdate',
-  //   };
-  // }
+  async createSupplier(
+    createSupplierDto: CreateSupplierDto,
+  ): Promise<Supplier> {
+    const { items, ...supplierData} = createSupplierDto
+    const newItem = this.repository.create(supplierData);
+    if (items) {
+      const promises = items.map(async (itemDto) => {
+        let item = await this.findItemById(itemDto.id);
+        if (!item) {
+          item = this.itemRepository.create(itemDto);
+          await this.itemRepository.save(item);
+        }
+        return item;
+      });
+    }
+    return this.repository.save(newItem);
+  }
+
+  async updateSupplier(id: string, updateSupplierDto: UpdateSupplierDto) {
+    const newSupplier = await this.findSupplierById(id);
+    if (!newSupplier) {
+      throw new Error(`Supplier with id ${id} not found.`);
+    }
+    Object.assign(newSupplier, updateSupplierDto);
+    await this.repository.save(newSupplier);
+    return {
+      message: 'Update Supplier Success',
+    };
+  }
 
   async removeSupplier(id: string) {
     await this.repository.delete(id);

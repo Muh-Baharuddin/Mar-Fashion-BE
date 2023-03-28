@@ -45,12 +45,6 @@ export class ItemService {
   }
 
   async updateItems(id: string, updateItemDto: UpdateItemDto) {
-    const items = await this.itemRepository.findItemById(id);
-
-    if (!items) {
-      throw new NotFoundException(`ups items not found`);
-      this.logger.warn(`items not found`);
-    }
     return this.itemRepository.updateItems(id, updateItemDto);
   }
 
