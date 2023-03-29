@@ -69,23 +69,23 @@ export class SavingRepository {
   }
 
   async createEmployeeSaving(createSavingDto: CreateEmployeeSavingDto): Promise<Employee_Saving> {
-    const { employeeId, ...savingData } = createSavingDto;
+    const { __employee__, ...savingData } = createSavingDto;
     const newItem = this.savingRepository.create(savingData);
-    if (employeeId) {
-      const employeeData = await this.findEmployeeById(employeeId);
-      if (!employeeData) {
-        throw new Error(`employee with id ${employeeId} not found.`);
+    if (__employee__) {
+      const employee = await this.findEmployeeById(__employee__.id);
+      if (!employee) {
+        throw new Error(`employee with id ${__employee__.id} not found.`);
       }
-      newItem.employee = Promise.resolve(employeeData);
+      newItem.employee = Promise.resolve(employee);
 
       if (newItem.type === TypeSaving.SIMPANAN) {
-        employeeData.total_saving += newItem.total;
-        await this.employeeRepository.save(employeeData);
+        employee.total_saving += newItem.total;
+        await this.employeeRepository.save(employee);
       }
 
       if (newItem.type === TypeSaving.AMBILAN) {
-        employeeData.total_saving -= newItem.total;
-        await this.employeeRepository.save(employeeData);
+        employee.total_saving -= newItem.total;
+        await this.employeeRepository.save(employee);
       }
     }
     return this.savingRepository.save(newItem);
@@ -96,7 +96,17 @@ export class SavingRepository {
     if (!newSaving) {
       throw new Error(`Employee saving with id ${id} not found.`);
     }
+    const employee = await this.findEmployeeById(updateSavingDto.__employee__.id);
     Object.assign(newSaving, updateSavingDto);
+    if (updateSavingDto.type === TypeSaving.SIMPANAN) {
+      employee.total_saving += (newSaving.total * 2);
+      await this.employeeRepository.save(employee);
+    }
+
+    if (updateSavingDto.type === TypeSaving.AMBILAN) {
+      employee.total_saving -= (newSaving.total * 2);
+      await this.employeeRepository.save(employee);
+    }
     await this.savingRepository.save(newSaving);
     return {
       message: 'Update Employee Saving Success',

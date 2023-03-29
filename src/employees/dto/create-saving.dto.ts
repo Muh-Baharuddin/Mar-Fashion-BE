@@ -17,5 +17,8 @@ export class CreateEmployeeSavingDto {
   description: string;
 
   @IsNotEmpty()
-  employeeId: string;
+  __employee__: {
+    id: string,
+    name: string,
+  };
 }
