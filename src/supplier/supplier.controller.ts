@@ -39,20 +39,20 @@ export class SupplierController {
     return this.supplierService.findById(id);
   }
 
-  // @Post()
-  // @UsePipes(ValidationPipe)
-  // create(@Body() createSupplierDto: CreateSupplierDto) {
-  //   return this.supplierService.create(createSupplierDto);
-  // }
+  @Post()
+  @UsePipes(ValidationPipe)
+  create(@Body() createSupplierDto: CreateSupplierDto) {
+    return this.supplierService.create(createSupplierDto);
+  }
 
-  // @Patch(':id')
-  // @UsePipes(ValidationPipe)
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateSupplierDto: UpdateSupplierDto,
-  // ) {
-  //   return this.supplierService.update(id, updateSupplierDto);
-  // }
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id') id: string,
+    @Body() updateSupplierDto: UpdateSupplierDto,
+  ) {
+    return this.supplierService.update(id, updateSupplierDto);
+  }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {

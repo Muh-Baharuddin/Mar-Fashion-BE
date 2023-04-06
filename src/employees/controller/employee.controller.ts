@@ -12,13 +12,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { Employee } from './entities/employee.entity';
-import { EmployeeService } from './employee.service';
+import { CreateEmployeeDto } from '../dto/create-employee.dto';
+import { UpdateEmployeeDto } from '../dto/update-employee.dto';
+import { Employee } from '../entities/employee.entity';
+import { EmployeeService } from '../service/employee.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
-import { EmployeeResponse } from './types/employee-response.type';
-import { PaginationEmployeeDto } from './dto/pagination-employee.dto';
+import { EmployeeResponse } from '../types/employee-response.type';
+import { PaginationEmployeeDto } from '../dto/pagination-employee.dto';
 
 @Controller('employee')
 @UseGuards(JwtAuthGuard)

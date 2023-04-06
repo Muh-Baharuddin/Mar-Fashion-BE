@@ -30,6 +30,7 @@ export class ItemRepository {
       .leftJoin('item.supplier', 'supplier')
       .addSelect('supplier.name')
     if (paginationDto.keywords) {
+      paginationDto.page = 1;
       queryBuilder.andWhere(new Brackets(qb => {
         qb.where('item.brand ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
           .orWhere('item.capital_price::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })

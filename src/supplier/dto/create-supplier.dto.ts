@@ -26,5 +26,5 @@ export class CreateSupplierDto {
   bank: string;
 
   @IsOptional()
-  items: Item;
+  items: Item[];
 }
