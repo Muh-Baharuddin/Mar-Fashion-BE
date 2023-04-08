@@ -27,8 +27,7 @@ export class ItemRepository {
   ): Promise<ItemResponse> {
     const queryBuilder = this.itemRepository.createQueryBuilder('item')
       .leftJoinAndSelect('item.categories', 'category')
-      .leftJoin('item.supplier', 'supplier')
-      .addSelect('supplier.name')
+      .leftJoinAndSelect('item.supplier', 'supplier')
     if (paginationDto.keywords) {
       paginationDto.page = 1;
       queryBuilder.andWhere(new Brackets(qb => {
