@@ -32,7 +32,7 @@ export class Employee_Saving {
   @Column({ type: 'text' })
   description: string;
 
-  @ManyToOne(() => Employee, (employee) => employee.total_saving, { lazy: true })
+  @ManyToOne(() => Employee, (employee) => employee.total_saving, { lazy: true, cascade: true })
   employee: Promise<Employee>;
 
   @CreateDateColumn({ 
