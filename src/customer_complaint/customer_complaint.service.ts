@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCustomerComplaintDto } from './dto/create-customer_complaint.dto';
-import { UpdateCustomerComplaintDto } from './dto/update-customer_complaint.dto';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateComplaintDto } from './dto/create-customer_complaint.dto';
+import { UpdateComplaintDto } from './dto/update-customer_complaint.dto';
+import { PaginationComplaintDto } from './dto/pagination-complaint.dto';
+import { CustomerComplaintResponse } from './types/customer_complaint-response';
+import { ComplaintRepository } from './customer_complaint.repository';
 
 @Injectable()
 export class CustomerComplaintService {
-  create(createCustomerComplaintDto: CreateCustomerComplaintDto) {
-    return 'This action adds a new customerComplaint';
+
+  constructor(
+    @Inject(ComplaintRepository)
+    private readonly complaintRepository: ComplaintRepository,
+  ) {}
+
+  async findAllComplaint(
+    paginationDto: PaginationComplaintDto,
+  ): Promise<CustomerComplaintResponse> {
+    return await this.complaintRepository.findAllComplaint(paginationDto);
   }
 
-  findAll() {
-    return `This action returns all customerComplaint`;
+  createComplaint(createComplaintDto: CreateComplaintDto) {
+    return this.complaintRepository.createComplaint(createComplaintDto)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customerComplaint`;
+  updateComplaint(id: string, updateComplaintDto: UpdateComplaintDto) {
+    return this.complaintRepository.updateComplaint(id, updateComplaintDto)
   }
 
-  update(id: number, updateCustomerComplaintDto: UpdateCustomerComplaintDto) {
-    return `This action updates a #${id} customerComplaint`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customerComplaint`;
+  async removeComplaint(id: string) {
+    const complaint = await this.complaintRepository.findComplaintById(id)
+    
+    if (!complaint) {
+      throw new NotFoundException(`ups complaint not found`);
+    }
+    return this.complaintRepository.removeComplaint(id)
   }
 }

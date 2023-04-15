@@ -1,7 +1,6 @@
 import { IsOptional, IsNotEmpty } from "class-validator";
 
-
-export class CreateCustomerComplaintDto {
+export class CreateComplaintDto {
   @IsOptional()
   name: string;
 

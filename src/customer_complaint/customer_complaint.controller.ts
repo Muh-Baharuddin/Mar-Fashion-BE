@@ -1,34 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
 import { CustomerComplaintService } from './customer_complaint.service';
-import { CreateCustomerComplaintDto } from './dto/create-customer_complaint.dto';
-import { UpdateCustomerComplaintDto } from './dto/update-customer_complaint.dto';
+import { CreateComplaintDto } from './dto/create-customer_complaint.dto';
+import { UpdateComplaintDto } from './dto/update-customer_complaint.dto';
+import { PaginationComplaintDto } from './dto/pagination-complaint.dto';
+import { CustomerComplaintResponse } from './types/customer_complaint-response';
 
 @Controller('customer-complaint')
 export class CustomerComplaintController {
   constructor(private readonly customerComplaintService: CustomerComplaintService) {}
 
-  @Post()
-  create(@Body() createCustomerComplaintDto: CreateCustomerComplaintDto) {
-    return this.customerComplaintService.create(createCustomerComplaintDto);
-  }
-
   @Get()
-  findAll() {
-    return this.customerComplaintService.findAll();
+  findAll(
+    @Query(new ValidationPipe({
+      transformOptions: {enableImplicitConversion: true},
+    })) paginationDto: PaginationComplaintDto,
+  ): Promise<CustomerComplaintResponse> {
+    return this.customerComplaintService.findAllComplaint(paginationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.customerComplaintService.findOne(+id);
+  @Post()
+  create(@Body() createComplaintDto: CreateComplaintDto) {
+    return this.customerComplaintService.createComplaint(createComplaintDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCustomerComplaintDto: UpdateCustomerComplaintDto) {
-    return this.customerComplaintService.update(+id, updateCustomerComplaintDto);
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateComplaintDto: UpdateComplaintDto
+  ) {
+    return this.customerComplaintService.updateComplaint(id, updateComplaintDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customerComplaintService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.customerComplaintService.removeComplaint(id);
   }
 }
