@@ -31,7 +31,8 @@ export class ComplaintRepository {
         }
       );
     }
-    qb.skip((paginationDto.page - 1) * paginationDto.limit)
+    qb.orderBy(`customer_complaint.${paginationDto.orderBy}`, paginationDto.orderType)
+    .skip((paginationDto.page - 1) * paginationDto.limit)
     .take(paginationDto.limit)
 
     const [data, total] = await qb.getManyAndCount();
