@@ -1,0 +1,15 @@
+import { IsOptional, IsNotEmpty } from "class-validator";
+
+export class CreateComplaintDto {
+  @IsOptional()
+  name: string;
+
+  @IsOptional()
+  address: string;
+
+  @IsOptional()
+  city: string;
+
+  @IsNotEmpty()
+  description: string
+}
