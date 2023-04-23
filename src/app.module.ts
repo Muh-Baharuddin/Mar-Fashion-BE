@@ -12,6 +12,7 @@ import { PurchaseModule } from './purchases/purchase.module';
 import { SaleModule } from './sales/sale.module';
 import { IncomeModule } from './incomes/income.module';
 import { CustomerComplaintModule } from './customer_complaint/customer_complaint.module';
+import { StoreLocationModule } from './store-location/store-location.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { CustomerComplaintModule } from './customer_complaint/customer_complaint
     SaleModule,
     IncomeModule,
     CustomerComplaintModule,
+    StoreLocationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
