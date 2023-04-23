@@ -27,11 +27,11 @@ export class StoreLocationService {
     return `This action returns a #${id} storeLocation`;
   }
 
-  update(id: number, updateStoreLocationDto: UpdateStoreLocationDto) {
-    return `This action updates a #${id} storeLocation`;
+  updateStoreLocation(id: string, updateStoreLocationDto: UpdateStoreLocationDto) {
+    return this.storeRepository.updateStoreLocation(id, updateStoreLocationDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} storeLocation`;
+  removeStoreLocation(id: string) {
+    return this.storeRepository.removeStoreLocation(id);
   }
 }

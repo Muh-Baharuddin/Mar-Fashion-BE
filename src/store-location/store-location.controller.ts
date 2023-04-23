@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  ParseUUIDPipe,
   Post,
   Query,
   UseGuards,
@@ -41,18 +42,13 @@ export class StoreLocationController {
     return this.storeLocationService.createStoreLocation(createStoreLocationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.storeLocationService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStoreLocationDto: UpdateStoreLocationDto) {
-    return this.storeLocationService.update(+id, updateStoreLocationDto);
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreLocationDto: UpdateStoreLocationDto) {
+    return this.storeLocationService.updateStoreLocation(id, updateStoreLocationDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.storeLocationService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.storeLocationService.removeStoreLocation(id);
   }
 }

@@ -4,6 +4,7 @@ import { StoreLocation } from './entities/store-location.entity';
 import { PaginationStoreDto } from './dto/pagination-store.dto';
 import { StoreLocationResponse } from './types/store_location-response';
 import { CreateStoreLocationDto } from './dto/create-store-location.dto';
+import { UpdateStoreLocationDto } from './dto/update-store-location.dto';
 
 @Injectable()
 export class StoreLocationRepository {
@@ -44,27 +45,21 @@ export class StoreLocationRepository {
     };
   }
 
-  // findComplaintById(id: string): Promise<CustomerComplaint> {
-  //   return this.complaintRepository.findOne({
-  //     where: { id },
-  //   });
-  // }
-
   async createStoreLocation(createStoreLocationDto: CreateStoreLocationDto): Promise<StoreLocation> {
     return this.storeRepository.save(createStoreLocationDto);
   }
 
-  // async updateComplaint(id: string, updateComplaintDto: UpdateComplaintDto) {
-  //   await this.complaintRepository.update(id, updateComplaintDto);
-  //   return {
-  //     message: 'Update Customer Compaint Success',
-  //   };
-  // }
+  async updateStoreLocation(id: string, updateStoreLocationDto: UpdateStoreLocationDto) {
+    await this.storeRepository.update(id, updateStoreLocationDto);
+    return {
+      message: 'Update Store Location Success',
+    };
+  }
 
-  // async removeComplaint(id: string) {
-  //   await this.complaintRepository.delete(id);
-  //   return {
-  //     message: 'Delete Customer Complaint Success',
-  //   };
-  // }
+  async removeStoreLocation(id: string) {
+    await this.storeRepository.delete(id);
+    return {
+      message: 'Delete Store Location Success',
+    };
+  }
 }

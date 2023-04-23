@@ -15,18 +15,6 @@ export class StoreLocation {
   @Column()
   city: string;
 
-  @Column()
-  phone_number: string;
-
-  @Column()
-  account_number: string;
-
-  @Column()
-  account_owner: string;
-
-  @Column()
-  bank: string;
-
   @CreateDateColumn({ 
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP()' ,
