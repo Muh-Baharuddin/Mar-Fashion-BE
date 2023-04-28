@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsDateString, IsOptional } from 'class-validator';
+import { Supplier } from '../../supplier/entities/supplier.entity';
 import { Item } from '../../items/entities/items.entity';
 import { TypeUnit } from '../types/type-unit.enum';
 
@@ -11,14 +12,17 @@ export class CreatePurchaseDto {
   invoice: string;
 
   @IsNotEmpty()
-  unit: TypeUnit[];
+  unit: TypeUnit;
 
   @IsNotEmpty()
-  cost: number[];
+  cost: number;
 
   @IsOptional()
   debt: number;
 
-  @IsOptional()
-  items: Item[];
+  @IsNotEmpty()
+  item: Item;
+
+  @IsNotEmpty()
+  supplier: Supplier;
 }

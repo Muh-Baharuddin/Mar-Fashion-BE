@@ -6,22 +6,27 @@ import { PaginationPurchaseDto } from './dto/pagination-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { Purchase } from './entities/purchase.entity';
 import { PurchaseResponse } from './types/purchase.response.type';
+import { Supplier } from '../supplier/entities/supplier.entity';
+import { promises } from 'dns';
 
 @Injectable()
 export class PurchaseRepository {
   private repository: Repository<Purchase>;
   private itemRepository: Repository<Item>;
+  private supplierRepository: Repository<Supplier>;
 
   constructor(private dataSource: DataSource) {
     this.repository = this.dataSource.getRepository(Purchase);
     this.itemRepository = this.dataSource.getRepository(Item);
+    this.supplierRepository = this.dataSource.getRepository(Supplier);
   }
 
   async findAllPurchase(
     paginationDto: PaginationPurchaseDto,
   ): Promise<PurchaseResponse> {
     const qb = this.repository.createQueryBuilder('purchase')
-      .leftJoinAndSelect('purchase.items', 'item')
+      .leftJoinAndSelect('purchase.item', 'item')
+      .leftJoinAndSelect('purchase.supplier', 'supplier')
 
     if (paginationDto.keywords) {
       qb.andWhere(new Brackets(qb => {
@@ -55,24 +60,32 @@ export class PurchaseRepository {
     });
   }
 
+  findSupplierById(id: string): Promise<Supplier> {
+    return this.supplierRepository.findOne({
+      where: { id },
+    });
+  }
+
   async createPurchase(
     createPurchaseDto: CreatePurchaseDto,
   ): Promise<Purchase> {
-    const { items, unit, cost, ...purchaseData } = createPurchaseDto;
-    const newItem = this.repository.create(purchaseData);
-    if (items) {
-      const promises = items.map(async (itemData, index) => {
-        let item = await this.findItemById(itemData.id);
-        if (!item) {
-          item = this.itemRepository.create(itemData);
-          await this.itemRepository.save(item);
-        }
-        return item;
-      });
-      const purchaseItem = await Promise.all(promises);
-      newItem.items = Promise.resolve(purchaseItem);
+    const { item, supplier, ...purchaseData } = createPurchaseDto;
+    const newPurchase = this.repository.create(purchaseData);
+    if (supplier) {
+      const supplierExist = await this.findSupplierById(supplier.id);
+      if (!supplierExist) {
+        throw new Error(`Supplier with id ${supplier.id} not found.`);
+      }
+      newPurchase.supplier = Promise.resolve(supplier)
     }
-    return this.repository.save(newItem);
+    if (item) {
+      const itemExist = await this.findItemById(item.id);
+      if (!itemExist) {
+        throw new Error(`Item with id ${item.id} not found.`);
+      }
+      newPurchase.item = Promise.resolve(item)
+    }
+    return this.repository.save(newPurchase);
   }
 
   // async updatePurchase(

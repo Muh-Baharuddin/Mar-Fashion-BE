@@ -26,7 +26,6 @@ export class PurchaseService {
 
     if (!purchase) {
       throw new NotFoundException(`ups purchase not found`);
-      this.logger.warn(`purchase not found`);
     }
     return purchase;
   }

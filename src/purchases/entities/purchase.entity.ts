@@ -48,7 +48,7 @@ export class Purchase {
   update_by: string;
 
   @ManyToMany(() => Item, (items) => items.purchases)
-  items: Promise<Item[]>;
+  item: Promise<Item>;
 
   @ManyToOne(() => Supplier, supplier => supplier.purchases, { lazy: true })
   supplier: Promise<Supplier>;
