@@ -33,25 +33,20 @@ export class SaleController {
     return this.saleService.findAll(paginationSaleDto);
   }
 
-  @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.saleService.findById(id);
-  }
-
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createSaleDto: CreateSaleDto) {
     return this.saleService.createSale(createSaleDto);
   }
 
-  @Patch(':id')
-  @UsePipes(ValidationPipe)
-  update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateSaleDto: UpdateSaleDto,
-  ) {
-    return this.saleService.update(id, updateSaleDto);
-  }
+  // @Patch(':id')
+  // @UsePipes(ValidationPipe)
+  // update(
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Body() updateSaleDto: UpdateSaleDto,
+  // ) {
+  //   return this.saleService.update(id, updateSaleDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {

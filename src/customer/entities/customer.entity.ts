@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm';
-import { Sale } from './sale.entity';
+import { Sale } from '../../sales/entities/sale.entity';
 
 @Entity('customers')
 export class Customer {
@@ -10,11 +10,14 @@ export class Customer {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   address: string;
 
-  @Column()
+  @Column({ nullable: true })
   city: string;
+
+  @Column({ nullable: true })
+  phone_number: string;
 
   @OneToMany(() => Sale, (sale) => sale.customer, { lazy: true })
   sale: Promise<Sale[]>

@@ -7,7 +7,6 @@ import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { Purchase } from './entities/purchase.entity';
 import { PurchaseResponse } from './types/purchase.response.type';
 import { Supplier } from '../supplier/entities/supplier.entity';
-import { promises } from 'dns';
 
 @Injectable()
 export class PurchaseRepository {
