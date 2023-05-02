@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
-import { Customer } from './customer.entity';
+import { Customer } from '../../customer/entities/customer.entity';
 import { TypeUnit } from '../../purchases/types/type-unit.enum';
 import { Item } from '../../items/entities/items.entity';
 
@@ -8,6 +8,10 @@ export class Sale {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
+
+  @Column()
+  @Generated('increment')
+  invoice: number;
 
   @Column()
   date: Date;
@@ -20,16 +24,16 @@ export class Sale {
   unit: TypeUnit;
 
   @Column()
-  total_sales: number;
+  amount: number;
 
   @Column()
-  total_price: number;
+  total: number;
 
-  @ManyToOne(() => Customer, (customer) => customer.sale, { lazy: true })
+  @ManyToOne(() => Customer, (customer) => customer.sale, { lazy: true, cascade: true })
   customer: Promise<Customer>;
 
   @OneToMany(() => Item, (items) => items.sale, { lazy: true })
-  items: Promise<Item[]>;
+  item: Promise<Item>;
 
   @CreateDateColumn({ 
     type: 'timestamp',
