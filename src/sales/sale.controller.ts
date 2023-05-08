@@ -19,7 +19,7 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { PaginationSaleDto } from './dto/pagination-sale.dto';
 import { SaleResponse } from './types/sale.response.type';
 
-@Controller('sales')
+@Controller('sale')
 @UseGuards(JwtAuthGuard)
 export class SaleController {
   constructor(private readonly saleService: SaleService) {}
@@ -39,14 +39,14 @@ export class SaleController {
     return this.saleService.createSale(createSaleDto);
   }
 
-  // @Patch(':id')
-  // @UsePipes(ValidationPipe)
-  // update(
-  //   @Param('id', ParseUUIDPipe) id: string,
-  //   @Body() updateSaleDto: UpdateSaleDto,
-  // ) {
-  //   return this.saleService.update(id, updateSaleDto);
-  // }
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateSaleDto: UpdateSaleDto,
+  ) {
+    return this.saleService.updateSale(id, updateSaleDto);
+  }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {

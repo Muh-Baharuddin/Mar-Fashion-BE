@@ -47,7 +47,7 @@ export class Item {
   @ManyToOne(() => Supplier, (supplier) => supplier.items, { lazy: true, cascade: true })
   supplier: Promise<Supplier>;
 
-  @ManyToOne(() => Sale, (sale) => sale.item, { lazy: true })
+  @ManyToOne(() => Sale, (sale) => sale.items, { lazy: true })
   sale: Promise<Sale>;
 
   @ManyToMany(() => Category, (category) => category.items, { cascade: true })

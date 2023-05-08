@@ -27,18 +27,12 @@ export class SaleService {
     return this.saleRepository.createSale(createSaleDto);
   }
 
-  // async update(id: string, updateSaleDto: UpdateSaleDto) {
-  //   const sale = await this.saleRepository.findById(id);
-
-  //   if (!sale) {
-  //     throw new NotFoundException(`sale not found`);
-  //   }
-
-  //   return this.saleRepository.updateSale(
-  //     id,
-  //     updateSaleDto,
-  //   );
-  // }
+  async updateSale(id: string, updateSaleDto: UpdateSaleDto) {
+    return this.saleRepository.updateSale(
+      id,
+      updateSaleDto,
+    );
+  }
 
   async removeSale(id: string) {
     const sale = await this.saleRepository.findSaleById(id);
