@@ -1,6 +1,5 @@
-import { IsNotEmpty, IsDateString } from 'class-validator';
+import { IsNotEmpty, IsDateString, IsOptional } from 'class-validator';
 import { TypeUnit } from '../../purchases/types/type-unit.enum';
-import { Customer } from '../../customer/entities/customer.entity';
 import { Item } from '../../items/entities/items.entity';
 
 export class CreateSaleDto {
@@ -10,10 +9,10 @@ export class CreateSaleDto {
   @IsDateString()
   date: Date;
 
-  customer: Customer;
+  customer: string;
 
-  @IsNotEmpty()
-  item: Item;
+  @IsOptional()
+  items: Item[];
 
   @IsNotEmpty()
   unit: TypeUnit;

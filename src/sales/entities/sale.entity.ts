@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
-import { Customer } from '../../customer/entities/customer.entity';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { TypeUnit } from '../../purchases/types/type-unit.enum';
 import { Item } from '../../items/entities/items.entity';
 
@@ -16,6 +15,9 @@ export class Sale {
   @Column()
   date: Date;
 
+  @Column()
+  customer: string;
+
   @Column({
     type: 'enum',
     enum: TypeUnit,
@@ -29,11 +31,8 @@ export class Sale {
   @Column()
   total: number;
 
-  @ManyToOne(() => Customer, (customer) => customer.sale, { lazy: true, cascade: true })
-  customer: Promise<Customer>;
-
-  @OneToMany(() => Item, (items) => items.sale, { lazy: true })
-  item: Promise<Item>;
+  @OneToMany(() => Item, (item) => item.sale, { cascade: true })
+  items: Promise<Item[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',
