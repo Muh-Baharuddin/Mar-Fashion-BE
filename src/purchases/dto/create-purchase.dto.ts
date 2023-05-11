@@ -8,20 +8,22 @@ export class CreatePurchaseDto {
   @IsDateString()
   date: Date;
 
-  @IsNotEmpty()
-  invoice: string;
+  invoice: number;
 
   @IsNotEmpty()
   unit: TypeUnit;
 
   @IsNotEmpty()
-  cost: number;
+  amount: number;
+
+  @IsNotEmpty()
+  total: number;
 
   @IsOptional()
   debt: number;
 
   @IsNotEmpty()
-  item: Item;
+  items: Item[];
 
   @IsNotEmpty()
   supplier: Supplier;

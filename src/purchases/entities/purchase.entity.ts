@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Item } from '../../items/entities/items.entity';
 import { TypeUnit } from '../types/type-unit.enum';
 import { Supplier } from '../../supplier/entities/supplier.entity';
@@ -10,7 +10,8 @@ export class Purchase {
   id: string;
 
   @Column()
-  invoice: string;
+  @Generated('increment')
+  invoice: number;
 
   @Column()
   date: Date;
@@ -23,7 +24,10 @@ export class Purchase {
   unit: TypeUnit;
 
   @Column()
-  cost: number;
+  amount: number;
+
+  @Column()
+  total: number;
 
   @Column({ nullable: true })
   debt: number;
@@ -47,8 +51,8 @@ export class Purchase {
   @Column({ nullable: true })
   update_by: string;
 
-  @ManyToMany(() => Item, (items) => items.purchases)
-  item: Promise<Item>;
+  @OneToMany(() => Item, (items) => items.purchases, { cascade: true })
+  items: Promise<Item[]>;
 
   @ManyToOne(() => Supplier, supplier => supplier.purchases, { lazy: true })
   supplier: Promise<Supplier>;

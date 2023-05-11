@@ -11,7 +11,7 @@ export class CreateSaleDto {
 
   customer: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   items: Item[];
 
   @IsNotEmpty()

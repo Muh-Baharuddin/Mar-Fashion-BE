@@ -24,15 +24,26 @@ export class PurchaseRepository {
     paginationDto: PaginationPurchaseDto,
   ): Promise<PurchaseResponse> {
     const qb = this.repository.createQueryBuilder('purchase')
-      .leftJoinAndSelect('purchase.item', 'item')
+      .leftJoinAndSelect('purchase.items', 'items')
       .leftJoinAndSelect('purchase.supplier', 'supplier')
 
     if (paginationDto.keywords) {
-      qb.andWhere(new Brackets(qb => {
-        qb.where('purchase.date::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
-          .orWhere('purchase.unit::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` })
-          .orWhere('purchase.cost::text ILIKE :keyword', { keyword: `%${paginationDto.keywords}%` });
-      }));
+      paginationDto.page = 1;
+      qb.where(
+        new Brackets((qb) => {
+          qb.where(`CONCAT(
+            purchase.invoice, ' ',
+            purchase.date, ' ',
+            purchase.items, ' ',
+            purchase.unit, ' ',
+            purchase.amount, ' ',
+            purchase.total, ' ',
+            purchase.supplier) ILike :keywords`,
+            {
+              keywords: `%${paginationDto.keywords}%` 
+            })
+        })
+      )
     }
 
     const [data, total] = await qb
@@ -68,7 +79,7 @@ export class PurchaseRepository {
   async createPurchase(
     createPurchaseDto: CreatePurchaseDto,
   ): Promise<Purchase> {
-    const { item, supplier, ...purchaseData } = createPurchaseDto;
+    const { items, supplier, ...purchaseData } = createPurchaseDto;
     const newPurchase = this.repository.create(purchaseData);
     if (supplier) {
       const supplierExist = await this.findSupplierById(supplier.id);
@@ -77,25 +88,45 @@ export class PurchaseRepository {
       }
       newPurchase.supplier = Promise.resolve(supplier)
     }
-    if (item) {
-      const itemExist = await this.findItemById(item.id);
-      if (!itemExist) {
-        throw new Error(`Item with id ${item.id} not found.`);
-      }
-      newPurchase.item = Promise.resolve(item)
+    if (items) {
+      const promises = items.map(async (itemDto) => {
+        let itemExist = await this.findItemById(itemDto.id);
+        if (!itemExist) {
+          throw new Error(`Item with id ${itemDto.id} not found.`);
+        }
+        if (newPurchase.unit === "PCS") {
+          itemExist.stock += newPurchase.amount;
+        }
+        if (newPurchase.unit === "LUSIN") {
+          newPurchase.amount *= 12;
+          itemExist.stock += newPurchase.amount;
+        }
+        if (newPurchase.unit === "KODI") {
+          newPurchase.amount *= 20;
+          itemExist.stock += newPurchase.amount;
+        }
+        return itemExist;
+      });
+      const itemSale = await Promise.all(promises);
+      newPurchase.items = Promise.resolve(itemSale);
     }
     return this.repository.save(newPurchase);
   }
 
-  // async updatePurchase(
-  //   id: string,
-  //   updatePurchaseDto: UpdatePurchaseDto,
-  // ) {
-  //   await this.repository.update(id, updatePurchaseDto);
-  //   return {
-  //     message: 'Update Purchase Success',
-  //   };
-  // }
+  async updatePurchase(
+    id: string,
+    updatePurchaseDto: UpdatePurchaseDto,
+  ) {
+    const newPurchase = await this.findPurchaseById(id);
+    if (!newPurchase) {
+      throw new Error(`Purchase with id ${id} not found.`);
+    }
+    Object.assign(newPurchase, updatePurchaseDto);
+    await this.repository.save(newPurchase);
+    return {
+      message: 'Update Purchase Success',
+    };
+  }
 
   async removePurchase(id: string) {
     await this.repository.delete(id);

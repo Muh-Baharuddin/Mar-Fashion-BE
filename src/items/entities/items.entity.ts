@@ -50,11 +50,10 @@ export class Item {
   @ManyToOne(() => Sale, (sale) => sale.items, { lazy: true })
   sale: Promise<Sale>;
 
+  @ManyToOne(() => Purchase, (purchases) => purchases.items)
+  purchases: Promise<Purchase>;
+
   @ManyToMany(() => Category, (category) => category.items, { cascade: true })
   @JoinTable({ name: 'items_categories'})
   categories: Promise<Category[]>;
-
-  @ManyToMany(() => Purchase, (purchases) => purchases.item)
-  @JoinTable({ name: 'purchase_items' })
-  purchases: Promise<Purchase[]>;
 }
