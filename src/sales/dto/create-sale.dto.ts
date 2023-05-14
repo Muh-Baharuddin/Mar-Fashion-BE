@@ -12,7 +12,7 @@ export class CreateSaleDto {
   customer: string;
 
   @IsNotEmpty()
-  items: Item[];
+  __items__: Item[];
 
   @IsNotEmpty()
   unit: TypeUnit;

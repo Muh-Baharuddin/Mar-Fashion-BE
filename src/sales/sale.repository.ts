@@ -66,11 +66,10 @@ export class SaleRepository {
   async createSale(
     createSaleDto: CreateSaleDto,
   ): Promise<Sale> {
-    const { items, ...saleData} = createSaleDto;
+    const { __items__, ...saleData} = createSaleDto;
     const newSale = this.saleRepository.create(saleData);
-    console.log(items)
-    if (items) {
-      const promises = items.map(async (itemDto) => {
+    if (__items__) {
+      const promises = __items__.map(async (itemDto) => {
         let itemExist = await this.findItemById(itemDto.id);
         if (!itemExist) {
           throw new Error(`Item with id ${itemDto.id} not found.`);
