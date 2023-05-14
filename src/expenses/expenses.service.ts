@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { ExpenseRepository } from './expenses.repository';
+import { PaginationExpenseDto } from './dto/pagination-expense.dto';
+import { ExpenseResponse } from './types/expense.response.type';
+import { Expense } from './entities/expense.entity';
 
 @Injectable()
 export class ExpensesService {
-  create(createExpenseDto: CreateExpenseDto) {
-    return 'This action adds a new expense';
+  constructor(
+    @Inject(ExpenseRepository)
+    private readonly expenseRepository: ExpenseRepository,
+  ) {}
+
+  async findAllExpense( paginationDto: PaginationExpenseDto): Promise<ExpenseResponse> {
+    return await this.expenseRepository.findAllExpenses(paginationDto);
   }
 
-  findAll() {
-    return `This action returns all expenses`;
+  create(createExpenseDto: CreateExpenseDto): Promise<Expense> {
+    return this.expenseRepository.createExpense(createExpenseDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} expense`;
+  updateExpense(id: string, updateExpenseDto: UpdateExpenseDto) {
+    return this.expenseRepository.updateExpense(id, updateExpenseDto);
   }
 
-  update(id: number, updateExpenseDto: UpdateExpenseDto) {
-    return `This action updates a #${id} expense`;
-  }
+  async removeExpense(id: string) {
+    const expense = await this.expenseRepository.findById(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} expense`;
+    if (!expense) {
+      throw new NotFoundException(`ups expense not found`);
+    }
+    return this.expenseRepository.removeExpense(id);
   }
 }
