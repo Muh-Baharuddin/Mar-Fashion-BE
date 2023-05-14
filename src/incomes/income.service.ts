@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
+import { IncomeRepository } from './income.repository';
+import { PaginationIncomeDto } from './dto/pagination-income.dto';
+import { IncomeResponse } from './types/income.response.type';
+import { Income } from './entities/income.entity';
 
 @Injectable()
 export class IncomeService {
-  create(createIncomeDto: CreateIncomeDto) {
-    return 'This action adds a new income';
+  constructor(
+    @Inject(IncomeRepository)
+    private readonly incomeRepository: IncomeRepository,
+  ) {}
+
+  async findAllIncome( paginationDto: PaginationIncomeDto): Promise<IncomeResponse> {
+    return await this.incomeRepository.findAllIncomes(paginationDto);
   }
 
-  findAll() {
-    return `This action returns all incomes`;
+  create(createIncomeDto: CreateIncomeDto): Promise<Income> {
+    return this.incomeRepository.createIncome(createIncomeDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} income`;
+  updateIncome(id: string, updateIncomeDto: UpdateIncomeDto) {
+    return this.incomeRepository.updateIncome(id, updateIncomeDto);
   }
 
-  update(id: number, updateIncomeDto: UpdateIncomeDto) {
-    return `This action updates a #${id} income`;
-  }
+  async removeIncome(id: string) {
+    const income = await this.incomeRepository.findById(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} income`;
+    if (!income) {
+      throw new NotFoundException(`ups income not found`);
+    }
+    return this.incomeRepository.removeIncome(id);
   }
 }
