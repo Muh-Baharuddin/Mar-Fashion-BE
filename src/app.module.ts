@@ -13,6 +13,7 @@ import { SaleModule } from './sales/sale.module';
 import { IncomeModule } from './incomes/income.module';
 import { CustomerComplaintModule } from './customer_complaint/customer_complaint.module';
 import { StoreLocationModule } from './store-location/store-location.module';
+import { ExpensesModule } from './expenses/expenses.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { StoreLocationModule } from './store-location/store-location.module';
     IncomeModule,
     CustomerComplaintModule,
     StoreLocationModule,
+    ExpensesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
