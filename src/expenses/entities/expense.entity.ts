@@ -1,3 +1,4 @@
+import { Purchase } from '../../purchases/entities/purchase.entity';
 import {
   Entity,
   Column,
@@ -5,6 +6,7 @@ import {
   Generated,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('expenses')
@@ -21,6 +23,9 @@ export class Expense {
 
   @Column()
   description: string;
+
+  @OneToMany(() => Purchase, (purchase) => purchase.expense)
+  purchases: Promise<Purchase[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',

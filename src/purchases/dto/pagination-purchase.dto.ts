@@ -6,6 +6,6 @@ export class PaginationPurchaseDto extends OmitType(PaginationSupplierDto, [
     'orderBy'
   ] as const) {
   @IsOptional()
-  @IsIn(['date', 'unit', 'cost'])
-  readonly orderBy?: 'date' | 'unit' | 'cost' = 'date';
+  @IsIn(['invoice', 'date', 'item', 'unit', 'amount', 'cost', 'total', 'debt', 'supplier'])
+  readonly orderBy?: 'invoice' | 'date' | 'item' | 'unit' |'amount' | 'cost' | 'total' | 'debt' | 'supplier' = 'date';
 }

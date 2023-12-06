@@ -40,6 +40,9 @@ export class SaleService {
     if (!sale) {
       throw new NotFoundException('sale not found');
     }
+
+    await this.saleRepository.removeItem(id);
+
     return this.saleRepository.removeSale(id);
   }
 }

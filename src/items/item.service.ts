@@ -8,6 +8,8 @@ import { ItemResponse } from './types/item.response.type';
 import { Category } from './entities/category.entity';
 import { CategoryResponse } from './types/category.response.type';
 import { PaginationCategoryDto } from './dto/pagination-category.dto';
+import { CategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class ItemService {
@@ -56,5 +58,22 @@ export class ItemService {
       this.logger.warn(`items not found`);
     }
     return this.itemRepository.removeItems(id);
+  }
+
+  createCategory(categoryDto: CategoryDto): Promise<Category> {
+    return this.itemRepository.createCategory(categoryDto);
+  }
+
+  updateCategory(id: string, updateCategoryDto: UpdateCategoryDto) {
+    return this.itemRepository.updateCategory(id, updateCategoryDto)
+  }
+
+  async removeCategory(id: string) {
+    const category = await this.itemRepository.findCategoryById(id)
+    
+    if (!category) {
+      throw new NotFoundException(`ups Category not found`);
+    }
+    return this.itemRepository.removeCategory(id)
   }
 }

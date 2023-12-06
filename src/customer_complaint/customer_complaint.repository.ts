@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Brackets, DataSource, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CustomerComplaintResponse } from './types/customer_complaint-response';
 import { CustomerComplaint } from './entities/customer_complaint.entity';
 import { CreateComplaintDto } from './dto/create-customer_complaint.dto';
@@ -22,6 +22,7 @@ export class ComplaintRepository {
     if (paginationDto.keywords) {
       paginationDto.page = 1;
       qb.where(`CONCAT(
+        customer_complaint.invoice, ' ', 
         customer_complaint.name, ' ', 
         customer_complaint.address, ' ', 
         customer_complaint.city, ' ', 

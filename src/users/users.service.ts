@@ -3,6 +3,8 @@ import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { PaginationUserDto } from './dto/pagination-user.dto';
+import { UserResponse } from './types/user.response.type';
 
 @Injectable()
 export class UsersService {
@@ -13,15 +15,10 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    const users = await this.usersRepository.findAllUser();
-
-    if (!users.length) {
-      throw new NotFoundException(`ups user not found`);
-      this.logger.warn(`user tidak ketemu`);
-    }
-
-    return users;
+  async findAllUser(
+    paginationDto: PaginationUserDto,
+  ): Promise<UserResponse> {
+    return await this.usersRepository.findAllUser(paginationDto);
   }
 
   async findByUsername(username: string): Promise<User | undefined> {

@@ -44,13 +44,13 @@ export class Item {
   @Column({nullable: true})
   update_by: string;
 
-  @ManyToOne(() => Supplier, (supplier) => supplier.items, { lazy: true, cascade: true })
+  @ManyToOne(() => Supplier, (supplier) => supplier.items, { lazy: true })
   supplier: Promise<Supplier>;
 
   @ManyToOne(() => Sale, (sale) => sale.items, { lazy: true })
   sale: Promise<Sale>;
 
-  @ManyToOne(() => Purchase, (purchases) => purchases.items)
+  @ManyToOne(() => Purchase, (purchases) => purchases.items, { lazy: true })
   purchases: Promise<Purchase>;
 
   @ManyToMany(() => Category, (category) => category.items, { cascade: true })

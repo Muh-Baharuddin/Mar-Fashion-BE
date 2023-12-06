@@ -74,27 +74,6 @@ export class SaleRepository {
         if (!itemExist) {
           throw new Error(`Item with id ${itemDto.id} not found.`);
         }
-        if (newSale.unit === "PCS") {
-          newSale.amount *= 1;
-          if (itemExist.stock < newSale.amount) {
-            throw new Error(`Stock item ${itemExist.brand} is not enough to continue the transactions`);
-          }
-          itemExist.stock -= newSale.amount;
-        }
-        if (newSale.unit === "LUSIN") {
-          newSale.amount *= 12;
-          if (itemExist.stock < newSale.amount) {
-            throw new Error(`Stock item ${itemExist.brand} is not enough to continue the transactions`);
-          }
-          itemExist.stock -= newSale.amount;
-        }
-        if (newSale.unit === "KODI") {
-          newSale.amount *= 20;
-          if (itemExist.stock < newSale.amount) {
-            throw new Error(`Stock item ${itemExist.brand} is not enough to continue the transactions`);
-          }
-          itemExist.stock -= newSale.amount;
-        }
         return itemExist;
       });
       const itemSale = await Promise.all(promises);
@@ -116,6 +95,28 @@ export class SaleRepository {
     return {
       message: 'Update Sale Success',
     };
+  }
+
+  async removeItem(id: string) {
+    const newSale = await this.findSaleById(id);
+    const itemDelete = 
+    {
+      "invoice": "99",
+      "date": "2023-07-19",
+      "customer": "",
+      "unit": "PCS",
+      "amount": 1,
+      "total": "12",
+      "__items__": [],
+      "create_by": null,
+      "update_by": null,
+      "id": id,
+      "created_at": "2023-07-25T14:49:07.708Z",
+      "updated_at": "2023-07-25T14:49:07.708Z"
+  }
+
+    Object.assign(newSale, itemDelete);
+    await this.saleRepository.save(newSale);
   }
 
   async removeSale(id: string) {

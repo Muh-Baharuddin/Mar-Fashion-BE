@@ -9,6 +9,8 @@ import { Category } from './entities/category.entity';
 import { Item } from './entities/items.entity';
 import { CategoryResponse } from './types/category.response.type';
 import { ItemResponse } from './types/item.response.type';
+import { CategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class ItemRepository {
@@ -126,6 +128,24 @@ export class ItemRepository {
     await this.itemRepository.delete(id);
     return {
       message: 'Delete Item Success',
+    };
+  }
+
+  async createCategory(categoryDto: CategoryDto): Promise<Category> {
+    return this.categoryRepository.save(categoryDto);
+  }
+
+  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto) {
+    await this.categoryRepository.update(id, updateCategoryDto);
+    return {
+      message: 'Update Category Success',
+    };
+  }
+
+  async removeCategory(id: string) {
+    await this.categoryRepository.delete(id);
+    return {
+      message: 'Delete Category Success',
     };
   }
 }
