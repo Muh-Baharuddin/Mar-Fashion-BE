@@ -11,7 +11,10 @@ export class CustomerComplaint {
   @Generated('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column()
+  invoice: number;
+
+  @Column()
   name: string;
 
   @Column({ nullable: true })

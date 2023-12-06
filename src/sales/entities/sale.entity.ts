@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
 import { TypeUnit } from '../../purchases/types/type-unit.enum';
 import { Item } from '../../items/entities/items.entity';
+import { Income } from '../../incomes/entities/income.entity';
 
 @Entity('sales')
 export class Sale {
@@ -33,6 +34,9 @@ export class Sale {
 
   @OneToMany(() => Item, (item) => item.sale, { cascade: true })
   items: Promise<Item[]>;
+
+  @ManyToOne(() => Income, incomes => incomes.sales, { lazy: true })
+  income: Promise<Income>;
 
   @CreateDateColumn({ 
     type: 'timestamp',

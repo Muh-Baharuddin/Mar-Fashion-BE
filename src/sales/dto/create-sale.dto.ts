@@ -9,6 +9,7 @@ export class CreateSaleDto {
   @IsDateString()
   date: Date;
 
+  @IsOptional()
   customer: string;
 
   @IsNotEmpty()

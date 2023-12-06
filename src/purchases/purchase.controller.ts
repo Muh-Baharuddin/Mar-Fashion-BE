@@ -15,7 +15,6 @@ import {
 import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
-import { Purchase } from './entities/purchase.entity';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { PaginationPurchaseDto } from './dto/pagination-purchase.dto';
 import { PurchaseResponse } from './types/purchase.response.type';

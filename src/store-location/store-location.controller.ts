@@ -20,7 +20,6 @@ import { StoreLocationResponse } from './types/store_location-response';
 import { JwtAuthGuard } from '../auth/auth.guard';
 
 @Controller('store-location')
-@UseGuards(JwtAuthGuard)
 export class StoreLocationController {
   constructor(private readonly storeLocationService: StoreLocationService) {}
 
@@ -37,17 +36,20 @@ export class StoreLocationController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   create(@Body() createStoreLocationDto: CreateStoreLocationDto) {
     return this.storeLocationService.createStoreLocation(createStoreLocationDto);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreLocationDto: UpdateStoreLocationDto) {
     return this.storeLocationService.updateStoreLocation(id, updateStoreLocationDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.storeLocationService.removeStoreLocation(id);
   }

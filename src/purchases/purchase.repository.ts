@@ -79,33 +79,23 @@ export class PurchaseRepository {
   async createPurchase(
     createPurchaseDto: CreatePurchaseDto,
   ): Promise<Purchase> {
-    const { items, supplier, ...purchaseData } = createPurchaseDto;
+    const { __items__, __supplier__, ...purchaseData } = createPurchaseDto;
     const newPurchase = this.repository.create(purchaseData);
-    if (supplier) {
-      const supplierExist = await this.findSupplierById(supplier.id);
+    if (__supplier__) {
+      const supplierExist = await this.findSupplierById(__supplier__.id);
       if (!supplierExist) {
-        throw new Error(`Supplier with id ${supplier.id} not found.`);
+        throw new Error(`Supplier with id ${__supplier__.id} not found.`);
       }
-      newPurchase.supplier = Promise.resolve(supplier)
+      newPurchase.supplier = Promise.resolve(__supplier__)
     }
-    if (items) {
-      const promises = items.map(async (itemDto) => {
+    if (__items__) {
+      const promises = __items__.map(async (itemDto) => {
         let itemExist = await this.findItemById(itemDto.id);
         if (!itemExist) {
           throw new Error(`Item with id ${itemDto.id} not found.`);
         }
-        if (newPurchase.unit === "PCS") {
-          itemExist.stock += newPurchase.amount;
-        }
-        if (newPurchase.unit === "LUSIN") {
-          newPurchase.amount *= 12;
-          itemExist.stock += newPurchase.amount;
-        }
-        if (newPurchase.unit === "KODI") {
-          newPurchase.amount *= 20;
-          itemExist.stock += newPurchase.amount;
-        }
-        return itemExist;
+        const item = await this.itemRepository.save(itemExist);
+        return item;
       });
       const itemSale = await Promise.all(promises);
       newPurchase.items = Promise.resolve(itemSale);
@@ -126,6 +116,29 @@ export class PurchaseRepository {
     return {
       message: 'Update Purchase Success',
     };
+  }
+
+  async removeItem(id: string) {
+    const newPurchase = await this.findPurchaseById(id);
+    const itemDelete = 
+    {
+      "invoice": "99",
+      "date": "2023-07-19",
+      "unit": "PCS",
+      "amount": 1,
+      "total": "12",
+      "debt": 0,
+      "__supplier__": {},
+      "__items__": [],
+      "create_by": null,
+      "update_by": null,
+      "id": id,
+      "created_at": "2023-07-25T14:49:07.708Z",
+      "updated_at": "2023-07-25T14:49:07.708Z"
+  }
+
+    Object.assign(newPurchase, itemDelete);
+    await this.repository.save(newPurchase);
   }
 
   async removePurchase(id: string) {

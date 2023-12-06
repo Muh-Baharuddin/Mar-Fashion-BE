@@ -3,6 +3,8 @@ import { DataSource, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginationUserDto } from './dto/pagination-user.dto';
+import { UserResponse } from './types/user.response.type';
 
 @Injectable()
 export class UsersRepository {
@@ -12,8 +14,18 @@ export class UsersRepository {
     this.repository = this.dataSource.getRepository(User);
   }
 
-  findAllUser(): Promise<User[]> {
-    return this.repository.find();
+  async findAllUser(
+    paginationUserDto: PaginationUserDto,
+  ): Promise<UserResponse> {
+    const queryBuilder = this.repository.createQueryBuilder('user')
+    .orderBy(`user.${paginationUserDto.orderBy}`, paginationUserDto.orderType)
+    .skip((paginationUserDto.page - 1) * paginationUserDto.limit)
+    .take(paginationUserDto.limit)
+    const [data, total] = await queryBuilder.getManyAndCount();
+    return {
+      data,
+      total,
+    };
   }
 
   async findByUsername(userName: string): Promise<User> {

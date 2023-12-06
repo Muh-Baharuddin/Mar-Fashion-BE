@@ -23,8 +23,8 @@ export class CreatePurchaseDto {
   debt: number;
 
   @IsNotEmpty()
-  items: Item[];
+  __items__: Item[];
 
   @IsNotEmpty()
-  supplier: Supplier;
+  __supplier__: Supplier;
 }

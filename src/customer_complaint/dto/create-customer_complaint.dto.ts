@@ -1,7 +1,10 @@
 import { IsOptional, IsNotEmpty } from "class-validator";
 
 export class CreateComplaintDto {
-  @IsOptional()
+  @IsNotEmpty()
+  invoice: number;
+
+  @IsNotEmpty()
   name: string;
 
   @IsOptional()

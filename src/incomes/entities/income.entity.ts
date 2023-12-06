@@ -1,3 +1,4 @@
+import { Sale } from '../../sales/entities/sale.entity';
 import {
   Entity,
   Column,
@@ -5,6 +6,7 @@ import {
   Generated,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('incomes')
@@ -21,6 +23,9 @@ export class Income {
 
   @Column()
   description: string;
+
+  @OneToMany(() => Sale, (sales) => sales.income)
+  sales: Promise<Sale[]>;
 
   @CreateDateColumn({ 
     type: 'timestamp',

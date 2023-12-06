@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, Generated, UpdateDateColumn, Cr
 import { Item } from '../../items/entities/items.entity';
 import { TypeUnit } from '../types/type-unit.enum';
 import { Supplier } from '../../supplier/entities/supplier.entity';
+import { Expense } from '../../expenses/entities/expense.entity';
 
 @Entity('purchases')
 export class Purchase {
@@ -51,9 +52,12 @@ export class Purchase {
   @Column({ nullable: true })
   update_by: string;
 
-  @OneToMany(() => Item, (items) => items.purchases, { cascade: true })
+  @OneToMany(() => Item, (items) => items.purchases)
   items: Promise<Item[]>;
 
   @ManyToOne(() => Supplier, supplier => supplier.purchases, { lazy: true })
   supplier: Promise<Supplier>;
+
+  @ManyToOne(() => Expense, expenses => expenses.purchases, { lazy: true })
+  expense: Promise<Expense>;
 }

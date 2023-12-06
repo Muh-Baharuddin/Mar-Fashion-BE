@@ -21,6 +21,8 @@ import { PaginationItemDto } from './dto/pagination-item.dto';
 import { ItemResponse } from './types/item.response.type';
 import { CategoryResponse } from './types/category.response.type';
 import { PaginationCategoryDto } from './dto/pagination-category.dto';
+import { CategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('item')
 @UseGuards(JwtAuthGuard)
@@ -52,13 +54,13 @@ export class ItemsController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createItemDto: CreateItemDto) {
+  createItem(@Body() createItemDto: CreateItemDto) {
     return this.itemService.createItems(createItemDto);
   }
 
   @Patch(':id')
   @UsePipes(ValidationPipe)
-  update(
+  updateItem(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateItemDto: UpdateItemDto,
   ) {
@@ -66,7 +68,30 @@ export class ItemsController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
+  removeItem(@Param('id', ParseUUIDPipe) id: string) {
     return this.itemService.removeItems(id);
+  }
+
+  @Post('/category')
+  @UsePipes(ValidationPipe)
+  createCategory(@Body() createCategoryDto: CategoryDto) {
+    return this.itemService.createCategory(createCategoryDto);
+  }
+
+  @Patch('/category/:id')
+  @UsePipes(ValidationPipe)
+  updateCategory(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    return this.itemService.updateCategory(
+      id,
+      updateCategoryDto,
+    );
+  }
+
+  @Delete('/category/:id')
+  removeCategory(@Param('id', ParseUUIDPipe) id: string) {
+    return this.itemService.removeCategory(id);
   }
 }
